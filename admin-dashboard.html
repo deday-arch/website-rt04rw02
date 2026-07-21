@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Dashboard Admin - RT 04 / RW 02</title>
+  <link rel="stylesheet" href="assets/css/admin.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="admin-body">
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar">
+  <div class="sidebar-logo">
+    <img src="assets/img/logo-rt.svg" alt="Logo"/>
+    <span>Admin RT 04<span class="sl-sub">RW 02 · Jombang Ciputat</span></span>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section">Menu Utama</div>
+    <a href="admin-dashboard.html" class="active"><i class="fas fa-gauge"></i> Dashboard</a>
+    <div class="sidebar-section">Kelola Konten</div>
+    <a href="admin-pengumuman.html"><i class="fas fa-bullhorn"></i> Pengumuman</a>
+    <a href="admin-iuran.html"><i class="fas fa-money-bill-wave"></i> Iuran Warga</a>
+    <a href="admin-umkm.html"><i class="fas fa-store"></i> UMKM</a>
+    <a href="admin-kegiatan.html"><i class="fas fa-calendar-days"></i> Kegiatan</a>
+    <a href="admin-ronda.html"><i class="fas fa-moon"></i> Jadwal Ronda</a>
+    <a href="admin-laporan.html"><i class="fas fa-triangle-exclamation"></i> Laporan</a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="index.html" target="_blank"><i class="fas fa-globe"></i> Lihat Website</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="topbar-title">Dashboard Administrator</div>
+    <div class="topbar-right">
+      <span class="admin-badge"><i class="fas fa-user-shield"></i> <span id="adminUsername">admin</span></span>
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Keluar</button>
+    </div>
+  </div>
+  <div class="admin-content">
+    <div class="page-title">Selamat Datang, Administrator</div>
+    <div class="page-subtitle">RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan</div>
+
+    <div class="dash-stats">
+      <div class="dash-stat">
+        <div class="dash-stat-icon" style="background:linear-gradient(135deg,#0d47a1,#1565c0)"><i class="fas fa-bullhorn"></i></div>
+        <div class="dash-stat-info"><h3 id="statPengumuman">-</h3><p>Pengumuman</p></div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-icon" style="background:linear-gradient(135deg,#166534,#16a34a)"><i class="fas fa-money-bill-wave"></i></div>
+        <div class="dash-stat-info"><h3 id="statIuran">-</h3><p>Data Iuran</p></div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-icon" style="background:linear-gradient(135deg,#f97316,#ea580c)"><i class="fas fa-store"></i></div>
+        <div class="dash-stat-info"><h3 id="statUmkm">-</h3><p>UMKM Terdaftar</p></div>
+      </div>
+      <div class="dash-stat">
+        <div class="dash-stat-icon" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)"><i class="fas fa-calendar-days"></i></div>
+        <div class="dash-stat-info"><h3 id="statKegiatan">-</h3><p>Kegiatan</p></div>
+      </div>
+    </div>
+
+    <!-- QUICK ACCESS -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+      <a href="admin-pengumuman.html" style="background:#fff;border-radius:12px;padding:1.25rem;display:flex;align-items:center;gap:1rem;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.06);color:#0d2a4e;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 4px 16px rgba(21,101,192,.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#0d47a1,#1565c0);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem"><i class="fas fa-bullhorn"></i></div>
+        <div><div style="font-weight:700;font-size:.95rem">Kelola Pengumuman</div><div style="font-size:.78rem;color:#4a6580">Tambah, edit, hapus pengumuman</div></div>
+      </a>
+      <a href="admin-iuran.html" style="background:#fff;border-radius:12px;padding:1.25rem;display:flex;align-items:center;gap:1rem;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.06);color:#0d2a4e;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 4px 16px rgba(21,101,192,.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#166534,#16a34a);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem"><i class="fas fa-money-bill-wave"></i></div>
+        <div><div style="font-weight:700;font-size:.95rem">Kelola Iuran</div><div style="font-size:.78rem;color:#4a6580">Update status pembayaran warga</div></div>
+      </a>
+      <a href="admin-umkm.html" style="background:#fff;border-radius:12px;padding:1.25rem;display:flex;align-items:center;gap:1rem;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.06);color:#0d2a4e;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 4px 16px rgba(21,101,192,.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem"><i class="fas fa-store"></i></div>
+        <div><div style="font-weight:700;font-size:.95rem">Kelola UMKM</div><div style="font-size:.78rem;color:#4a6580">Daftarkan & kelola usaha warga</div></div>
+      </a>
+      <a href="admin-kegiatan.html" style="background:#fff;border-radius:12px;padding:1.25rem;display:flex;align-items:center;gap:1rem;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.06);color:#0d2a4e;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 4px 16px rgba(21,101,192,.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#5b21b6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem"><i class="fas fa-calendar-days"></i></div>
+        <div><div style="font-weight:700;font-size:.95rem">Kelola Kegiatan</div><div style="font-size:.78rem;color:#4a6580">Jadwal acara dan kegiatan RT</div></div>
+      </a>
+      <a href="admin-ronda.html" style="background:#fff;border-radius:12px;padding:1.25rem;display:flex;align-items:center;gap:1rem;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.06);color:#0d2a4e;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 4px 16px rgba(21,101,192,.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#312e81,#4f46e5);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem"><i class="fas fa-moon"></i></div>
+        <div><div style="font-weight:700;font-size:.95rem">Jadwal Ronda</div><div style="font-size:.78rem;color:#4a6580">Atur giliran ronda malam</div></div>
+      </a>
+      <a href="admin-laporan.html" style="background:#fff;border-radius:12px;padding:1.25rem;display:flex;align-items:center;gap:1rem;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.06);color:#0d2a4e;transition:box-shadow .2s" onmouseover="this.style.boxShadow='0 4px 16px rgba(21,101,192,.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)'">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#991b1b,#ef4444);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem"><i class="fas fa-triangle-exclamation"></i></div>
+        <div><div style="font-weight:700;font-size:.95rem">Laporan Kejadian</div><div style="font-size:.78rem;color:#4a6580">Tindak lanjuti laporan warga</div></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <i class="fas fa-triangle-exclamation"></i>
+    <h3>Konfirmasi Hapus</h3>
+    <p>Apakah Anda yakin ingin menghapus <span id="confirmLabel"></span>? Tindakan ini tidak dapat dibatalkan.</p>
+    <button class="btn-cancel" onclick="confirmNo()">Batal</button>
+    <button class="btn-del" onclick="confirmYes()">Ya, Hapus</button>
+  </div>
+</div>
+
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

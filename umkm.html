@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>UMKM Lokal - RT 04 / RW 02 Jombang Ciputat</title>
+  <meta name="description" content="Daftar UMKM lokal warga RT 04 RW 02 Kp. Gedong Jombang, Ciputat, Tangerang Selatan."/>
+  <meta property="og:url" content="https://deday-arch.github.io/rt04rw02-jombang/umkm.html"/>
+  <link rel="canonical" href="https://deday-arch.github.io/rt04rw02-jombang/umkm.html"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+<nav class="navbar"><div class="container nav-container">
+  <div class="nav-brand"><img src="assets/img/logo-rt.svg" alt="Logo RT 04 RW 02"/><span>RT 04 / RW 02<span class="brand-sub">Jombang · Ciputat · Tangsel</span></span></div>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="index.html">Beranda</a></li><li><a href="iuran.html">Iuran</a></li>
+    <li><a href="umkm.html" class="active">UMKM</a></li><li><a href="kegiatan.html">Kegiatan</a></li>
+    <li><a href="ronda.html">Ronda</a></li><li><a href="pengurus.html">Pengurus</a></li>
+    <li><a href="lapor.html" class="btn-lapor">Lapor Kejadian</a></li>
+  </ul>
+</div></nav>
+
+<div class="page-header"><div class="container">
+  <div class="breadcrumb"><a href="index.html">Beranda</a><span>/</span><span>UMKM Lokal</span></div>
+  <h1><i class="fas fa-store"></i> UMKM Lokal RT 04</h1>
+  <p>Dukung usaha tetangga kita! Daftar UMKM di lingkungan RT 04 / RW 02 Jombang Ciputat</p>
+</div></div>
+
+<section class="section"><div class="container">
+  <div class="alert alert-success" style="margin-bottom:2rem">
+    <i class="fas fa-circle-check"></i>
+    <div>Ingin mendaftarkan usaha? Hubungi sekretaris RT: <strong>GONDES (0859-2121-1033)</strong>. Gratis!</div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="searchUmkm" placeholder="Cari nama usaha / pemilik..." oninput="filterUmkm()"/>
+    <select id="filterKategori" onchange="filterUmkm()">
+      <option value="">Semua Kategori</option>
+      <option value="Makanan">Makanan &amp; Minuman</option>
+      <option value="Kerajinan">Kerajinan</option>
+      <option value="Jasa">Jasa</option>
+      <option value="Sembako">Sembako</option>
+      <option value="Fashion">Fashion</option>
+    </select>
+  </div>
+  <div class="umkm-grid" id="umkmGrid">
+    <div class="umkm-card" data-kategori="Makanan" data-nama="Nasi Goreng Mas OCOY">
+      <div class="umkm-img" style="background:#fef9c3">🍱</div>
+      <div class="umkm-body"><span class="umkm-tag" style="background:#fef3c7;color:#92400e">Makanan &amp; Minuman</span><h3>Warung Bu Sari</h3><p class="umkm-owner"><i class="fas fa-user"></i> Sari Mulyani - No. 7</p><p>Nasi uduk, lontong sayur, dan gorengan. Buka setiap pagi jam 06.00–10.00 WIB.</p><div class="umkm-contact"><i class="fab fa-whatsapp"></i> 0812-1111-2222</div></div>
+    </div>
+    <div class="umkm-card" data-kategori="Makanan" data-nama="Toko Herbal MAS MAMAT">
+      <div class="umkm-img" style="background:#fce7f3">🧁</div>
+      <div class="umkm-body"><span class="umkm-tag" style="background:#fce7f3;color:#9d174d">Makanan &amp; Minuman</span><h3>Bakery Lestari</h3><p class="umkm-owner"><i class="fas fa-user"></i> Lestari Wulandari - No. 12</p><p>Kue ulang tahun, brownies, roti tawar homemade. Menerima pesanan acara.</p><div class="umkm-contact"><i class="fab fa-whatsapp"></i> 0813-3333-4444</div></div>
+    </div>
+    <div class="umkm-card" data-kategori="Sembako" data-nama="Teh SEGAR SOLO">
+      <div class="umkm-img" style="background:#dcfce7">🛒</div>
+      <div class="umkm-body"><span class="umkm-tag" style="background:#dcfce7;color:#166534">Makanan &amp; Minuman</span><h3>Toko Sembako Pak Hendra</h3><p class="umkm-owner"><i class="fas fa-user"></i> Hendra Wijaya - No. 8</p><p>Lengkap kebutuhan dapur sehari-hari. Buka 07.00–21.00 WIB.</p><div class="umkm-contact"><i class="fas fa-phone"></i> 0814-5555-6666</div></div>
+    </div>
+    <div class="umkm-card" data-kategori="Jasa" data-nama="BENGKEL dan REPARASI">
+      <div class="umkm-img" style="background:#ede9fe">💇</div>
+      <div class="umkm-body"><span class="umkm-tag" style="background:#ede9fe;color:#5b21b6">Jasa</span><h3>Salon Nova</h3><p class="umkm-owner"><i class="fas fa-user"></i> Nova Anggraini - No. 20</p><p>Potong rambut, creambath, rebonding, make-up. Menerima panggilan pernikahan.</p><div class="umkm-contact"><i class="fab fa-whatsapp"></i> 0815-7777-8888</div></div>
+    </div>
+    <div class="umkm-card" data-kategori="Kerajinan" data-nama="kerajinan batik lukis ibu kartini">
+      <div class="umkm-img" style="background:#ffedd5">🎨</div>
+      <div class="umkm-body"><span class="umkm-tag" style="background:#ffedd5;color:#9a3412">Kerajinan</span><h3>Batik Kartini</h3><p class="umkm-owner"><i class="fas fa-user"></i> Kartini Sari - No. 11</p><p>Batik tulis dan cap motif khas. Menerima pesanan seragam instansi dan keluarga.</p><div class="umkm-contact"><i class="fab fa-whatsapp"></i> 0816-9999-0000</div></div>
+    </div>
+    <div class="umkm-card" data-kategori="Jasa" data-nama="servis elektronik pak budi reparasi">
+      <div class="umkm-img" style="background:#dbeafe">🔧</div>
+      <div class="umkm-body"><span class="umkm-tag" style="background:#dbeafe;color:#1e40af">Jasa</span><h3>Servis Elektronik Pak Budi</h3><p class="umkm-owner"><i class="fas fa-user"></i> Budi Prasetyo - No. 2</p><p>Perbaikan TV, kulkas, mesin cuci, AC. Berpengalaman lebih dari 15 tahun.</p><div class="umkm-contact"><i class="fas fa-phone"></i> 0817-1111-3333</div></div>
+    </div>
+    <div class="umkm-card" data-kategori="Makanan" data-nama="katering masakan eka catering">
+      <div class="umkm-img" style="background:#d1fae5">🍽️</div>
+      <div class="umkm-body"><span class="umkm-tag" style="background:#fef3c7;color:#92400e">Makanan &amp; Minuman</span><h3>Katering Bu Eka</h3><p class="umkm-owner"><i class="fas fa-user"></i> Eka Rahayu - No. 5</p><p>Katering arisan, syukuran, pernikahan, dan selamatan. Menu rumahan beragam.</p><div class="umkm-contact"><i class="fab fa-whatsapp"></i> 0818-2222-4444</div></div>
+    </div>
+    <div class="umkm-card" data-kategori="Fashion" data-nama="jahit baju pakaian gita fashion">
+      <div class="umkm-img" style="background:#fce7f3">👗</div>
+      <div class="umkm-body"><span class="umkm-tag" style="background:#fce7f3;color:#9d174d">Fashion</span><h3>Jahit Mode Gita</h3><p class="umkm-owner"><i class="fas fa-user"></i> Gita Permata - No. 7</p><p>Jahit baju, celana, gamis, dan seragam. Menerima pesanan grosir.</p><div class="umkm-contact"><i class="fab fa-whatsapp"></i> 0819-5555-7777</div></div>
+    </div>
+    <div class="umkm-card" data-kategori="Jasa" data-nama="les privat bimbel indah anak">
+      <div class="umkm-img" style="background:#dcfce7">📚</div>
+      <div class="umkm-body"><span class="umkm-tag" style="background:#dbeafe;color:#1e40af">Jasa</span><h3>Les Privat Bu Indah</h3><p class="umkm-owner"><i class="fas fa-user"></i> Indah Lestari - No. 9</p><p>Bimbingan belajar SD–SMP semua mapel, les bahasa Inggris, dan persiapan ujian.</p><div class="umkm-contact"><i class="fab fa-whatsapp"></i> 0811-6666-8888</div></div>
+    </div>
+  </div>
+  <div id="noResult" style="display:none;text-align:center;padding:3rem;color:var(--text-muted)"><i class="fas fa-search" style="font-size:2.5rem;margin-bottom:1rem"></i><p>Tidak ada UMKM yang ditemukan.</p></div>
+</div></section>
+
+<footer class="footer"><div class="container footer-content">
+  <div class="footer-brand"><img src="assets/img/logo-rt.svg" alt="Logo" class="logo-footer"/><h3>RT 04 / RW 02</h3><p class="footer-sub">Kp. Gedong - Jombang</p><p>Ciputat, Tangerang Selatan, Banten 15411</p></div>
+  <div class="footer-links"><h4>Menu</h4><ul><li><a href="iuran.html">Iuran Warga</a></li><li><a href="umkm.html">UMKM Lokal</a></li><li><a href="kegiatan.html">Kegiatan</a></li><li><a href="ronda.html">Jadwal Ronda</a></li><li><a href="pengurus.html">Pengurus RT</a></li><li><a href="lapor.html">Lapor Kejadian</a></li></ul></div>
+  <div class="footer-contact"><h4>Kontak</h4><p><i class="fas fa-phone"></i> 0812-3456-7890</p><p><i class="fab fa-whatsapp"></i> 0812-3456-7890</p><p><i class="fas fa-envelope"></i> rt04rw02jombang@gmail.com</p><p><i class="fas fa-location-dot"></i> Kp. Gedong, Jombang, Ciputat</p></div>
+</div><div class="footer-bottom"><p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan.</p></div></footer>
+<script src="assets/js/main.js"></script>
+</body></html>

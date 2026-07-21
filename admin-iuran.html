@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Kelola Iuran - Admin RT 04</title>
+  <link rel="stylesheet" href="assets/css/admin.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="admin-body">
+<aside class="admin-sidebar">
+  <div class="sidebar-logo"><img src="assets/img/logo-rt.svg" alt="Logo"/><span>Admin RT 04<span class="sl-sub">RW 02 · Jombang Ciputat</span></span></div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section">Menu Utama</div>
+    <a href="admin-dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a>
+    <div class="sidebar-section">Kelola Konten</div>
+    <a href="admin-pengumuman.html"><i class="fas fa-bullhorn"></i> Pengumuman</a>
+    <a href="admin-iuran.html" class="active"><i class="fas fa-money-bill-wave"></i> Iuran Warga</a>
+    <a href="admin-umkm.html"><i class="fas fa-store"></i> UMKM</a>
+    <a href="admin-kegiatan.html"><i class="fas fa-calendar-days"></i> Kegiatan</a>
+    <a href="admin-ronda.html"><i class="fas fa-moon"></i> Jadwal Ronda</a>
+    <a href="admin-laporan.html"><i class="fas fa-triangle-exclamation"></i> Laporan</a>
+  </nav>
+  <div class="sidebar-footer"><a href="index.html" target="_blank"><i class="fas fa-globe"></i> Lihat Website</a></div>
+</aside>
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="topbar-title"><i class="fas fa-money-bill-wave"></i> Kelola Iuran Warga</div>
+    <div class="topbar-right">
+      <span class="admin-badge"><i class="fas fa-user-shield"></i> <span id="adminUsername">admin</span></span>
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Keluar</button>
+    </div>
+  </div>
+  <div class="admin-content">
+    <div class="crud-toolbar">
+      <h2>Data Iuran Warga</h2>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <input type="text" id="searchIuran" class="crud-search" placeholder="Cari nama / no. rumah..."/>
+        <button class="btn-add" onclick="openAddIuran()"><i class="fas fa-plus"></i> Tambah</button>
+      </div>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>No</th><th>No.Rumah</th><th>Nama KK</th><th>Kebersihan</th><th>Keamanan</th><th>Total</th><th>Status</th><th>Tgl Bayar</th><th>Aksi</th></tr></thead>
+        <tbody id="tbodyIuran"><tr class="empty-row"><td colspan="9">Memuat data...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalIuran">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalIuranTitle">Tambah Data Iuran</h3>
+      <button class="modal-close" onclick="closeModal('modalIuran')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="iurId"/>
+      <div class="form-row">
+        <div class="form-group"><label>No. Rumah *</label><input type="text" id="iurNoRumah" placeholder="Contoh: No. 12"/></div>
+        <div class="form-group"><label>Nama KK *</label><input type="text" id="iurNama" placeholder="Nama kepala keluarga"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Iuran Kebersihan (Rp)</label><input type="number" id="iurKebersihan" value="30000"/></div>
+        <div class="form-group"><label>Iuran Keamanan (Rp)</label><input type="number" id="iurKeamanan" value="20000"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Status Pembayaran</label>
+          <select id="iurStatus"><option>Belum Bayar</option><option>Lunas</option></select>
+        </div>
+        <div class="form-group"><label>Tanggal Bayar</label><input type="date" id="iurTgl"/></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('modalIuran')">Batal</button>
+      <button class="btn-save" onclick="saveIuran()"><i class="fas fa-floppy-disk"></i> Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <i class="fas fa-triangle-exclamation"></i><h3>Konfirmasi Hapus</h3>
+    <p>Yakin ingin menghapus <span id="confirmLabel"></span>?</p>
+    <button class="btn-cancel" onclick="confirmNo()">Batal</button>
+    <button class="btn-del" onclick="confirmYes()">Ya, Hapus</button>
+  </div>
+</div>
+<script src="assets/js/admin.js"></script>
+</body></html>

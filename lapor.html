@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Lapor Kejadian - RT 04 / RW 02 Jombang Ciputat</title>
+  <meta name="description" content="Laporan kejadian dan kondisi darurat di lingkungan RT 04 RW 02 Jombang, Ciputat, Tangerang Selatan."/>
+  <meta property="og:url" content="https://deday-arch.github.io/rt04rw02-jombang/lapor.html"/>
+  <link rel="canonical" href="https://deday-arch.github.io/rt04rw02-jombang/lapor.html"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .emergency-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+    .emergency-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:1.25rem;border-radius:var(--radius);font-weight:700;font-size:.9rem;cursor:pointer;border:none;text-decoration:none;transition:transform .15s}
+    .emergency-btn:hover{transform:scale(1.04)}
+    .emergency-btn i{font-size:1.8rem}
+    .em-red{background:#fef2f2;color:#991b1b;border:2px solid #fecaca}
+    .em-blue{background:#eff6ff;color:#1e40af;border:2px solid #bfdbfe}
+    .em-orange{background:#fff7ed;color:#9a3412;border:2px solid #fed7aa}
+    .em-green{background:#f0fdf4;color:#166534;border:2px solid #bbf7d0}
+    .laporan-list{display:flex;flex-direction:column;gap:1rem}
+    .laporan-item{background:rgba(255,255,255,.88);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:start}
+    .laporan-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+    .status-diproses{color:#92400e;background:#fef3c7;padding:.2rem .6rem;border-radius:20px;font-size:.78rem;font-weight:600}
+    .status-selesai{color:#1e3a8a;background:#dbeafe;padding:.2rem .6rem;border-radius:20px;font-size:.78rem;font-weight:600}
+    .status-masuk{color:#166534;background:#dcfce7;padding:.2rem .6rem;border-radius:20px;font-size:.78rem;font-weight:600}
+    .lapor-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+    @media(max-width:768px){.emergency-grid{grid-template-columns:repeat(2,1fr)}.lapor-layout{grid-template-columns:1fr}.laporan-item{grid-template-columns:auto 1fr}}
+  </style>
+</head>
+<body>
+<nav class="navbar"><div class="container nav-container">
+  <div class="nav-brand"><img src="assets/img/logo-rt.svg" alt="Logo RT 04 RW 02"/><span>RT 04 / RW 02<span class="brand-sub">Jombang · Ciputat · Tangsel</span></span></div>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="index.html">Beranda</a></li><li><a href="iuran.html">Iuran</a></li>
+    <li><a href="umkm.html">UMKM</a></li><li><a href="kegiatan.html">Kegiatan</a></li>
+    <li><a href="ronda.html">Ronda</a></li><li><a href="pengurus.html">Pengurus</a></li>
+    <li><a href="lapor.html" class="btn-lapor active">Lapor Kejadian</a></li>
+  </ul>
+</div></nav>
+
+<div class="page-header" style="background:linear-gradient(135deg,#7f1d1d,#991b1b,#b91c1c)"><div class="container">
+  <div class="breadcrumb"><a href="index.html">Beranda</a><span>/</span><span>Lapor Kejadian</span></div>
+  <h1><i class="fas fa-triangle-exclamation"></i> Lapor Kejadian</h1>
+  <p>Laporkan kejadian atau kondisi darurat di lingkungan RT 04 / RW 02</p>
+</div></div>
+
+<section class="section"><div class="container">
+  <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:1rem">Kontak Darurat Cepat</h2>
+  <div class="emergency-grid">
+    <a href="tel:110" class="emergency-btn em-blue"><i class="fas fa-shield-halved"></i><span>Polisi</span><strong>110</strong></a>
+    <a href="tel:113" class="emergency-btn em-red"><i class="fas fa-fire"></i><span>Pemadam</span><strong>113</strong></a>
+    <a href="tel:118" class="emergency-btn em-orange"><i class="fas fa-truck-medical"></i><span>Ambulans</span><strong>118 / 119</strong></a>
+    <a href="tel:+6281234567890" class="emergency-btn em-green"><i class="fas fa-house-user"></i><span>Ketua RT</span><strong>0812-3456-7890</strong></a>
+  </div>
+
+  <div class="lapor-layout">
+    <div>
+      <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:1.25rem"><i class="fas fa-pen-to-square"></i> Form Laporan Kejadian</h2>
+      <div class="form-section">
+        <div id="formSuccess" class="alert alert-success" style="display:none"><i class="fas fa-circle-check"></i><div><strong>Laporan berhasil dikirim!</strong> Pengurus RT akan segera menindaklanjuti.</div></div>
+        <form id="laporForm" onsubmit="submitLaporan(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Nama Pelapor *</label><input type="text" id="namaLapor" placeholder="Nama lengkap" required/></div>
+            <div class="form-group"><label>No. Rumah *</label><input type="text" id="noRumah" placeholder="Contoh: No. 12" required/></div>
+          </div>
+          <div class="form-group"><label>Nomor HP / WA *</label><input type="tel" id="noHp" placeholder="08xx-xxxx-xxxx" required/></div>
+          <div class="form-group"><label>Jenis Kejadian *</label>
+            <select id="jenisKejadian" required>
+              <option value="">-- Pilih Jenis Kejadian --</option>
+              <option>Gangguan Keamanan</option><option>Kebakaran</option>
+              <option>Banjir / Genangan Air</option><option>Kecelakaan</option>
+              <option>Pohon Tumbang</option><option>Gangguan Listrik / PLN</option>
+              <option>Masalah Sampah</option><option>Fasilitas Umum Rusak</option>
+              <option>Lainnya</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Lokasi Kejadian *</label><input type="text" id="lokasi" placeholder="Dekat rumah no. berapa / lokasi spesifik" required/></div>
+          <div class="form-group"><label>Deskripsi Kejadian *</label><textarea id="deskripsi" rows="5" placeholder="Ceritakan detail kejadian..." required></textarea></div>
+          <div class="form-group"><label>Tingkat Urgensi</label>
+            <select id="tingkatUrgensi"><option>Normal</option><option>Mendesak</option><option>Darurat / Emergency</option></select>
+          </div>
+          <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Kirim Laporan</button>
+        </form>
+      </div>
+    </div>
+
+    <div>
+      <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:1.25rem"><i class="fas fa-list-check"></i> Laporan Terkini</h2>
+      <div class="laporan-list">
+        <div class="laporan-item">
+          <div class="laporan-icon" style="background:#fee2e2;color:#991b1b"><i class="fas fa-shield-halved"></i></div>
+          <div><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.2rem">Gangguan Keamanan · 20 Jul 2026</div><h4 style="font-size:.95rem;font-weight:700;margin-bottom:.2rem">Orang Mencurigakan di Depan Gang</h4><p style="font-size:.85rem;color:var(--text-muted)">Ada orang tidak dikenal yang berkeliaran sejak sore hari.</p></div>
+          <div><span class="status-selesai">Selesai</span></div>
+        </div>
+        <div class="laporan-item">
+          <div class="laporan-icon" style="background:#fef3c7;color:#92400e"><i class="fas fa-trash"></i></div>
+          <div><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.2rem">Masalah Sampah · 18 Jul 2026</div><h4 style="font-size:.95rem;font-weight:700;margin-bottom:.2rem">Sampah Menumpuk di TPS</h4><p style="font-size:.85rem;color:var(--text-muted)">Sampah di TPS RT sudah 3 hari belum diangkut.</p></div>
+          <div><span class="status-diproses">Diproses</span></div>
+        </div>
+        <div class="laporan-item">
+          <div class="laporan-icon" style="background:#dbeafe;color:#1e40af"><i class="fas fa-lightbulb"></i></div>
+          <div><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.2rem">Fasilitas Rusak · 15 Jul 2026</div><h4 style="font-size:.95rem;font-weight:700;margin-bottom:.2rem">Lampu Jalan Mati di Blok B</h4><p style="font-size:.85rem;color:var(--text-muted)">Lampu penerangan sudah padam sejak seminggu lalu.</p></div>
+          <div><span class="status-selesai">Selesai</span></div>
+        </div>
+        <div class="laporan-item">
+          <div class="laporan-icon" style="background:#dcfce7;color:#166534"><i class="fas fa-road"></i></div>
+          <div><div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.2rem">Fasilitas Rusak · 10 Jul 2026</div><h4 style="font-size:.95rem;font-weight:700;margin-bottom:.2rem">Jalan Berlubang di Depan No. 30</h4><p style="font-size:.85rem;color:var(--text-muted)">Lubang besar di jalan yang membahayakan pengendara.</p></div>
+          <div><span class="status-masuk">Masuk</span></div>
+        </div>
+      </div>
+      <div class="alert alert-info" style="margin-top:1.5rem"><i class="fas fa-circle-info"></i><div>Untuk laporan darurat, segera hubungi ketua RT atau nomor darurat di atas.</div></div>
+    </div>
+  </div>
+</div></section>
+
+<footer class="footer"><div class="container footer-content">
+  <div class="footer-brand"><img src="assets/img/logo-rt.svg" alt="Logo" class="logo-footer"/><h3>RT 04 / RW 02</h3><p class="footer-sub">Kp. Gedong - Jombang</p><p>Ciputat, Tangerang Selatan, Banten 15411</p></div>
+  <div class="footer-links"><h4>Menu</h4><ul><li><a href="iuran.html">Iuran Warga</a></li><li><a href="umkm.html">UMKM Lokal</a></li><li><a href="kegiatan.html">Kegiatan</a></li><li><a href="ronda.html">Jadwal Ronda</a></li><li><a href="pengurus.html">Pengurus RT</a></li><li><a href="lapor.html">Lapor Kejadian</a></li></ul></div>
+  <div class="footer-contact"><h4>Kontak</h4><p><i class="fas fa-phone"></i> 0812-3456-7890</p><p><i class="fab fa-whatsapp"></i> 0812-3456-7890</p><p><i class="fas fa-envelope"></i> rt04rw02jombang@gmail.com</p><p><i class="fas fa-location-dot"></i> Kp. Gedong, Jombang, Ciputat</p></div>
+</div><div class="footer-bottom"><p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan.</p></div></footer>
+<script src="assets/js/main.js"></script>
+</body></html>
