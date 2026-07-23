@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <title>Dokumentasi & Aktivitas Warga - RT 04 / RW 02</title>
+  <meta name="description" content="Dokumentasi foto dan video aktivitas warga RT 04 RW 02 Kp. Gedong Jombang, Ciputat, Tangerang Selatan."/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    /* ── TABS ─────────────────────────────── */
+    .doc-tabs { display:flex; gap:0; border-bottom:2px solid var(--border); margin-bottom:2rem; overflow-x:auto; }
+    .doc-tab  { padding:.7rem 1.4rem; border:none; background:none; font-size:.9rem; font-weight:600; color:var(--muted); white-space:nowrap; border-bottom:3px solid transparent; margin-bottom:-2px; cursor:pointer; transition:all .2s; }
+    .doc-tab.active { color:var(--blue); border-bottom-color:var(--blue); }
+    .doc-panel { display:none; } .doc-panel.active { display:block; }
+
+    /* ── FILTER BAR ──────────────────────── */
+    .doc-filter { display:flex; gap:.75rem; margin-bottom:1.75rem; flex-wrap:wrap; align-items:center; }
+    .doc-filter input  { flex:1; min-width:200px; padding:.6rem 1rem; border:1.5px solid var(--border); border-radius:8px; font-size:.9rem; }
+    .doc-filter select { padding:.6rem 1rem; border:1.5px solid var(--border); border-radius:8px; font-size:.9rem; background:#fff; }
+    .doc-filter input:focus, .doc-filter select:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(21,101,192,.1); }
+
+    /* ── FOTO GRID ───────────────────────── */
+    .foto-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+    .foto-card { background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--shadow); transition:all .25s; cursor:pointer; }
+    .foto-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+    .foto-thumb { position:relative; overflow:hidden; aspect-ratio:4/3; background:linear-gradient(135deg,#e3f2fd,#bbdefb); display:flex; align-items:center; justify-content:center; font-size:4rem; }
+    .foto-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .foto-thumb .foto-overlay { position:absolute; inset:0; background:rgba(13,71,161,.45); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .2s; }
+    .foto-card:hover .foto-overlay { opacity:1; }
+    .foto-overlay i { font-size:2.5rem; color:#fff; }
+    .foto-info { padding:1rem; }
+    .foto-info h4 { font-size:.95rem; font-weight:700; margin-bottom:.25rem; color:var(--text); }
+    .foto-info .foto-meta { font-size:.8rem; color:var(--muted); display:flex; gap:.75rem; flex-wrap:wrap; }
+    .foto-info .foto-meta span { display:flex; align-items:center; gap:.3rem; }
+    .foto-kategori { display:inline-block; padding:.2rem .65rem; border-radius:20px; font-size:.72rem; font-weight:700; margin-bottom:.4rem; }
+
+    /* ── LIGHTBOX ────────────────────────── */
+    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:9999; display:none; align-items:center; justify-content:center; padding:1rem; }
+    .lightbox.open { display:flex; }
+    .lightbox-inner { position:relative; max-width:900px; width:100%; }
+    .lightbox-inner img { width:100%; max-height:80vh; object-fit:contain; border-radius:8px; }
+    .lightbox-close { position:absolute; top:-2.5rem; right:0; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; line-height:1; }
+    .lightbox-caption { text-align:center; color:rgba(255,255,255,.85); margin-top:.75rem; font-size:.9rem; }
+    .lightbox-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.15); border:none; color:#fff; font-size:1.5rem; width:48px; height:48px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s; }
+    .lightbox-nav:hover { background:rgba(255,255,255,.3); }
+    .lightbox-prev { left:-3.5rem; }
+    .lightbox-next { right:-3.5rem; }
+
+    /* ── VIDEO GRID ──────────────────────── */
+    .video-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+    .video-card { background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--shadow); }
+    .video-wrapper { position:relative; aspect-ratio:16/9; background:#000; }
+    .video-wrapper video { width:100%; height:100%; object-fit:cover; }
+    .video-wrapper iframe { width:100%; height:100%; border:none; }
+    .video-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.75rem; background:linear-gradient(135deg,#0d47a1,#1976d2); color:#fff; cursor:pointer; transition:opacity .2s; }
+    .video-placeholder:hover { opacity:.9; }
+    .video-placeholder i { font-size:3rem; opacity:.85; }
+    .video-placeholder span { font-size:.85rem; opacity:.75; }
+    .video-info { padding:1rem; }
+    .video-info h4 { font-size:.95rem; font-weight:700; margin-bottom:.3rem; color:var(--text); }
+    .video-meta { font-size:.8rem; color:var(--muted); display:flex; gap:.75rem; flex-wrap:wrap; margin-top:.4rem; }
+    .video-meta span { display:flex; align-items:center; gap:.3rem; }
+
+    /* ── STATS BAR ───────────────────────── */
+    .doc-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2.5rem; }
+    .doc-stat { background:#fff; border-radius:12px; padding:1.25rem; text-align:center; box-shadow:var(--shadow); border-top:4px solid var(--blue); }
+    .doc-stat h3 { font-size:1.8rem; font-weight:900; color:var(--blue-dk); }
+    .doc-stat p  { font-size:.8rem; color:var(--muted); margin-top:.2rem; }
+
+    /* ── TIMELINE ────────────────────────── */
+    .timeline { position:relative; padding-left:2.5rem; }
+    .timeline::before { content:''; position:absolute; left:.75rem; top:0; bottom:0; width:2px; background:linear-gradient(180deg,var(--blue),var(--sky)); border-radius:2px; }
+    .timeline-item { position:relative; margin-bottom:2rem; }
+    .timeline-dot { position:absolute; left:-1.75rem; top:.2rem; width:18px; height:18px; border-radius:50%; background:var(--blue); border:3px solid #fff; box-shadow:0 0 0 3px var(--blue-lt); }
+    .timeline-content { background:#fff; border-radius:12px; padding:1.25rem; box-shadow:var(--shadow); }
+    .timeline-date { font-size:.8rem; color:var(--blue); font-weight:700; margin-bottom:.4rem; }
+    .timeline-content h4 { font-size:1rem; font-weight:700; margin-bottom:.4rem; }
+    .timeline-content p  { font-size:.875rem; color:var(--muted); line-height:1.6; }
+    .timeline-imgs { display:flex; gap:.5rem; margin-top:.75rem; flex-wrap:wrap; }
+    .timeline-imgs span { background:var(--blue-lt); color:var(--blue-dk); padding:.25rem .65rem; border-radius:6px; font-size:.78rem; font-weight:600; display:flex; align-items:center; gap:.3rem; }
+
+    /* ── RESPONSIVE ──────────────────────── */
+    @media(max-width:900px){ .foto-grid{grid-template-columns:repeat(2,1fr)} .video-grid{grid-template-columns:1fr} .doc-stats{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:600px){ .foto-grid{grid-template-columns:1fr} .doc-stats{grid-template-columns:repeat(2,1fr)} .lightbox-prev{left:-.5rem} .lightbox-next{right:-.5rem} }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar"><div class="container nav-container">
+  <div class="nav-brand">
+    <img src="assets/img/logo-rt.png" alt="Logo RT 04 RW 02"/>
+    <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel"/>
+    <span>RT 04 / RW 02<span class="brand-sub">Jombang · Ciputat · Tangsel</span></span>
+  </div>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="index.html">Beranda</a></li>
+    <li><a href="iuran.html">Iuran</a></li>
+    <li><a href="umkm.html">UMKM</a></li>
+    <li><a href="kegiatan.html">Kegiatan</a></li>
+    <li><a href="dokumentasi.html" class="active">Dokumentasi</a></li>
+    <li><a href="ronda.html">Ronda</a></li>
+    <li><a href="pengurus.html">Pengurus</a></li>
+    <li><a href="lapor.html" class="btn-lapor">Lapor</a></li>
+  </ul>
+</div></nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header"><div class="container">
+  <div class="breadcrumb"><a href="index.html">Beranda</a><span>/</span><span>Dokumentasi</span></div>
+  <h1><i class="fas fa-photo-film"></i> Dokumentasi &amp; Aktivitas Warga</h1>
+  <p>Kumpulan foto dan video kegiatan warga RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat</p>
+</div></div>
+
+<section class="section"><div class="container">
+
+  <!-- STATISTIK -->
+  <div class="doc-stats">
+    <div class="doc-stat"><h3>48</h3><p>Total Foto</p></div>
+    <div class="doc-stat"><h3>12</h3><p>Video Kegiatan</p></div>
+    <div class="doc-stat"><h3>15</h3><p>Album</p></div>
+    <div class="doc-stat"><h3>2026</h3><p>Tahun Aktif</p></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="doc-tabs">
+    <button class="doc-tab active" onclick="switchDocTab('foto',this)"><i class="fas fa-images"></i> Galeri Foto</button>
+    <button class="doc-tab" onclick="switchDocTab('video',this)"><i class="fas fa-video"></i> Video</button>
+    <button class="doc-tab" onclick="switchDocTab('timeline',this)"><i class="fas fa-clock-rotate-left"></i> Kronologi</button>
+  </div>
+
+  <!-- ═══ PANEL: FOTO ════════════════════════════════════ -->
+  <div class="doc-panel active" id="panel-foto">
+    <div class="doc-filter">
+      <input type="text" id="searchFoto" placeholder="Cari foto..." oninput="filterFoto()"/>
+      <select id="filterTahun" onchange="filterFoto()">
+        <option value="">Semua Tahun</option>
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+      </select>
+      <select id="filterAlbum" onchange="filterFoto()">
+        <option value="">Semua Album</option>
+        <option value="Kerja Bakti">Kerja Bakti</option>
+        <option value="HUT RI">HUT RI</option>
+        <option value="Posyandu">Posyandu</option>
+        <option value="Arisan">Arisan PKK</option>
+        <option value="Ronda">Ronda Malam</option>
+        <option value="Lainnya">Lainnya</option>
+      </select>
+    </div>
+
+    <div class="foto-grid" id="fotoGrid">
+
+      <!-- Foto 1 -->
+      <div class="foto-card" data-album="Kerja Bakti" data-tahun="2026" data-judul="Kerja Bakti RT 04 Juli 2026"
+           onclick="openLightbox(0)">
+        <div class="foto-thumb">
+          <div style="background:linear-gradient(135deg,#1976d2,#29b6f6);width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#fff">
+            <i class="fas fa-broom" style="font-size:3.5rem;opacity:.8"></i>
+            <span style="font-size:.8rem;opacity:.7">Kerja Bakti 2026</span>
+          </div>
+          <div class="foto-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+        </div>
+        <div class="foto-info">
+          <span class="foto-kategori" style="background:#dbeafe;color:#1e40af">Kerja Bakti</span>
+          <h4>Kerja Bakti Lingkungan RT 04</h4>
+          <div class="foto-meta">
+            <span><i class="fas fa-calendar"></i> 27 Jul 2026</span>
+            <span><i class="fas fa-users"></i> 45 warga</span>
+            <span><i class="fas fa-location-dot"></i> Seluruh RT 04</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto 2 -->
+      <div class="foto-card" data-album="HUT RI" data-tahun="2025" data-judul="Peringatan HUT RI ke-80"
+           onclick="openLightbox(1)">
+        <div class="foto-thumb">
+          <div style="background:linear-gradient(135deg,#cc0000,#ff6b6b);width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#fff">
+            <i class="fas fa-flag" style="font-size:3.5rem;opacity:.85"></i>
+            <span style="font-size:.8rem;opacity:.7">HUT RI ke-80</span>
+          </div>
+          <div class="foto-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+        </div>
+        <div class="foto-info">
+          <span class="foto-kategori" style="background:#fee2e2;color:#991b1b">HUT RI</span>
+          <h4>Peringatan HUT RI ke-80 RT 04</h4>
+          <div class="foto-meta">
+            <span><i class="fas fa-calendar"></i> 17 Agu 2025</span>
+            <span><i class="fas fa-users"></i> 200+ warga</span>
+            <span><i class="fas fa-location-dot"></i> Lapangan RT 04</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto 3 -->
+      <div class="foto-card" data-album="Posyandu" data-tahun="2026" data-judul="Posyandu Balita Juli 2026"
+           onclick="openLightbox(2)">
+        <div class="foto-thumb">
+          <div style="background:linear-gradient(135deg,#0097a7,#4dd0e1);width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#fff">
+            <i class="fas fa-baby" style="font-size:3.5rem;opacity:.85"></i>
+            <span style="font-size:.8rem;opacity:.7">Posyandu Jul 2026</span>
+          </div>
+          <div class="foto-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+        </div>
+        <div class="foto-info">
+          <span class="foto-kategori" style="background:#e0f2fe;color:#0277bd">Posyandu</span>
+          <h4>Posyandu Balita &amp; Lansia</h4>
+          <div class="foto-meta">
+            <span><i class="fas fa-calendar"></i> 10 Jul 2026</span>
+            <span><i class="fas fa-users"></i> 32 peserta</span>
+            <span><i class="fas fa-location-dot"></i> Pos RT 04</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto 4 -->
+      <div class="foto-card" data-album="Arisan" data-tahun="2026" data-judul="Arisan PKK Juni 2026"
+           onclick="openLightbox(3)">
+        <div class="foto-thumb">
+          <div style="background:linear-gradient(135deg,#7c3aed,#a78bfa);width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#fff">
+            <i class="fas fa-people-group" style="font-size:3.5rem;opacity:.85"></i>
+            <span style="font-size:.8rem;opacity:.7">Arisan PKK</span>
+          </div>
+          <div class="foto-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+        </div>
+        <div class="foto-info">
+          <span class="foto-kategori" style="background:#ede9fe;color:#5b21b6">Arisan PKK</span>
+          <h4>Arisan Bulanan Ibu-Ibu PKK</h4>
+          <div class="foto-meta">
+            <span><i class="fas fa-calendar"></i> 5 Jun 2026</span>
+            <span><i class="fas fa-users"></i> 28 peserta</span>
+            <span><i class="fas fa-location-dot"></i> Rumah Bu Ketua PKK</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto 5 -->
+      <div class="foto-card" data-album="Ronda" data-tahun="2026" data-judul="Ronda Malam RT 04"
+           onclick="openLightbox(4)">
+        <div class="foto-thumb">
+          <div style="background:linear-gradient(135deg,#1a237e,#303f9f);width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#fff">
+            <i class="fas fa-moon" style="font-size:3.5rem;opacity:.85"></i>
+            <span style="font-size:.8rem;opacity:.7">Ronda Malam</span>
+          </div>
+          <div class="foto-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+        </div>
+        <div class="foto-info">
+          <span class="foto-kategori" style="background:#dbeafe;color:#1e3a8a">Ronda Malam</span>
+          <h4>Kegiatan Ronda Malam RT 04</h4>
+          <div class="foto-meta">
+            <span><i class="fas fa-calendar"></i> 21 Jul 2026</span>
+            <span><i class="fas fa-users"></i> 3 petugas</span>
+            <span><i class="fas fa-location-dot"></i> Pos Ronda RT 04</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto 6 -->
+      <div class="foto-card" data-album="Kerja Bakti" data-tahun="2025" data-judul="Kerja Bakti Saluran Air 2025"
+           onclick="openLightbox(5)">
+        <div class="foto-thumb">
+          <div style="background:linear-gradient(135deg,#1565c0,#42a5f5);width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#fff">
+            <i class="fas fa-trowel-bricks" style="font-size:3.5rem;opacity:.85"></i>
+            <span style="font-size:.8rem;opacity:.7">Bakti Saluran Air</span>
+          </div>
+          <div class="foto-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+        </div>
+        <div class="foto-info">
+          <span class="foto-kategori" style="background:#dbeafe;color:#1e40af">Kerja Bakti</span>
+          <h4>Kerja Bakti Saluran Air</h4>
+          <div class="foto-meta">
+            <span><i class="fas fa-calendar"></i> 29 Jun 2025</span>
+            <span><i class="fas fa-users"></i> 40 warga</span>
+            <span><i class="fas fa-location-dot"></i> Jl. Jombang RT 04</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto 7 -->
+      <div class="foto-card" data-album="Lainnya" data-tahun="2026" data-judul="Halal Bihalal 2026"
+           onclick="openLightbox(6)">
+        <div class="foto-thumb">
+          <div style="background:linear-gradient(135deg,#f59e0b,#fbbf24);width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#fff">
+            <i class="fas fa-handshake" style="font-size:3.5rem;opacity:.85"></i>
+            <span style="font-size:.8rem;opacity:.7">Halal Bihalal</span>
+          </div>
+          <div class="foto-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+        </div>
+        <div class="foto-info">
+          <span class="foto-kategori" style="background:#fef3c7;color:#92400e">Lainnya</span>
+          <h4>Halal Bihalal Warga RT 04</h4>
+          <div class="foto-meta">
+            <span><i class="fas fa-calendar"></i> 15 Jun 2026</span>
+            <span><i class="fas fa-users"></i> 200+ warga</span>
+            <span><i class="fas fa-location-dot"></i> Lapangan RT 04</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto 8 -->
+      <div class="foto-card" data-album="HUT RI" data-tahun="2025" data-judul="Lomba 17 Agustus 2025"
+           onclick="openLightbox(7)">
+        <div class="foto-thumb">
+          <div style="background:linear-gradient(135deg,#d32f2f,#ef5350);width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#fff">
+            <i class="fas fa-trophy" style="font-size:3.5rem;opacity:.85"></i>
+            <span style="font-size:.8rem;opacity:.7">Lomba 17an 2025</span>
+          </div>
+          <div class="foto-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+        </div>
+        <div class="foto-info">
+          <span class="foto-kategori" style="background:#fee2e2;color:#991b1b">HUT RI</span>
+          <h4>Lomba 17 Agustus RT 04</h4>
+          <div class="foto-meta">
+            <span><i class="fas fa-calendar"></i> 17 Agu 2025</span>
+            <span><i class="fas fa-users"></i> 150+ peserta</span>
+            <span><i class="fas fa-location-dot"></i> Lapangan RT 04</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Foto 9 -->
+      <div class="foto-card" data-album="Posyandu" data-tahun="2025" data-judul="Posyandu Lansia 2025"
+           onclick="openLightbox(8)">
+        <div class="foto-thumb">
+          <div style="background:linear-gradient(135deg,#00897b,#4db6ac);width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;color:#fff">
+            <i class="fas fa-user-nurse" style="font-size:3.5rem;opacity:.85"></i>
+            <span style="font-size:.8rem;opacity:.7">Posyandu Lansia</span>
+          </div>
+          <div class="foto-overlay"><i class="fas fa-magnifying-glass-plus"></i></div>
+        </div>
+        <div class="foto-info">
+          <span class="foto-kategori" style="background:#e0f2fe;color:#0277bd">Posyandu</span>
+          <h4>Posyandu Lansia RT 04</h4>
+          <div class="foto-meta">
+            <span><i class="fas fa-calendar"></i> 12 Okt 2025</span>
+            <span><i class="fas fa-users"></i> 25 peserta</span>
+            <span><i class="fas fa-location-dot"></i> Pos RT 04</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /foto-grid -->
+
+    <div id="noFoto" style="display:none;text-align:center;padding:3rem;color:var(--muted)">
+      <i class="fas fa-image" style="font-size:2.5rem;display:block;margin-bottom:1rem"></i>
+      <p>Tidak ada foto yang ditemukan.</p>
+    </div>
+  </div><!-- /panel-foto -->
+
+  <!-- ═══ PANEL: VIDEO ════════════════════════════════════ -->
+  <div class="doc-panel" id="panel-video">
+    <div class="doc-filter">
+      <input type="text" id="searchVideo" placeholder="Cari video..." oninput="filterVideo()"/>
+      <select id="filterVideoKat" onchange="filterVideo()">
+        <option value="">Semua Kategori</option>
+        <option value="Kegiatan">Kegiatan</option>
+        <option value="Ronda">Ronda</option>
+        <option value="Profil">Profil RT</option>
+      </select>
+    </div>
+
+    <div class="video-grid" id="videoGrid">
+
+      <!-- Video 1 — YouTube embed -->
+      <div class="video-card" data-kat="Kegiatan" data-judul="Kerja Bakti RT 04 Juli 2026">
+        <div class="video-wrapper">
+          <iframe id="yt1" src="" data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1" loading="lazy" allowfullscreen title="Kerja Bakti RT 04 Juli 2026" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="display:none"></iframe>
+          <div class="video-placeholder" onclick="playYoutube('yt1')">
+            <i class="fab fa-youtube" style="font-size:4rem;color:#ff0000"></i>
+            <div style="text-align:center">
+              <div style="font-weight:700;font-size:1rem;margin-bottom:.3rem">Kerja Bakti RT 04 Juli 2026</div>
+              <span>▶ Putar Video YouTube</span>
+            </div>
+          </div>
+        </div>
+        <div class="video-info">
+          <span class="foto-kategori" style="background:#dbeafe;color:#1e40af">Kegiatan</span>
+          <h4>Kerja Bakti Lingkungan RT 04 - Juli 2026</h4>
+          <div class="video-meta">
+            <span><i class="fas fa-calendar"></i> 27 Jul 2026</span>
+            <span><i class="fas fa-clock"></i> 3:42</span>
+            <span><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video 2 — YouTube embed -->
+      <div class="video-card" data-kat="Kegiatan" data-judul="HUT RI ke-80 RT 04 2025">
+        <div class="video-wrapper">
+          <iframe id="yt2" src="" data-src="https://www.youtube.com/embed/9bZkp7q19f0?rel=0&modestbranding=1" loading="lazy" allowfullscreen title="HUT RI ke-80 RT 04" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="display:none"></iframe>
+          <div class="video-placeholder" onclick="playYoutube('yt2')">
+            <i class="fab fa-youtube" style="font-size:4rem;color:#ff0000"></i>
+            <div style="text-align:center">
+              <div style="font-weight:700;font-size:1rem;margin-bottom:.3rem">Peringatan HUT RI ke-80</div>
+              <span>▶ Putar Video YouTube</span>
+            </div>
+          </div>
+        </div>
+        <div class="video-info">
+          <span class="foto-kategori" style="background:#fee2e2;color:#991b1b">HUT RI</span>
+          <h4>Peringatan HUT RI ke-80 RT 04 RW 02 - 2025</h4>
+          <div class="video-meta">
+            <span><i class="fas fa-calendar"></i> 17 Agu 2025</span>
+            <span><i class="fas fa-clock"></i> 8:15</span>
+            <span><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video 3 — HTML5 Video lokal -->
+      <div class="video-card" data-kat="Ronda" data-judul="Sosialisasi Ronda Malam">
+        <div class="video-wrapper">
+          <video controls preload="metadata" poster=""
+                 style="background:#0d47a1">
+            <source src="assets/video/ronda-sosialisasi.mp4" type="video/mp4"/>
+            <source src="assets/video/ronda-sosialisasi.webm" type="video/webm"/>
+            <div style="color:#fff;padding:2rem;text-align:center">
+              <i class="fas fa-video-slash" style="font-size:2rem;margin-bottom:.5rem;display:block"></i>
+              Browser Anda tidak mendukung video HTML5.
+            </div>
+          </video>
+        </div>
+        <div class="video-info">
+          <span class="foto-kategori" style="background:#dbeafe;color:#1e3a8a">Ronda</span>
+          <h4>Sosialisasi Keamanan &amp; Ronda Malam RT 04</h4>
+          <div class="video-meta">
+            <span><i class="fas fa-calendar"></i> 15 Jul 2026</span>
+            <span><i class="fas fa-clock"></i> 5:20</span>
+            <span><i class="fas fa-film"></i> Video Lokal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video 4 — HTML5 Video lokal -->
+      <div class="video-card" data-kat="Profil" data-judul="Profil RT 04 RW 02">
+        <div class="video-wrapper">
+          <video controls preload="metadata"
+                 style="background:#0d47a1">
+            <source src="assets/video/profil-rt04.mp4" type="video/mp4"/>
+            <source src="assets/video/profil-rt04.webm" type="video/webm"/>
+            <div style="color:#fff;padding:2rem;text-align:center">
+              <i class="fas fa-video-slash" style="font-size:2rem;margin-bottom:.5rem;display:block"></i>
+              Browser Anda tidak mendukung video HTML5.
+            </div>
+          </video>
+        </div>
+        <div class="video-info">
+          <span class="foto-kategori" style="background:#dcfce7;color:#166534">Profil RT</span>
+          <h4>Profil Lingkungan RT 04 / RW 02 Jombang Ciputat</h4>
+          <div class="video-meta">
+            <span><i class="fas fa-calendar"></i> 1 Jan 2026</span>
+            <span><i class="fas fa-clock"></i> 4:50</span>
+            <span><i class="fas fa-film"></i> Video Lokal</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /video-grid -->
+
+    <div id="noVideo" style="display:none;text-align:center;padding:3rem;color:var(--muted)">
+      <i class="fas fa-video" style="font-size:2.5rem;display:block;margin-bottom:1rem"></i>
+      <p>Tidak ada video yang ditemukan.</p>
+    </div>
+
+    <!-- Info cara upload video lokal -->
+    <div class="alert alert-info" style="margin-top:2rem">
+      <i class="fas fa-circle-info"></i>
+      <div>
+        <strong>Cara menambah video:</strong> Letakkan file video (MP4/WebM) di folder <code>assets/video/</code>
+        lalu hubungi admin untuk memperbarui halaman ini.
+        Untuk video YouTube, cukup masukkan link YouTube ke panel admin.
+      </div>
+    </div>
+  </div><!-- /panel-video -->
+
+  <!-- ═══ PANEL: KRONOLOGI ════════════════════════════════ -->
+  <div class="doc-panel" id="panel-timeline">
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date"><i class="fas fa-calendar"></i> 27 Juli 2026</div>
+          <h4>Kerja Bakti Lingkungan RT 04</h4>
+          <p>Seluruh warga RT 04 bergotong royong membersihkan lingkungan, memperbaiki saluran air, dan mengecat kembali batas RT. Dihadiri oleh 45 KK dari total 127 KK.</p>
+          <div class="timeline-imgs">
+            <span><i class="fas fa-images"></i> 8 Foto</span>
+            <span><i class="fas fa-video"></i> 1 Video</span>
+            <span><i class="fas fa-users"></i> 45 warga</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date"><i class="fas fa-calendar"></i> 10 Juli 2026</div>
+          <h4>Posyandu Balita &amp; Lansia</h4>
+          <p>Pelaksanaan posyandu rutin bulanan dengan kegiatan penimbangan balita, pemberian vitamin, dan pemeriksaan tekanan darah lansia. Bekerjasama dengan Puskesmas Jombang.</p>
+          <div class="timeline-imgs">
+            <span><i class="fas fa-images"></i> 5 Foto</span>
+            <span><i class="fas fa-baby"></i> 18 balita</span>
+            <span><i class="fas fa-person-cane"></i> 14 lansia</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-date"><i class="fas fa-calendar"></i> 15 Juni 2026</div>
+          <h4>Halal Bihalal Warga RT 04</h4>
+          <p>Acara silaturahmi dan halal bihalal pasca Idul Fitri 1447 H. Dihadiri lebih dari 200 warga. Diisi dengan tausiyah, makan bersama, dan penyerahan santunan anak yatim.</p>
+          <div class="timeline-imgs">
+            <span><i class="fas fa-images"></i> 12 Foto</span>
+            <span><i class="fas fa-video"></i> 1 Video</span>
+            <span><i class="fas fa-users"></i> 200+ warga</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#f59e0b"></div>
+        <div class="timeline-content">
+          <div class="timeline-date"><i class="fas fa-calendar"></i> 17 Agustus 2025</div>
+          <h4>Peringatan HUT RI ke-80</h4>
+          <p>Peringatan kemerdekaan RI ke-80 dengan upacara bendera, berbagai lomba tradisional (balap karung, makan kerupuk, panjat pinang), dan malam hiburan bersama warga.</p>
+          <div class="timeline-imgs">
+            <span><i class="fas fa-images"></i> 25 Foto</span>
+            <span><i class="fas fa-video"></i> 3 Video</span>
+            <span><i class="fas fa-trophy"></i> 10 lomba</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#16a34a"></div>
+        <div class="timeline-content">
+          <div class="timeline-date"><i class="fas fa-calendar"></i> 29 Juni 2025</div>
+          <h4>Kerja Bakti Saluran Air</h4>
+          <p>Perbaikan dan pembersihan saluran drainase sepanjang jalan utama RT 04 yang kerap menyebabkan banjir saat hujan deras. Berhasil memperbaiki 3 titik saluran tersumbat.</p>
+          <div class="timeline-imgs">
+            <span><i class="fas fa-images"></i> 6 Foto</span>
+            <span><i class="fas fa-users"></i> 40 warga</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:#7c3aed"></div>
+        <div class="timeline-content">
+          <div class="timeline-date"><i class="fas fa-calendar"></i> 12 Oktober 2025</div>
+          <h4>Posyandu Lansia</h4>
+          <p>Pemeriksaan kesehatan gratis untuk warga lansia RT 04 bekerjasama dengan tenaga kesehatan dari Puskesmas Ciputat. Meliputi cek tensi, gula darah, dan kolesterol.</p>
+          <div class="timeline-imgs">
+            <span><i class="fas fa-images"></i> 4 Foto</span>
+            <span><i class="fas fa-person-cane"></i> 25 lansia</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /timeline -->
+  </div><!-- /panel-timeline -->
+
+</div></section>
+
+<!-- ══ LIGHTBOX ════════════════════════════════════════════ -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOutside(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="prevPhoto()"><i class="fas fa-chevron-left"></i></button>
+    <button class="lightbox-nav lightbox-next" onclick="nextPhoto()"><i class="fas fa-chevron-right"></i></button>
+    <div id="lightboxContent" style="text-align:center"></div>
+    <div id="lightboxCaption" class="lightbox-caption"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer"><div class="container footer-content">
+  <div class="footer-brand">
+    <div class="footer-logos">
+      <img src="assets/img/logo-rt.png" alt="Logo RT" class="logo-footer"/>
+      <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel" class="logo-tangsel-footer"/>
+    </div>
+    <h3>RT 04 / RW 02</h3>
+    <p class="footer-sub">Kp. Gedong - Jombang</p>
+    <p>Ciputat, Tangerang Selatan, Banten 15411</p>
+  </div>
+  <div class="footer-links"><h4>Menu</h4><ul>
+    <li><a href="iuran.html">Iuran Warga</a></li>
+    <li><a href="umkm.html">UMKM Lokal</a></li>
+    <li><a href="kegiatan.html">Kegiatan</a></li>
+    <li><a href="dokumentasi.html">Dokumentasi</a></li>
+    <li><a href="ronda.html">Jadwal Ronda</a></li>
+    <li><a href="pengurus.html">Pengurus RT</a></li>
+    <li><a href="lapor.html">Lapor Kejadian</a></li>
+  </ul></div>
+  <div class="footer-contact"><h4>Kontak</h4>
+    <p><i class="fas fa-phone"></i> 0812-3456-7890</p>
+    <p><i class="fab fa-whatsapp"></i> 0812-3456-7890</p>
+    <p><i class="fas fa-envelope"></i> rt04rw02jombang@gmail.com</p>
+    <p><i class="fas fa-location-dot"></i> Kp. Gedong, Jombang, Ciputat</p>
+  </div>
+</div><div class="footer-bottom">
+  <p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan. &nbsp;|&nbsp;
+  <a href="admin-login.html" style="color:rgba(255,255,255,.4);font-size:.78rem"><i class="fas fa-lock"></i> Admin</a></p>
+</div></footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+/* ── TAB SWITCHER ──────────────────────────────────────── */
+function switchDocTab(id, btn) {
+  document.querySelectorAll('.doc-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.doc-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── FILTER FOTO ───────────────────────────────────────── */
+function filterFoto() {
+  const q     = document.getElementById('searchFoto').value.toLowerCase();
+  const tahun = document.getElementById('filterTahun').value;
+  const album = document.getElementById('filterAlbum').value;
+  let visible = 0;
+  document.querySelectorAll('#fotoGrid .foto-card').forEach(card => {
+    const matchQ     = card.dataset.judul.toLowerCase().includes(q) || card.dataset.album.toLowerCase().includes(q);
+    const matchTahun = !tahun || card.dataset.tahun === tahun;
+    const matchAlbum = !album || card.dataset.album === album;
+    const show = matchQ && matchTahun && matchAlbum;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('noFoto').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── FILTER VIDEO ──────────────────────────────────────── */
+function filterVideo() {
+  const q   = document.getElementById('searchVideo').value.toLowerCase();
+  const kat = document.getElementById('filterVideoKat').value;
+  let visible = 0;
+  document.querySelectorAll('#videoGrid .video-card').forEach(card => {
+    const matchQ   = card.dataset.judul.toLowerCase().includes(q);
+    const matchKat = !kat || card.dataset.kat === kat;
+    const show = matchQ && matchKat;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('noVideo').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── PLAY YOUTUBE (lazy load) ──────────────────────────── */
+function playYoutube(iframeId) {
+  const iframe = document.getElementById(iframeId);
+  if (!iframe) return;
+  const src = iframe.getAttribute('data-src');
+  iframe.setAttribute('src', src + '&autoplay=1');
+  iframe.style.display = 'block';
+  const placeholder = iframe.previousElementSibling;
+  if (placeholder && placeholder.classList.contains('video-placeholder')) {
+    placeholder.style.display = 'none';
+  }
+}
+
+/* ── LIGHTBOX ──────────────────────────────────────────── */
+const fotoData = [
+  { icon: 'fa-broom',         bg: 'linear-gradient(135deg,#1976d2,#29b6f6)', title: 'Kerja Bakti Lingkungan RT 04 — 27 Jul 2026' },
+  { icon: 'fa-flag',          bg: 'linear-gradient(135deg,#cc0000,#ff6b6b)', title: 'Peringatan HUT RI ke-80 RT 04 — 17 Agu 2025' },
+  { icon: 'fa-baby',          bg: 'linear-gradient(135deg,#0097a7,#4dd0e1)', title: 'Posyandu Balita & Lansia — 10 Jul 2026' },
+  { icon: 'fa-people-group',  bg: 'linear-gradient(135deg,#7c3aed,#a78bfa)', title: 'Arisan Bulanan Ibu-Ibu PKK — 5 Jun 2026' },
+  { icon: 'fa-moon',          bg: 'linear-gradient(135deg,#1a237e,#303f9f)', title: 'Kegiatan Ronda Malam RT 04 — 21 Jul 2026' },
+  { icon: 'fa-trowel-bricks', bg: 'linear-gradient(135deg,#1565c0,#42a5f5)', title: 'Kerja Bakti Saluran Air — 29 Jun 2025' },
+  { icon: 'fa-handshake',     bg: 'linear-gradient(135deg,#f59e0b,#fbbf24)', title: 'Halal Bihalal Warga RT 04 — 15 Jun 2026' },
+  { icon: 'fa-trophy',        bg: 'linear-gradient(135deg,#d32f2f,#ef5350)', title: 'Lomba 17 Agustus RT 04 — 17 Agu 2025' },
+  { icon: 'fa-user-nurse',    bg: 'linear-gradient(135deg,#00897b,#4db6ac)', title: 'Posyandu Lansia RT 04 — 12 Okt 2025' },
+];
+let currentIdx = 0;
+
+function openLightbox(idx) {
+  currentIdx = idx;
+  showLightboxPhoto(idx);
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function showLightboxPhoto(idx) {
+  const f = fotoData[idx];
+  const content = document.getElementById('lightboxContent');
+  content.innerHTML = `
+    <div style="width:100%;max-width:700px;margin:0 auto;aspect-ratio:4/3;background:${f.bg};border-radius:12px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem">
+      <i class="fas ${f.icon}" style="font-size:6rem;color:rgba(255,255,255,.8)"></i>
+      <span style="color:rgba(255,255,255,.6);font-size:.9rem">Foto ${idx+1} dari ${fotoData.length}</span>
+    </div>`;
+  document.getElementById('lightboxCaption').textContent = f.title;
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeLightboxOutside(e) {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+}
+
+function prevPhoto() {
+  currentIdx = (currentIdx - 1 + fotoData.length) % fotoData.length;
+  showLightboxPhoto(currentIdx);
+}
+
+function nextPhoto() {
+  currentIdx = (currentIdx + 1) % fotoData.length;
+  showLightboxPhoto(currentIdx);
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft')  prevPhoto();
+  if (e.key === 'ArrowRight') nextPhoto();
+  if (e.key === 'Escape')     closeLightbox();
+});
+</script>
+</body>
+</html>
