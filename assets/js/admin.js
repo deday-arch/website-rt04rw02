@@ -176,11 +176,65 @@ function deleteLaporan(id,label){confirmDelete('laporan "'+label+'"',()=>{saveDa
 
 // ══ CRUD: RONDA ═══════════════════════════════════════════
 const KEY_RONDA = 'rt04_ronda';
-function getRonda(){const d=getData(KEY_RONDA);if(!d.length){const def=[{id:genId(),hari:'Senin',tanggal:'21 Jul 2026',petugas:'Budi P., Hendra W., Faisal H.',koordinator:'Faisal H.',shift:'22.00–04.00'},{id:genId(),hari:'Selasa',tanggal:'22 Jul 2026',petugas:'Ahmad S., Dedi K., Joko S.',koordinator:'Ahmad S.',shift:'22.00–04.00'},{id:genId(),hari:'Rabu',tanggal:'23 Jul 2026',petugas:'Luthfi R., Rudi S., Tono M.',koordinator:'Luthfi R.',shift:'22.00–04.00'},{id:genId(),hari:'Kamis',tanggal:'24 Jul 2026',petugas:'Agus P., Wahyu S., Rizki A.',koordinator:'Agus P.',shift:'22.00–04.00'},{id:genId(),hari:'Jumat',tanggal:'25 Jul 2026',petugas:'Budi P., Hendra W., Dedi K.',koordinator:'Budi P.',shift:'22.00–04.00'},{id:genId(),hari:'Sabtu',tanggal:'26 Jul 2026',petugas:'Ahmad S., Faisal H., Joko S.',koordinator:'Faisal H.',shift:'22.00–04.00'},{id:genId(),hari:'Minggu',tanggal:'27 Jul 2026',petugas:'Luthfi R., Tono M., Wahyu S.',koordinator:'Luthfi R.',shift:'22.00–04.00'}];saveData(KEY_RONDA,def);return def;}return d;}
-function renderRondaTable(filter=''){const tbody=document.getElementById('tbodyRonda');if(!tbody)return;const data=getRonda().filter(x=>(x.hari+x.petugas).toLowerCase().includes(filter.toLowerCase()));if(!data.length){tbody.innerHTML='<tr class="empty-row"><td colspan="5">Tidak ada data.</td></tr>';return;}tbody.innerHTML=data.map((x,i)=>`<tr><td><strong>${esc(x.hari)}</strong><br><small>${esc(x.tanggal)}</small></td><td>${esc(x.petugas)}</td><td>${esc(x.shift)}</td><td>${esc(x.koordinator)}</td><td><div class="action-btns"><button class="btn-edit" onclick="editRonda('${x.id}')"><i class="fas fa-pen"></i> Edit</button><button class="btn-del" onclick="deleteRonda('${x.id}','${esc(x.hari)}')"><i class="fas fa-trash"></i> Hapus</button></div></td></tr>`).join('');}
-function openAddRonda(){document.getElementById('modalRondaTitle').textContent='Tambah Jadwal Ronda';['rndId','rndHari','rndTanggal','rndPetugas','rndKoordinator'].forEach(id=>document.getElementById(id).value='');document.getElementById('rndShift').value='22.00–04.00';openModal('modalRonda');}
-function editRonda(id){const x=getRonda().find(r=>r.id===id);if(!x)return;document.getElementById('modalRondaTitle').textContent='Edit Jadwal Ronda';document.getElementById('rndId').value=x.id;document.getElementById('rndHari').value=x.hari;document.getElementById('rndTanggal').value=x.tanggal;document.getElementById('rndPetugas').value=x.petugas;document.getElementById('rndShift').value=x.shift;document.getElementById('rndKoordinator').value=x.koordinator;openModal('modalRonda');}
-function saveRonda(){const id=document.getElementById('rndId').value,hari=document.getElementById('rndHari').value.trim(),tanggal=document.getElementById('rndTanggal').value.trim(),petugas=document.getElementById('rndPetugas').value.trim(),shift=document.getElementById('rndShift').value.trim(),koordinator=document.getElementById('rndKoordinator').value.trim();if(!hari||!petugas){showToast('Hari dan petugas wajib!','error');return;}let data=getRonda();if(id){data=data.map(x=>x.id===id?{...x,hari,tanggal,petugas,shift,koordinator}:x);showToast('Jadwal diperbarui!');}else{data.push({id:genId(),hari,tanggal,petugas,shift,koordinator});showToast('Jadwal ditambahkan!');}saveData(KEY_RONDA,data);closeModal('modalRonda');renderRondaTable();}
+const RONDA_DEF = [
+  {id:'r01',regu:'Regu 1', hari:'Rabu',   tanggal:'2026-07-22',anggota:'Bpk.Rt Novi Azis\nBpk.Dambas Muhari\nBpk.Suherman\nBpk.Ismail Subana\nBpk.Dedi Nur Rohmawan\nSdr.Toni Andrian',shift:'22.00–04.00'},
+  {id:'r02',regu:'Regu 2', hari:'Kamis',  tanggal:'2026-07-23',anggota:'Bpk.Zainudin Ce\'ot\nBpk.Wandi Siswanto\nBpk.Jauhari\nBpk.Bagiyo\nBpk.Syafe\'i Sate\nBpk.Afu Karim',shift:'22.00–04.00'},
+  {id:'r03',regu:'Regu 3', hari:'Jumat',  tanggal:'2026-07-24',anggota:'Sdr.Amar Galih\nBpk.Lukman Nur Hakim\nSdr.Reval Nendi Sumarna\nSdr.Husein Robi\nSdr.Fajri & Riki Cilor\nBpk.Rully',shift:'22.00–04.00'},
+  {id:'r04',regu:'Regu 4', hari:'Sabtu',  tanggal:'2026-07-25',anggota:'Bpk.Polma/Lay\nBpk.Ali Yunus\nBpk.Gino & Suroto\nBpk.Jaelani Bintang\nBpk.Sadimo\nBpk.Joni Pahlevi\nBpk.Irhamudin (Udin Tukang)',shift:'22.00–04.00'},
+  {id:'r05',regu:'Regu 5', hari:'Minggu', tanggal:'2026-07-26',anggota:'Bpk.Jamalrudin Malik\nBpk.Karsim\nBpk.Winiharso\nBpk.Riki Otay\nBpk.Sahud Ma Onih\nBpk.Rizky H.Suyatno\nBpk.Yogi',shift:'22.00–04.00'},
+  {id:'r06',regu:'Regu 6', hari:'Senin',  tanggal:'2026-07-27',anggota:'Bpk.Andriansyah Nur\nBpk.Rustono\nBpk.Bayu Fitri\nBpk.Rahmat & Sugeng\nBpk.Likuh\nBpk.Anwar Bhokor',shift:'22.00–04.00'},
+  {id:'r07',regu:'Regu 7', hari:'Selasa', tanggal:'2026-07-28',anggota:'Bpk.Saptono (Ocoy)\nBpk.Ilham Kholik (Cilem)\nBpk.Dedi Supriyadi\nBpk.Fery Pak Kimbok\nBpk.Sukandi\nBpk.Denu Atmaja',shift:'22.00–04.00'},
+  {id:'r08',regu:'Regu 8', hari:'Rabu',   tanggal:'2026-07-29',anggota:'Bpk.M.Idham (Mamat)\nBpk.Warwanto (Pa Yanto)\nBpk.Azmie Reza\nBpk.Doni H.Nurdin\nBpk.Sulistiono (Pa Tio)\nSdr.Bayu Raka Pangestu',shift:'22.00–04.00'},
+  {id:'r09',regu:'Regu 9', hari:'Kamis',  tanggal:'2026-07-30',anggota:'Bpk.Gunung Iswahyudi\nBpk.Suyatno Guru\nBpk.Sarbini\nBpk.Dedi Koswara\nBpk.Fahri\nBpk.Ajie Subekti\nBpk.Maulid Madura',shift:'22.00–04.00'},
+  {id:'r10',regu:'Regu 10',hari:'Jumat',  tanggal:'2026-07-31',anggota:'Bpk.Hardi.S (Bang Beben)\nBpk.Alex & M.Rifki.R\nBpk.Haryani (Uca)\nBpk.M.Yudistira\nBpk.Syamian\nBpk.Manis.W',shift:'22.00–04.00'},
+  {id:'r11',regu:'Regu 11',hari:'Sabtu',  tanggal:'2026-08-01',anggota:'Bpk.Dema Agung Marhento\nBpk.Ramdani\nBpk.Ngadiman\nBpk.M.Syaif Rivaldi\nBpk.Ferry Haryadi\nSdr.Hamdan Keling\nSdr.Abimanyu',shift:'22.00–04.00'},
+  {id:'r12',regu:'Regu 12',hari:'Minggu', tanggal:'2026-08-02',anggota:'Bpk.Suprapto\nBpk.Suhanda\nBpk.Evak Dermalaude\nBpk.Astoyadi\nBpk.Adi Suparman\nBpk.Rusdian',shift:'22.00–04.00'},
+  {id:'r13',regu:'Regu 13',hari:'Senin',  tanggal:'2026-08-03',anggota:'Bpk.Deni Aryanto\nBpk.Ahmd Andrian\nBpk.Apip Fudin\nBpk.Indra Endoy\nSdr.Nasrullah Acung\nSdr.Imam & Ibnu Setiadi',shift:'22.00–04.00'},
+  {id:'r14',regu:'Regu 14',hari:'Selasa', tanggal:'2026-08-04',anggota:'Bpk.Rangga (Angga)\nBpk.Paiman Odak\nBpk.Eko Kwetiau\nBpk.Azam Pangkas Rambut\nSdr.Dendi R.W (Endit)\nSdr.Agus Pak Marinto',shift:'22.00–04.00'},
+  {id:'r15',regu:'Regu 15',hari:'Rabu',   tanggal:'2026-08-05',anggota:'Sdr.Ahmad Fauzi\nSdr.Fajar/Basri Beras\nBpk.Cepy Hermansyah\nBpk.Eko Widilaksana\nBpk.Faqih Akbar\nBpk.Agus Arta\nBpk.Syukhendri',shift:'22.00–04.00'},
+];
+function getRonda(){const d=getData(KEY_RONDA);if(!d.length){saveData(KEY_RONDA,RONDA_DEF);return RONDA_DEF;}return d;}
+function renderRondaTable(filter=''){
+  const tbody=document.getElementById('tbodyRonda');if(!tbody)return;
+  const data=getRonda().filter(x=>(x.regu+x.hari+x.anggota).toLowerCase().includes((filter||'').toLowerCase()));
+  if(!data.length){tbody.innerHTML='<tr class="empty-row"><td colspan="5">Tidak ada data.</td></tr>';return;}
+  tbody.innerHTML=data.map((x,i)=>`<tr>
+    <td><strong>${esc(x.regu)}</strong><br><small style="color:#64748b">${esc(x.hari)}, ${esc(x.tanggal?fmtDate(x.tanggal):x.tanggal||'')}</small></td>
+    <td style="white-space:pre-line;font-size:.82rem;max-width:280px">${esc(x.anggota||'')}</td>
+    <td>${esc(x.shift)}</td>
+    <td>${x.anggota?(x.anggota.split('\n')[0]||'-'):'-'}</td>
+    <td><div class="action-btns">
+      <button class="btn-edit" onclick="editRonda('${x.id}')"><i class="fas fa-pen"></i> Edit</button>
+      <button class="btn-del" onclick="deleteRonda('${x.id}','${esc(x.regu)}')"><i class="fas fa-trash"></i> Hapus</button>
+    </div></td>
+  </tr>`).join('');}
+function openAddRonda(){
+  document.getElementById('modalRondaTitle').textContent='Tambah Jadwal Ronda';
+  ['rndId','rndRegu','rndHari','rndTanggal','rndAnggota'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const s=document.getElementById('rndShift');if(s)s.value='22.00–04.00';
+  openModal('modalRonda');}
+function editRonda(id){
+  const x=getRonda().find(r=>r.id===id);if(!x)return;
+  document.getElementById('modalRondaTitle').textContent='Edit Jadwal Ronda';
+  document.getElementById('rndId').value=x.id;
+  document.getElementById('rndRegu').value=x.regu||'';
+  document.getElementById('rndHari').value=x.hari||'';
+  document.getElementById('rndTanggal').value=x.tanggal||'';
+  document.getElementById('rndAnggota').value=x.anggota||'';
+  document.getElementById('rndShift').value=x.shift||'22.00–04.00';
+  openModal('modalRonda');}
+function saveRonda(){
+  const id=document.getElementById('rndId').value,
+    regu=document.getElementById('rndRegu').value.trim(),
+    hari=document.getElementById('rndHari').value.trim(),
+    tanggal=document.getElementById('rndTanggal').value.trim(),
+    anggota=document.getElementById('rndAnggota').value.trim(),
+    shift=(document.getElementById('rndShift')?.value||'22.00–04.00').trim();
+  if(!regu||!anggota){showToast('Nama regu dan anggota wajib!','error');return;}
+  let data=getRonda();
+  if(id){data=data.map(x=>x.id===id?{...x,regu,hari,tanggal,anggota,shift}:x);showToast('Jadwal diperbarui!');}
+  else{data.push({id:genId(),regu,hari,tanggal,anggota,shift});showToast('Jadwal ditambahkan!');}
+  saveData(KEY_RONDA,data);closeModal('modalRonda');renderRondaTable();}
 function deleteRonda(id,label){confirmDelete('jadwal "'+label+'"',()=>{saveData(KEY_RONDA,getRonda().filter(x=>x.id!==id));showToast('Dihapus!','info');renderRondaTable();});}
 
 // ══ DASHBOARD STATS + INIT ════════════════════════════════

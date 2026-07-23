@@ -41,7 +41,7 @@
     </div>
     <div class="admin-table-wrap">
       <table class="admin-table">
-        <thead><tr><th>Hari / Tanggal</th><th>Petugas</th><th>Shift</th><th>Koordinator</th><th>Aksi</th></tr></thead>
+        <thead><tr><th>Regu / Hari</th><th>Anggota</th><th>Shift</th><th>Koord. (Anggota 1)</th><th>Aksi</th></tr></thead>
         <tbody id="tbodyRonda"><tr class="empty-row"><td colspan="5">Memuat data...</td></tr></tbody>
       </table>
     </div>
@@ -58,15 +58,16 @@
     <div class="modal-body">
       <input type="hidden" id="rndId"/>
       <div class="form-row">
-        <div class="form-group"><label>Hari *</label><input type="text" id="rndHari" placeholder="Senin / Selasa..."/></div>
-        <div class="form-group"><label>Tanggal</label><input type="text" id="rndTanggal" placeholder="21 Jul 2026"/></div>
-      </div>
-      <div class="form-group"><label>Petugas Ronda * <small style="font-weight:400;color:#4a6580">(pisahkan dengan koma)</small></label>
-        <input type="text" id="rndPetugas" placeholder="Ahmad S., Budi P., Hendra W."/>
+        <div class="form-group"><label>Nama Regu *</label><input type="text" id="rndRegu" placeholder="Regu 1"/></div>
+        <div class="form-group"><label>Hari</label><input type="text" id="rndHari" placeholder="Senin / Selasa..."/></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Shift / Jam Jaga</label><input type="text" id="rndShift" placeholder="22.00 – 04.00"/></div>
-        <div class="form-group"><label>Koordinator</label><input type="text" id="rndKoordinator" placeholder="Nama koordinator"/></div>
+        <div class="form-group"><label>Tanggal (YYYY-MM-DD)</label><input type="date" id="rndTanggal"/></div>
+        <div class="form-group"><label>Shift / Jam Jaga</label><input type="text" id="rndShift" placeholder="22.00–04.00"/></div>
+      </div>
+      <div class="form-group">
+        <label>Daftar Anggota * <small style="font-weight:400;color:#64748b">(1 nama per baris)</small></label>
+        <textarea id="rndAnggota" rows="8" placeholder="Bpk.Novi Azis&#10;Bpk.Dambas Muhari&#10;Bpk.Suherman&#10;..." style="width:100%;padding:.6rem .85rem;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.88rem;resize:vertical;line-height:1.6"></textarea>
       </div>
     </div>
     <div class="modal-foot">

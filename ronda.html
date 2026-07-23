@@ -5,26 +5,48 @@
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
   <title>Jadwal Ronda - RT 04 / RW 02 Jombang Ciputat</title>
   <meta name="description" content="Jadwal ronda malam keamanan lingkungan RT 04 RW 02 Kp. Gedong Jombang, Ciputat, Tangerang Selatan."/>
-  <meta property="og:url" content="https://deday-arch.github.io/rt04rw02-jombang/ronda.html"/>
-  <link rel="canonical" href="https://deday-arch.github.io/rt04rw02-jombang/ronda.html"/>
+  <link rel="canonical" href="https://deday-arch.github.io/website-rt04rw02/ronda.html"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
-    .info-ronda{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2rem}
-    .info-card{background:rgba(255,255,255,.88);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center;box-shadow:var(--shadow)}
-    .info-card i{font-size:1.8rem;margin-bottom:.5rem}
-    .info-card h4{font-size:.9rem;font-weight:700;margin-bottom:.25rem}
-    .info-card p{font-size:.85rem;color:var(--text-muted)}
-    .hari-label{font-weight:700;font-size:.95rem;color:var(--text)}
-    .tanggal-label{font-size:.8rem;color:var(--text-muted)}
-    .giliran-highlight{background:var(--primary-light)!important}
-    .giliran-highlight td{color:var(--primary-dark)!important;font-weight:600}
-    .petugas-ronda-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
-    .petugas-item{background:var(--primary-light);border-radius:10px;padding:.85rem;text-align:center;border:1px solid var(--sky-light)}
-    .petugas-item .avatar{width:44px;height:44px;background:linear-gradient(135deg,#0d47a1,#1976d2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .5rem;color:var(--white);font-size:1.1rem}
-    .petugas-item h4{font-size:.85rem;font-weight:700;margin-bottom:.15rem;color:var(--text)}
-    .petugas-item p{font-size:.75rem;color:var(--text-muted)}
-    @media(max-width:700px){.info-ronda{grid-template-columns:1fr 1fr}.petugas-ronda-grid{grid-template-columns:repeat(2,1fr)}}
+  /* ── Info cards ── */
+  .ronda-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+  .ronda-info-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1.1rem;text-align:center;box-shadow:0 2px 10px rgba(21,101,192,.08)}
+  .ronda-info-card i{font-size:1.7rem;margin-bottom:.4rem;display:block}
+  .ronda-info-card h4{font-size:.88rem;font-weight:700;margin-bottom:.2rem;color:#1e293b}
+  .ronda-info-card p{font-size:.8rem;color:#64748b;margin:0}
+
+  /* ── Grid kartu regu ── */
+  .regu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;margin-bottom:2.5rem}
+  .regu-card{background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(21,101,192,.09);overflow:hidden;transition:transform .2s,box-shadow .2s;border:2px solid transparent}
+  .regu-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(21,101,192,.16)}
+  .regu-card.today{border-color:#1565c0;box-shadow:0 0 0 3px rgba(21,101,192,.18)}
+
+  /* ── Header kartu ── */
+  .regu-head{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1rem .7rem;background:linear-gradient(90deg,#0d47a1,#1976d2)}
+  .regu-card.today .regu-head{background:linear-gradient(90deg,#b45309,#f59e0b)}
+  .regu-title{font-size:1rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:.5rem}
+  .regu-title i{font-size:.85rem;opacity:.85}
+  .regu-badge-today{background:#fff;color:#b45309;font-size:.68rem;font-weight:700;padding:.2rem .55rem;border-radius:99px}
+  .regu-date{font-size:.75rem;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:.3rem}
+
+  /* ── Body kartu ── */
+  .regu-body{padding:.85rem 1rem 1rem}
+  .regu-meta{display:flex;gap:1rem;margin-bottom:.75rem;flex-wrap:wrap}
+  .regu-meta span{font-size:.75rem;color:#64748b;display:flex;align-items:center;gap:.3rem}
+  .anggota-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.3rem}
+  .anggota-list li{display:flex;align-items:center;gap:.55rem;font-size:.83rem;color:#334155;padding:.25rem 0;border-bottom:1px solid #f1f5f9}
+  .anggota-list li:last-child{border-bottom:none}
+  .anggota-num{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#1565c0,#1976d2);color:#fff;font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .regu-card.today .anggota-num{background:linear-gradient(135deg,#b45309,#f59e0b)}
+
+  /* ── Section title ── */
+  .ronda-section-title{font-size:1.1rem;font-weight:800;color:#0d47a1;margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem}
+
+  @media(max-width:640px){
+    .ronda-info-grid{grid-template-columns:1fr 1fr}
+    .regu-grid{grid-template-columns:1fr}
+  }
   </style>
 </head>
 <body>
@@ -42,49 +64,47 @@
 <div class="page-header"><div class="container">
   <div class="breadcrumb"><a href="index.html">Beranda</a><span>/</span><span>Jadwal Ronda</span></div>
   <h1><i class="fas fa-moon"></i> Jadwal Ronda Malam</h1>
-  <p>Jadwal giliran ronda keamanan lingkungan RT 04 / RW 02 Jombang, Ciputat</p>
+  <p>Jadwal giliran ronda keamanan lingkungan RT 04 / RW 02 — Juli–Agustus 2026</p>
 </div></div>
 
 <section class="section"><div class="container">
-  <div class="info-ronda">
-    <div class="info-card"><i class="fas fa-clock" style="color:var(--primary)"></i><h4>Jam Ronda</h4><p>22.00 – 04.00 WIB<br>Setiap malam</p></div>
-    <div class="info-card"><i class="fas fa-users" style="color:var(--secondary)"></i><h4>Jumlah Petugas</h4><p>3 orang per malam<br>Bergantian tiap minggu</p></div>
-    <div class="info-card"><i class="fas fa-walkie-talkie" style="color:var(--danger)"></i><h4>Koordinator Ronda</h4><p>Pak Faisal Hidayat<br>0814-5566-7788</p></div>
+
+  <!-- Info singkat -->
+  <div class="ronda-info-grid">
+    <div class="ronda-info-card">
+      <i class="fas fa-clock" style="color:#1565c0"></i>
+      <h4>Jam Ronda</h4>
+      <p>22.00 – 04.00 WIB<br>Setiap malam</p>
+    </div>
+    <div class="ronda-info-card">
+      <i class="fas fa-shield-halved" style="color:#dc2626"></i>
+      <h4>Koordinator Keamanan</h4>
+      <p>Bpk. Dambas Muhari<br>Bpk. Suprapto</p>
+    </div>
+    <div class="ronda-info-card">
+      <i class="fas fa-people-group" style="color:#16a34a"></i>
+      <h4>Total Regu</h4>
+      <p id="totalRegu">15 Regu</p>
+    </div>
   </div>
 
-  <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:1rem">Jadwal Ronda — Juli 2026</h2>
-  <div class="table-wrapper" style="margin-bottom:2rem">
-    <table class="ronda-table">
-      <thead><tr><th>Hari / Tanggal</th><th>Petugas Ronda</th><th>Shift Jaga</th><th>Koordinator</th></tr></thead>
-      <tbody>
-        <tr><td><div class="hari-label">Senin</div><div class="tanggal-label">21 Jul 2026</div></td><td><div class="petugas-list"><span class="petugas-badge">Budi P.</span><span class="petugas-badge">Hendra W.</span><span class="petugas-badge">Faisal H.</span></div></td><td>22.00 – 04.00</td><td>Faisal H.</td></tr>
-        <tr><td><div class="hari-label">Selasa</div><div class="tanggal-label">22 Jul 2026</div></td><td><div class="petugas-list"><span class="petugas-badge">Ahmad S.</span><span class="petugas-badge">Dedi K.</span><span class="petugas-badge">Joko S.</span></div></td><td>22.00 – 04.00</td><td>Ahmad S.</td></tr>
-        <tr><td><div class="hari-label">Rabu</div><div class="tanggal-label">23 Jul 2026</div></td><td><div class="petugas-list"><span class="petugas-badge">Luthfi R.</span><span class="petugas-badge">Rudi S.</span><span class="petugas-badge">Tono M.</span></div></td><td>22.00 – 04.00</td><td>Luthfi R.</td></tr>
-        <tr><td><div class="hari-label">Kamis</div><div class="tanggal-label">24 Jul 2026</div></td><td><div class="petugas-list"><span class="petugas-badge">Agus P.</span><span class="petugas-badge">Wahyu S.</span><span class="petugas-badge">Rizki A.</span></div></td><td>22.00 – 04.00</td><td>Agus P.</td></tr>
-        <tr><td><div class="hari-label">Jumat</div><div class="tanggal-label">25 Jul 2026</div></td><td><div class="petugas-list"><span class="petugas-badge">Budi P.</span><span class="petugas-badge">Hendra W.</span><span class="petugas-badge">Dedi K.</span></div></td><td>22.00 – 04.00</td><td>Budi P.</td></tr>
-        <tr><td><div class="hari-label">Sabtu</div><div class="tanggal-label">26 Jul 2026</div></td><td><div class="petugas-list"><span class="petugas-badge">Ahmad S.</span><span class="petugas-badge">Faisal H.</span><span class="petugas-badge">Joko S.</span></div></td><td>22.00 – 04.00</td><td>Faisal H.</td></tr>
-        <tr><td><div class="hari-label">Minggu</div><div class="tanggal-label">27 Jul 2026</div></td><td><div class="petugas-list"><span class="petugas-badge">Luthfi R.</span><span class="petugas-badge">Tono M.</span><span class="petugas-badge">Wahyu S.</span></div></td><td>22.00 – 04.00</td><td>Luthfi R.</td></tr>
-      </tbody>
-    </table>
+  <!-- Jadwal hari ini -->
+  <div id="todayAlert" style="display:none;background:linear-gradient(90deg,#fef3c7,#fffbeb);border:1.5px solid #f59e0b;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:.85rem">
+    <i class="fas fa-star" style="color:#d97706;font-size:1.4rem;flex-shrink:0"></i>
+    <div><strong style="color:#92400e">Regu Jaga Malam Ini:</strong><span id="todayInfo" style="color:#78350f;margin-left:.4rem"></span></div>
   </div>
 
-  <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:1rem">Daftar Petugas Ronda</h2>
-  <div class="petugas-ronda-grid" style="margin-bottom:2rem">
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Ahmad Santoso</h4><p>No. 1 · 0812-3456-7890</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Budi Prasetyo</h4><p>No. 2 · 0817-1111-3333</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Dedi Kurniawan</h4><p>No. 4 · 0812-4444-5555</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Faisal Hidayat</h4><p>No. 6 · 0814-5566-7788</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Hendra Wijaya</h4><p>No. 8 · 0814-5555-6666</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Joko Santoso</h4><p>No. 10 · 0813-6677-8899</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Luthfi Rahman</h4><p>No. 12 · 0812-7788-9900</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Rudi Setiawan</h4><p>No. 14 · 0856-7788-9900</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Tono Mulyono</h4><p>No. 16 · 0811-8899-0011</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Agus Purnomo</h4><p>No. 18 · 0812-9900-1122</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Wahyu Santoso</h4><p>No. 22 · 0813-1122-3344</p></div>
-    <div class="petugas-item"><div class="avatar"><i class="fas fa-user"></i></div><h4>Rizki Ananda</h4><p>No. 24 · 0812-3344-5566</p></div>
+  <!-- Grid semua regu -->
+  <div class="ronda-section-title"><i class="fas fa-list-check"></i> Jadwal Seluruh Regu</div>
+  <div class="regu-grid" id="reguGrid">
+    <div style="grid-column:1/-1;text-align:center;padding:3rem;color:#94a3b8">
+      <i class="fas fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:.75rem"></i>
+      Memuat jadwal...
+    </div>
   </div>
 
-  <div class="card">
+  <!-- Tata tertib -->
+  <div class="card" style="margin-top:1rem">
     <div class="card-header"><h3><i class="fas fa-scroll"></i> Tata Tertib Ronda</h3></div>
     <div class="card-body">
       <ol style="padding-left:1.25rem;display:flex;flex-direction:column;gap:.6rem;font-size:.9rem">
@@ -98,6 +118,7 @@
       </ol>
     </div>
   </div>
+
 </div></section>
 
 <footer class="footer"><div class="container footer-content">
@@ -105,5 +126,81 @@
   <div class="footer-links"><h4>Menu</h4><ul><li><a href="iuran.html">Iuran Warga</a></li><li><a href="umkm.html">UMKM Lokal</a></li><li><a href="kegiatan.html">Kegiatan</a></li><li><a href="ronda.html">Jadwal Ronda</a></li><li><a href="pengurus.html">Pengurus RT</a></li><li><a href="lapor.html">Lapor Kejadian</a></li></ul></div>
   <div class="footer-contact"><h4>Kontak</h4><p><i class="fas fa-phone"></i> 0812-3456-7890</p><p><i class="fab fa-whatsapp"></i> 0812-3456-7890</p><p><i class="fas fa-envelope"></i> rt04rw02jombang@gmail.com</p><p><i class="fas fa-location-dot"></i> Kp. Gedong, Jombang, Ciputat</p></div>
 </div><div class="footer-bottom"><p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan.</p></div></footer>
+
 <script src="assets/js/main.js"></script>
+<script>
+(function renderRonda() {
+  // ── Data default (sinkron dengan admin.js RONDA_DEF) ──────
+  const DEF = [
+    {id:'r01',regu:'Regu 1', hari:'Rabu',   tanggal:'2026-07-22',anggota:'Bpk.Rt Novi Azis\nBpk.Dambas Muhari\nBpk.Suherman\nBpk.Ismail Subana\nBpk.Dedi Nur Rohmawan\nSdr.Toni Andrian',shift:'22.00–04.00'},
+    {id:'r02',regu:'Regu 2', hari:'Kamis',  tanggal:'2026-07-23',anggota:"Bpk.Zainudin Ce'ot\nBpk.Wandi Siswanto\nBpk.Jauhari\nBpk.Bagiyo\nBpk.Syafe'i Sate\nBpk.Afu Karim",shift:'22.00–04.00'},
+    {id:'r03',regu:'Regu 3', hari:'Jumat',  tanggal:'2026-07-24',anggota:'Sdr.Amar Galih\nBpk.Lukman Nur Hakim\nSdr.Reval Nendi Sumarna\nSdr.Husein Robi\nSdr.Fajri & Riki Cilor\nBpk.Rully',shift:'22.00–04.00'},
+    {id:'r04',regu:'Regu 4', hari:'Sabtu',  tanggal:'2026-07-25',anggota:'Bpk.Polma/Lay\nBpk.Ali Yunus\nBpk.Gino & Suroto\nBpk.Jaelani Bintang\nBpk.Sadimo\nBpk.Joni Pahlevi\nBpk.Irhamudin (Udin Tukang)',shift:'22.00–04.00'},
+    {id:'r05',regu:'Regu 5', hari:'Minggu', tanggal:'2026-07-26',anggota:'Bpk.Jamalrudin Malik\nBpk.Karsim\nBpk.Winiharso\nBpk.Riki Otay\nBpk.Sahud Ma Onih\nBpk.Rizky H.Suyatno\nBpk.Yogi',shift:'22.00–04.00'},
+    {id:'r06',regu:'Regu 6', hari:'Senin',  tanggal:'2026-07-27',anggota:'Bpk.Andriansyah Nur\nBpk.Rustono\nBpk.Bayu Fitri\nBpk.Rahmat & Sugeng\nBpk.Likuh\nBpk.Anwar Bhokor',shift:'22.00–04.00'},
+    {id:'r07',regu:'Regu 7', hari:'Selasa', tanggal:'2026-07-28',anggota:'Bpk.Saptono (Ocoy)\nBpk.Ilham Kholik (Cilem)\nBpk.Dedi Supriyadi\nBpk.Fery Pak Kimbok\nBpk.Sukandi\nBpk.Denu Atmaja',shift:'22.00–04.00'},
+    {id:'r08',regu:'Regu 8', hari:'Rabu',   tanggal:'2026-07-29',anggota:'Bpk.M.Idham (Mamat)\nBpk.Warwanto (Pa Yanto)\nBpk.Azmie Reza\nBpk.Doni H.Nurdin\nBpk.Sulistiono (Pa Tio)\nSdr.Bayu Raka Pangestu',shift:'22.00–04.00'},
+    {id:'r09',regu:'Regu 9', hari:'Kamis',  tanggal:'2026-07-30',anggota:'Bpk.Gunung Iswahyudi\nBpk.Suyatno Guru\nBpk.Sarbini\nBpk.Dedi Koswara\nBpk.Fahri\nBpk.Ajie Subekti\nBpk.Maulid Madura',shift:'22.00–04.00'},
+    {id:'r10',regu:'Regu 10',hari:'Jumat',  tanggal:'2026-07-31',anggota:'Bpk.Hardi.S (Bang Beben)\nBpk.Alex & M.Rifki.R\nBpk.Haryani (Uca)\nBpk.M.Yudistira\nBpk.Syamian\nBpk.Manis.W',shift:'22.00–04.00'},
+    {id:'r11',regu:'Regu 11',hari:'Sabtu',  tanggal:'2026-08-01',anggota:'Bpk.Dema Agung Marhento\nBpk.Ramdani\nBpk.Ngadiman\nBpk.M.Syaif Rivaldi\nBpk.Ferry Haryadi\nSdr.Hamdan Keling\nSdr.Abimanyu',shift:'22.00–04.00'},
+    {id:'r12',regu:'Regu 12',hari:'Minggu', tanggal:'2026-08-02',anggota:'Bpk.Suprapto\nBpk.Suhanda\nBpk.Evak Dermalaude\nBpk.Astoyadi\nBpk.Adi Suparman\nBpk.Rusdian',shift:'22.00–04.00'},
+    {id:'r13',regu:'Regu 13',hari:'Senin',  tanggal:'2026-08-03',anggota:'Bpk.Deni Aryanto\nBpk.Ahmd Andrian\nBpk.Apip Fudin\nBpk.Indra Endoy\nSdr.Nasrullah Acung\nSdr.Imam & Ibnu Setiadi',shift:'22.00–04.00'},
+    {id:'r14',regu:'Regu 14',hari:'Selasa', tanggal:'2026-08-04',anggota:'Bpk.Rangga (Angga)\nBpk.Paiman Odak\nBpk.Eko Kwetiau\nBpk.Azam Pangkas Rambut\nSdr.Dendi R.W (Endit)\nSdr.Agus Pak Marinto',shift:'22.00–04.00'},
+    {id:'r15',regu:'Regu 15',hari:'Rabu',   tanggal:'2026-08-05',anggota:'Sdr.Ahmad Fauzi\nSdr.Fajar/Basri Beras\nBpk.Cepy Hermansyah\nBpk.Eko Widilaksana\nBpk.Faqih Akbar\nBpk.Agus Arta\nBpk.Syukhendri',shift:'22.00–04.00'},
+  ];
+
+  let data = [];
+  try { data = JSON.parse(localStorage.getItem('rt04_ronda')) || []; } catch(e) { data = []; }
+  if (!data.length) data = DEF;
+
+  // ── Deteksi regu hari ini ──────────────────────────────
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0,10); // YYYY-MM-DD
+  const BLN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  function fmtTgl(d) {
+    if (!d) return '';
+    if (d.includes('-')) {
+      const p = d.split('-');
+      return +p[2] + ' ' + (BLN[+p[1]-1]||'') + ' ' + p[0];
+    }
+    return d;
+  }
+
+  // Update total
+  const elTotal = document.getElementById('totalRegu');
+  if (elTotal) elTotal.textContent = data.length + ' Regu';
+
+  // ── Render grid ────────────────────────────────────────
+  const grid = document.getElementById('reguGrid');
+  if (!grid) return;
+
+  grid.innerHTML = data.map(x => {
+    const isToday = x.tanggal === todayStr;
+    const anggotaArr = (x.anggota || '').split('\n').filter(Boolean);
+    const liHtml = anggotaArr.map((a, i) =>
+      `<li><span class="anggota-num">${i+1}</span>${a}</li>`
+    ).join('');
+
+    if (isToday) {
+      const el = document.getElementById('todayAlert');
+      const inf = document.getElementById('todayInfo');
+      if (el && inf) { el.style.display='flex'; inf.textContent = x.regu + ' — ' + x.hari + ', ' + fmtTgl(x.tanggal); }
+    }
+
+    return `<div class="regu-card${isToday?' today':''}">
+      <div class="regu-head">
+        <div class="regu-title"><i class="fas fa-shield-halved"></i> ${x.regu}${isToday?' <span class="regu-badge-today">Malam Ini</span>':''}</div>
+        <div class="regu-date"><i class="fas fa-calendar-day"></i> ${x.hari}, ${fmtTgl(x.tanggal)}</div>
+      </div>
+      <div class="regu-body">
+        <div class="regu-meta">
+          <span><i class="fas fa-clock"></i> ${x.shift||'22.00–04.00'}</span>
+          <span><i class="fas fa-users"></i> ${anggotaArr.length} anggota</span>
+        </div>
+        <ul class="anggota-list">${liHtml}</ul>
+      </div>
+    </div>`;
+  }).join('');
+})();
+</script>
 </body></html>
