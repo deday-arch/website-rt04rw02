@@ -44,7 +44,7 @@
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.75rem">
       <h2 style="font-size:1.2rem">Rekap Iuran RT 04 / RW 02 — Juli 2026</h2>
       <div class="filter-bar" style="margin:0">
-        <input type="text" id="searchWarga" placeholder="Cari nama / no. rumah..." oninput="filterTable()"/>
+        <input type="text" id="searchWarga" placeholder="Cari nama / no. kartu..." oninput="filterTable()"/>
         <select id="filterStatus" onchange="filterTable()">
           <option value="">Semua Status</option>
           <option value="Lunas">Lunas</option>
@@ -54,27 +54,14 @@
     </div>
     <div class="table-wrapper">
       <table id="iuranTable">
-        <thead><tr><th>No</th><th>No. Rumah</th><th>Nama KK</th><th>Kebersihan</th><th>Keamanan</th><th>Total</th><th>Status</th><th>Tgl Bayar</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>No. 1</td><td>Ahmad Santoso</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-lunas">Lunas</span></td><td>2 Jul 2026</td></tr>
-          <tr><td>2</td><td>No. 2</td><td>Budi Prasetyo</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-lunas">Lunas</span></td><td>3 Jul 2026</td></tr>
-          <tr><td>3</td><td>No. 3</td><td>Citra Dewi</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-belum">Belum Bayar</span></td><td>-</td></tr>
-          <tr><td>4</td><td>No. 4</td><td>Dedi Kurniawan</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-lunas">Lunas</span></td><td>5 Jul 2026</td></tr>
-          <tr><td>5</td><td>No. 5</td><td>Eka Rahayu</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-belum">Belum Bayar</span></td><td>-</td></tr>
-          <tr><td>6</td><td>No. 6</td><td>Faisal Hidayat</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-lunas">Lunas</span></td><td>7 Jul 2026</td></tr>
-          <tr><td>7</td><td>No. 7</td><td>Gita Permata</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-lunas">Lunas</span></td><td>8 Jul 2026</td></tr>
-          <tr><td>8</td><td>No. 8</td><td>Hendra Wijaya</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-belum">Belum Bayar</span></td><td>-</td></tr>
-          <tr><td>9</td><td>No. 9</td><td>Indah Lestari</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-lunas">Lunas</span></td><td>10 Jul 2026</td></tr>
-          <tr><td>10</td><td>No. 10</td><td>Joko Santoso</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-lunas">Lunas</span></td><td>11 Jul 2026</td></tr>
-          <tr><td>11</td><td>No. 11</td><td>Kartini Sari</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-belum">Belum Bayar</span></td><td>-</td></tr>
-          <tr><td>12</td><td>No. 12</td><td>Luthfi Rahman</td><td>Rp 30.000</td><td>Rp 20.000</td><td>Rp 50.000</td><td><span class="status-lunas">Lunas</span></td><td>12 Jul 2026</td></tr>
-        </tbody>
+        <thead><tr><th>No</th><th>No. Kartu</th><th>Nama KK</th><th>No. HP</th><th>Kebersihan</th><th>Keamanan</th><th>Total</th><th>Status</th><th>Tgl Bayar</th></tr></thead>
+        <tbody id="tbodyIuranPublic"></tbody>
       </table>
     </div>
     <div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap">
-      <div class="card" style="flex:1;min-width:160px"><div class="card-body" style="text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--primary)">8</div><div style="font-size:.85rem;color:var(--text-muted)">Sudah Lunas</div></div></div>
-      <div class="card" style="flex:1;min-width:160px"><div class="card-body" style="text-align:center"><div style="font-size:1.8rem;font-weight:900;color:var(--danger)">4</div><div style="font-size:.85rem;color:var(--text-muted)">Belum Bayar</div></div></div>
-      <div class="card" style="flex:1;min-width:160px"><div class="card-body" style="text-align:center"><div style="font-size:1.6rem;font-weight:900;color:var(--secondary)">Rp 400.000</div><div style="font-size:.85rem;color:var(--text-muted)">Total Terkumpul</div></div></div>
+      <div class="card" style="flex:1;min-width:160px"><div class="card-body" style="text-align:center"><div id="statLunas" style="font-size:1.8rem;font-weight:900;color:var(--primary)">0</div><div style="font-size:.85rem;color:var(--text-muted)">Sudah Lunas</div></div></div>
+      <div class="card" style="flex:1;min-width:160px"><div class="card-body" style="text-align:center"><div id="statBelum" style="font-size:1.8rem;font-weight:900;color:var(--danger)">0</div><div style="font-size:.85rem;color:var(--text-muted)">Belum Bayar</div></div></div>
+      <div class="card" style="flex:1;min-width:160px"><div class="card-body" style="text-align:center"><div id="statTotal" style="font-size:1.6rem;font-weight:900;color:var(--secondary)">Rp 0</div><div style="font-size:.85rem;color:var(--text-muted)">Total Terkumpul</div></div></div>
     </div>
   </div>
 
