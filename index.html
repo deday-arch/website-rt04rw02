@@ -125,15 +125,24 @@
   .quick-bar-inner span{display:flex;align-items:center;gap:.4rem}
   .quick-bar-inner i{color:#29b6f6}
 
+  /* ── Logo mobile/tablet di dalam hero-text ── */
+  .hero-logos-mobile{display:none;align-items:center;gap:1rem;margin:.9rem 0 1.1rem}
+  .hero-logos-mobile img:first-child{height:72px;width:auto;filter:drop-shadow(0 3px 12px rgba(0,0,0,.3))}
+  .hero-logos-mobile img:last-child{height:52px;width:auto;opacity:.9;filter:drop-shadow(0 3px 10px rgba(0,0,0,.25))}
+  .hero-logos-mobile .hero-sep{width:1px;height:44px;background:rgba(255,255,255,.3);flex-shrink:0}
+
   @media(max-width:768px){
     .stats-grid{grid-template-columns:repeat(2,1fr)}
     .stat-card{border-bottom:1px solid #e3f2fd}
     .hero-logos-right{display:none}
+    .hero-logos-mobile{display:flex}
     .quick-bar-inner{gap:1rem}
   }
   @media(max-width:480px){
     .stats-grid{grid-template-columns:repeat(2,1fr)}
     .menu-grid{grid-template-columns:repeat(2,1fr)}
+    .hero-logos-mobile img:first-child{height:60px}
+    .hero-logos-mobile img:last-child{height:44px}
   }
   </style>
 </head>
@@ -168,6 +177,12 @@
       <h1 class="hero-title">Website Resmi<br><span>RT 04 / RW 02</span></h1>
       <p class="hero-sub">Kp. Gedong — Jombang, Ciputat</p>
       <p class="hero-loc"><i class="fas fa-location-dot"></i> Tangerang Selatan, Banten 15411</p>
+      <!-- Logo tampil di mobile/tablet (di dalam hero-text) -->
+      <div class="hero-logos-mobile">
+        <img src="assets/img/logo-rt.png" alt="Logo RT 04 RW 02"/>
+        <div class="hero-sep"></div>
+        <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel"/>
+      </div>
       <div class="hero-btns">
         <a href="lapor.html" class="hero-btn-primary"><i class="fas fa-triangle-exclamation"></i> Lapor Kejadian</a>
         <a href="iuran.html" class="hero-btn-outline"><i class="fas fa-money-bill-wave"></i> Cek Iuran</a>
@@ -365,8 +380,6 @@
     &nbsp;|&nbsp; <a href="admin-login.html" style="color:rgba(255,255,255,.4);font-size:.78rem"><i class="fas fa-lock"></i> Admin</a></p>
   </div>
 </footer>
-
-<script src="assets/js/main.js"></script>
 <script>
 // ── Stat dinamis dari localStorage ─────────────────────────
 (function updateStats() {

@@ -119,9 +119,9 @@
 
   <!-- STATISTIK -->
   <div class="doc-stats">
-    <div class="doc-stat"><h3>48</h3><p>Total Foto</p></div>
-    <div class="doc-stat"><h3>12</h3><p>Video Kegiatan</p></div>
-    <div class="doc-stat"><h3>15</h3><p>Album</p></div>
+    <div class="doc-stat"><h3 id="dStatFoto">9</h3><p>Total Foto</p></div>
+    <div class="doc-stat"><h3 id="dStatVideo">4</h3><p>Video Kegiatan</p></div>
+    <div class="doc-stat"><h3 id="dStatKegiatan">—</h3><p>Kegiatan Tercatat</p></div>
     <div class="doc-stat"><h3>2026</h3><p>Tahun Aktif</p></div>
   </div>
 
@@ -600,9 +600,9 @@
     <li><a href="lapor.html">Lapor Kejadian</a></li>
   </ul></div>
   <div class="footer-contact"><h4>Kontak</h4>
-    <p><i class="fas fa-phone"></i> 0812-3456-7890</p>
-    <p><i class="fab fa-whatsapp"></i> 0812-3456-7890</p>
-    <p><i class="fas fa-envelope"></i> rt04rw02jombang@gmail.com</p>
+    <p><i class="fas fa-user-tie"></i> Ketua: Bpk. Novi Aziz</p>
+    <p><i class="fas fa-phone"></i> 085692347458</p>
+    <p><i class="fab fa-whatsapp"></i> 085692347458</p>
     <p><i class="fas fa-location-dot"></i> Kp. Gedong, Jombang, Ciputat</p>
   </div>
 </div><div class="footer-bottom">
@@ -612,6 +612,14 @@
 
 <script src="assets/js/main.js"></script>
 <script>
+// ── Update stat dinamis dari localStorage ──────────────────
+(function updateDocStats() {
+  try {
+    const kegiatan = JSON.parse(localStorage.getItem('rt04_kegiatan')) || [];
+    const el = document.getElementById('dStatKegiatan');
+    if (el) el.textContent = kegiatan.length || '—';
+  } catch(e) {}
+})();
 /* ── TAB SWITCHER ──────────────────────────────────────── */
 function switchDocTab(id, btn) {
   document.querySelectorAll('.doc-panel').forEach(p => p.classList.remove('active'));
