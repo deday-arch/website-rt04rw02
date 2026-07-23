@@ -57,6 +57,7 @@
     </div>
     <div class="modal-body">
       <input type="hidden" id="umkmId"/>
+      <input type="hidden" id="umkmGambarData"/>
       <div class="form-row">
         <div class="form-group"><label>Nama Usaha *</label><input type="text" id="umkmNama" placeholder="Nama usaha"/></div>
         <div class="form-group"><label>Pemilik *</label><input type="text" id="umkmPemilik" placeholder="Nama pemilik"/></div>
@@ -71,7 +72,15 @@
         </div>
       </div>
       <div class="form-group"><label>Deskripsi Usaha</label><textarea id="umkmDeskripsi" rows="3" placeholder="Deskripsikan usaha..."></textarea></div>
-      <div class="form-group"><label>Nomor Kontak</label><input type="text" id="umkmKontak" placeholder="08xx-xxxx-xxxx"/></div>
+      <div class="form-group"><label>Nomor Kontak / WhatsApp</label><input type="text" id="umkmKontak" placeholder="08xx-xxxx-xxxx"/></div>
+      <div class="form-group">
+        <label>Foto Produk / Toko</label>
+        <input type="file" id="umkmGambarFile" accept="image/*" onchange="previewUmkmGambar(this)" style="display:block;margin-bottom:.5rem;"/>
+        <div id="umkmGambarPreview" style="display:none;margin-top:.5rem;">
+          <img id="umkmGambarImg" src="" alt="Preview" style="max-width:100%;max-height:180px;border-radius:8px;border:1px solid var(--border);object-fit:cover;"/>
+          <button type="button" onclick="hapusUmkmGambar()" style="display:block;margin-top:.4rem;background:none;border:none;color:#ef4444;cursor:pointer;font-size:.85rem;"><i class="fas fa-trash"></i> Hapus foto</button>
+        </div>
+      </div>
     </div>
     <div class="modal-foot">
       <button class="btn-cancel" onclick="closeModal('modalUmkm')">Batal</button>

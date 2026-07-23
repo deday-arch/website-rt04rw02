@@ -101,99 +101,109 @@
 
 <script src="assets/js/main.js"></script>
 <script>
-// ── Render UMKM dari localStorage ──────────────────────────
-const EMOJI_MAP = {
-  'Makanan & Minuman': '🍱',
-  'Sembako':           '🛒',
-  'Jasa':              '🔧',
-  'Kerajinan':         '🎨',
-  'Fashion':           '👗',
-  'Lainnya':           '🏪'
-};
-const BG_MAP = {
-  'Makanan & Minuman': '#fef9c3',
-  'Sembako':           '#dcfce7',
-  'Jasa':              '#dbeafe',
-  'Kerajinan':         '#ffedd5',
-  'Fashion':           '#fce7f3',
-  'Lainnya':           '#ede9fe'
-};
-const TAG_MAP = {
-  'Makanan & Minuman': 'background:#fef3c7;color:#92400e',
-  'Sembako':           'background:#dcfce7;color:#166534',
-  'Jasa':              'background:#dbeafe;color:#1e40af',
-  'Kerajinan':         'background:#ffedd5;color:#9a3412',
-  'Fashion':           'background:#fce7f3;color:#9d174d',
-  'Lainnya':           'background:#ede9fe;color:#5b21b6'
+// ── Peta warna & ikon per kategori ─────────────────────────
+const KAT = {
+  'Makanan & Minuman': { emoji:'🍱', bg:'linear-gradient(135deg,#fef3c7,#fde68a)', accent:'#d97706', tag:'background:#fef3c7;color:#92400e' },
+  'Sembako':           { emoji:'🛒', bg:'linear-gradient(135deg,#dcfce7,#bbf7d0)', accent:'#16a34a', tag:'background:#dcfce7;color:#166534' },
+  'Jasa':              { emoji:'🔧', bg:'linear-gradient(135deg,#dbeafe,#bfdbfe)', accent:'#2563eb', tag:'background:#dbeafe;color:#1e40af' },
+  'Kerajinan':         { emoji:'🎨', bg:'linear-gradient(135deg,#ffedd5,#fed7aa)', accent:'#ea580c', tag:'background:#ffedd5;color:#9a3412' },
+  'Fashion':           { emoji:'👗', bg:'linear-gradient(135deg,#fce7f3,#fbcfe8)', accent:'#db2777', tag:'background:#fce7f3;color:#9d174d' },
+  'Lainnya':           { emoji:'🏪', bg:'linear-gradient(135deg,#ede9fe,#ddd6fe)', accent:'#7c3aed', tag:'background:#ede9fe;color:#5b21b6' }
 };
 
-function getUmkmData() {
-  try { return JSON.parse(localStorage.getItem('rt04_umkm')) || []; } catch { return []; }
+function getUmkmData(){try{return JSON.parse(localStorage.getItem('rt04_umkm'))||[];}catch{return[];}}
+
+function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function waLink(kontak){
+  const num=(kontak||'').replace(/\D/g,'').replace(/^0/,'62');
+  return num?`https://wa.me/${num}`:'#';
 }
 
-function initUmkmDefault() {
-  const existing = getUmkmData();
-  if (existing.length > 0) return;
-  // Jika belum ada data sama sekali, isi default
-  const def = [
-    {id:'d1',nama:'Warung Bu Sari',pemilik:'Sari Mulyani',noRumah:'No. 7',kategori:'Makanan & Minuman',deskripsi:'Nasi uduk, lontong sayur, dan gorengan. Buka setiap pagi jam 06.00-10.00 WIB.',kontak:'0812-1111-2222'},
-    {id:'d2',nama:'Bakery Lestari',pemilik:'Lestari Wulandari',noRumah:'No. 12',kategori:'Makanan & Minuman',deskripsi:'Kue ulang tahun, brownies, roti tawar homemade. Menerima pesanan acara.',kontak:'0813-3333-4444'},
-    {id:'d3',nama:'Toko Sembako Pak Hendra',pemilik:'Hendra Wijaya',noRumah:'No. 8',kategori:'Sembako',deskripsi:'Lengkap kebutuhan dapur sehari-hari. Buka 07.00-21.00 WIB.',kontak:'0814-5555-6666'},
-    {id:'d4',nama:'Salon Nova',pemilik:'Nova Anggraini',noRumah:'No. 20',kategori:'Jasa',deskripsi:'Potong rambut, creambath, rebonding, make-up. Menerima panggilan pernikahan.',kontak:'0815-7777-8888'},
-    {id:'d5',nama:'Batik Kartini',pemilik:'Kartini Sari',noRumah:'No. 11',kategori:'Kerajinan',deskripsi:'Batik tulis dan cap motif khas. Menerima pesanan seragam instansi dan keluarga.',kontak:'0816-9999-0000'},
-    {id:'d6',nama:'Servis Elektronik Pak Budi',pemilik:'Budi Prasetyo',noRumah:'No. 2',kategori:'Jasa',deskripsi:'Perbaikan TV, kulkas, mesin cuci, AC. Berpengalaman 15 tahun.',kontak:'0817-1111-3333'},
-    {id:'d7',nama:'Katering Bu Eka',pemilik:'Eka Rahayu',noRumah:'No. 5',kategori:'Makanan & Minuman',deskripsi:'Katering arisan, syukuran, pernikahan, selamatan. Menu rumahan beragam.',kontak:'0818-2222-4444'},
-    {id:'d8',nama:'Jahit Mode Gita',pemilik:'Gita Permata',noRumah:'No. 7',kategori:'Fashion',deskripsi:'Jahit baju, celana, gamis, dan seragam. Menerima pesanan grosir.',kontak:'0819-5555-7777'},
-    {id:'d9',nama:'Les Privat Bu Indah',pemilik:'Indah Lestari',noRumah:'No. 9',kategori:'Jasa',deskripsi:'Bimbingan belajar SD-SMP semua mapel, les bahasa Inggris.',kontak:'0811-6666-8888'}
-  ];
-  localStorage.setItem('rt04_umkm', JSON.stringify(def));
-}
+function renderUmkmPublik(){
+  const search  =(document.getElementById('searchUmkm').value||'').toLowerCase();
+  const kat     =(document.getElementById('filterKategori').value||'').toLowerCase();
+  const grid    = document.getElementById('umkmGrid');
+  const noRes   = document.getElementById('noResult');
+  const data    = getUmkmData();
 
-function renderUmkmPublik() {
-  const search   = (document.getElementById('searchUmkm').value || '').toLowerCase();
-  const kategori = (document.getElementById('filterKategori').value || '').toLowerCase();
-  const grid     = document.getElementById('umkmGrid');
-  const noResult = document.getElementById('noResult');
-  const data     = getUmkmData();
-
-  const filtered = data.filter(x => {
-    const matchSearch   = (x.nama + x.pemilik + x.deskripsi).toLowerCase().includes(search);
-    const matchKategori = !kategori || x.kategori.toLowerCase().includes(kategori);
-    return matchSearch && matchKategori;
+  const list = data.filter(x=>{
+    const ok1 = (x.nama+x.pemilik+x.deskripsi).toLowerCase().includes(search);
+    const ok2 = !kat || x.kategori.toLowerCase().includes(kat);
+    return ok1 && ok2;
   });
 
-  if (!filtered.length) {
-    grid.innerHTML = '';
-    if (noResult) noResult.style.display = 'block';
+  if(!list.length){
+    grid.innerHTML='';
+    if(noRes)noRes.style.display='block';
     return;
   }
-  if (noResult) noResult.style.display = 'none';
+  if(noRes)noRes.style.display='none';
 
-  grid.innerHTML = filtered.map(x => {
-    const emoji = EMOJI_MAP[x.kategori] || '🏪';
-    const bg    = BG_MAP[x.kategori]    || '#f0f7ff';
-    const tag   = TAG_MAP[x.kategori]   || 'background:#dbeafe;color:#1e40af';
+  grid.innerHTML = list.map(x => {
+    const k   = KAT[x.kategori] || KAT['Lainnya'];
+    const wa  = waLink(x.kontak);
+
+    // Bagian gambar: foto produk jika ada, fallback ke emoji menarik
+    const imgHtml = x.gambar
+      ? `<div class="uk-img-wrap">
+           <img src="${x.gambar}" alt="${escHtml(x.nama)}" class="uk-img" loading="lazy"/>
+           <div class="uk-img-overlay"><span class="uk-kat-badge" style="${k.tag}">${escHtml(x.kategori)}</span></div>
+         </div>`
+      : `<div class="uk-img-wrap uk-img-placeholder" style="background:${k.bg}">
+           <div class="uk-emoji">${k.emoji}</div>
+           <div class="uk-img-overlay"><span class="uk-kat-badge" style="${k.tag}">${escHtml(x.kategori)}</span></div>
+         </div>`;
+
     return `
-    <div class="umkm-card">
-      <div class="umkm-img" style="background:${bg}">${emoji}</div>
-      <div class="umkm-body">
-        <span class="umkm-tag" style="${tag}">${x.kategori}</span>
-        <h3>${escHtml(x.nama)}</h3>
-        <p class="umkm-owner"><i class="fas fa-user"></i> ${escHtml(x.pemilik)} · ${escHtml(x.noRumah)}</p>
-        <p>${escHtml(x.deskripsi)}</p>
-        <div class="umkm-contact"><i class="fab fa-whatsapp"></i> ${escHtml(x.kontak)}</div>
+    <article class="uk-card">
+      ${imgHtml}
+      <div class="uk-body">
+        <h3 class="uk-nama">${escHtml(x.nama)}</h3>
+        <p class="uk-pemilik"><i class="fas fa-user-circle"></i> ${escHtml(x.pemilik)}&nbsp;
+          <span class="uk-norumah"><i class="fas fa-house"></i> ${escHtml(x.noRumah||'-')}</span>
+        </p>
+        <p class="uk-desk">${escHtml(x.deskripsi||'')}</p>
+        <div class="uk-footer">
+          <span class="uk-kontak"><i class="fas fa-phone"></i> ${escHtml(x.kontak||'-')}</span>
+          ${wa!=='#'?`<a href="${wa}" target="_blank" rel="noopener" class="uk-wa-btn"><i class="fab fa-whatsapp"></i> Chat WA</a>`:''}
+        </div>
       </div>
-    </div>`;
+    </article>`;
   }).join('');
 }
 
-function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
 // Jalankan saat halaman load
-document.addEventListener('DOMContentLoaded', () => {
-  initUmkmDefault();
-  renderUmkmPublik();
-});
+document.addEventListener('DOMContentLoaded', renderUmkmPublik);
 </script>
+
+<style>
+/* ── Grid UMKM ─────────────────────────────────────── */
+.umkm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.35rem;margin-top:1rem}
+
+/* ── Kartu ─────────────────────────────────────────── */
+.uk-card{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.08);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.uk-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.14)}
+
+/* ── Gambar / placeholder ───────────────────────────── */
+.uk-img-wrap{position:relative;width:100%;height:190px;overflow:hidden;flex-shrink:0}
+.uk-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.uk-card:hover .uk-img{transform:scale(1.04)}
+.uk-img-placeholder{display:flex;align-items:center;justify-content:center}
+.uk-emoji{font-size:4.5rem;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
+.uk-img-overlay{position:absolute;bottom:0;left:0;right:0;padding:.5rem .75rem;background:linear-gradient(transparent,rgba(0,0,0,.35))}
+.uk-kat-badge{display:inline-block;padding:.18rem .7rem;border-radius:99px;font-size:.72rem;font-weight:700;backdrop-filter:blur(4px)}
+
+/* ── Isi kartu ──────────────────────────────────────── */
+.uk-body{padding:1rem 1.1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
+.uk-nama{font-size:1.05rem;font-weight:800;color:#1e293b;margin:0;line-height:1.3}
+.uk-pemilik{font-size:.8rem;color:#64748b;margin:0;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.uk-norumah{background:#f1f5f9;padding:.1rem .5rem;border-radius:99px;font-size:.75rem}
+.uk-desk{font-size:.85rem;color:#475569;margin:0;line-height:1.55;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.uk-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-top:.5rem;padding-top:.65rem;border-top:1px solid #f1f5f9}
+.uk-kontak{font-size:.8rem;color:#475569;display:flex;align-items:center;gap:.35rem}
+.uk-wa-btn{display:inline-flex;align-items:center;gap:.35rem;background:#25d366;color:#fff;padding:.3rem .85rem;border-radius:99px;font-size:.78rem;font-weight:600;text-decoration:none;transition:background .2s}
+.uk-wa-btn:hover{background:#128c7e}
+</style>
 </body>
 </html>
