@@ -4,19 +4,141 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
-  <link rel="shortcut icon" href="assets/img/favicon.svg"/>
   <title>Website RT 04 / RW 02 - Jombang Ciputat Tangerang Selatan</title>
-  <meta name="description" content="Portal resmi RT 04 RW 02 Kp. Gedong Jombang, Ciputat, Tangerang Selatan. Informasi iuran, UMKM, kegiatan, ronda, dan laporan kejadian."/>
-  <meta name="keywords" content="RT 04 RW 02, Jombang, Ciputat, Tangerang Selatan, website RT, portal warga"/>
-  <meta property="og:title" content="Website RT 04 / RW 02 - Jombang Ciputat Tangerang Selatan"/>
-  <meta property="og:description" content="Portal resmi RT 04 RW 02 Kp. Gedong Jombang, Ciputat, Tangerang Selatan."/>
-  <meta property="og:url" content="https://deday-arch.github.io/rt04rw02-jombang/"/>
-  <meta property="og:type" content="website"/>
-  <link rel="canonical" href="https://deday-arch.github.io/rt04rw02-jombang/"/>
+  <meta name="description" content="Portal resmi RT 04 RW 02 Kp. Gedong Jombang, Ciputat, Tangerang Selatan."/>
+  <meta property="og:title" content="Website RT 04 / RW 02 - Jombang Ciputat"/>
+  <meta property="og:url" content="https://deday-arch.github.io/website-rt04rw02/"/>
+  <link rel="canonical" href="https://deday-arch.github.io/website-rt04rw02/"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+  /* ── Animasi counter ── */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  .fade-up{animation:fadeUp .6s ease both}
+  .fade-up:nth-child(1){animation-delay:.05s}.fade-up:nth-child(2){animation-delay:.13s}
+  .fade-up:nth-child(3){animation-delay:.21s}.fade-up:nth-child(4){animation-delay:.29s}
+
+  /* ── Hero upgrade ── */
+  .hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;
+    background:linear-gradient(135deg,#062a6e 0%,#0d47a1 45%,#1565c0 70%,#0288d1 100%)}
+  .hero::before{content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse at 70% 50%,rgba(41,182,246,.18) 0%,transparent 65%),
+               radial-gradient(ellipse at 10% 80%,rgba(255,255,255,.06) 0%,transparent 50%);pointer-events:none}
+  .hero-bg-dots{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .hero-bg-dots::after{content:'';position:absolute;width:420px;height:420px;border-radius:50%;
+    border:1.5px solid rgba(255,255,255,.07);top:-60px;right:-80px}
+  .hero-bg-dots::before{content:'';position:absolute;width:260px;height:260px;border-radius:50%;
+    border:1.5px solid rgba(255,255,255,.07);bottom:40px;left:-50px}
+  .hero-inner{position:relative;z-index:2;width:100%;display:flex;align-items:center;
+    justify-content:space-between;gap:2rem;flex-wrap:wrap}
+  .hero-text{max-width:620px}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:.28rem .85rem;
+    font-size:.78rem;font-weight:600;color:rgba(255,255,255,.9);letter-spacing:.4px;
+    text-transform:uppercase;margin-bottom:1.1rem;backdrop-filter:blur(6px)}
+  .hero-eyebrow i{color:#29b6f6}
+  .hero-title{font-size:clamp(1.9rem,4.5vw,3rem);font-weight:900;color:#fff;line-height:1.18;margin-bottom:.5rem}
+  .hero-title span{color:#29b6f6}
+  .hero-sub{font-size:1rem;color:rgba(255,255,255,.75);margin-bottom:.35rem}
+  .hero-loc{font-size:.88rem;color:rgba(255,255,255,.55);margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:.4rem}
+  .hero-loc i{color:#29b6f6}
+  .hero-btns{display:flex;gap:.85rem;flex-wrap:wrap}
+  .hero-btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:#fff;
+    color:#0d47a1;padding:.65rem 1.4rem;border-radius:99px;font-weight:700;font-size:.9rem;
+    box-shadow:0 4px 18px rgba(0,0,0,.2);transition:transform .2s,box-shadow .2s}
+  .hero-btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.25)}
+  .hero-btn-outline{display:inline-flex;align-items:center;gap:.5rem;
+    border:2px solid rgba(255,255,255,.45);color:#fff;padding:.63rem 1.35rem;
+    border-radius:99px;font-weight:600;font-size:.9rem;transition:background .2s,border-color .2s}
+  .hero-btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7)}
+  .hero-logos-right{display:flex;flex-direction:column;align-items:center;gap:.85rem}
+  .hero-logos-right img{filter:drop-shadow(0 4px 16px rgba(0,0,0,.3))}
+  .hero-logo-rt{height:100px;width:auto}
+  .hero-logo-tg{height:70px;width:auto;opacity:.85}
+  .hero-sep{width:1px;height:32px;background:rgba(255,255,255,.3)}
+
+  /* ── Stats ── */
+  .stats-section{background:#fff;padding:0}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    box-shadow:0 4px 24px rgba(21,101,192,.12);border-radius:0 0 20px 20px;overflow:hidden}
+  .stat-card{padding:1.5rem 1rem;text-align:center;border-right:1px solid #e3f2fd;
+    transition:background .2s}
+  .stat-card:last-child{border-right:none}
+  .stat-card:hover{background:#f0f7ff}
+  .stat-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;
+    justify-content:center;margin:0 auto .7rem;font-size:1.25rem}
+  .stat-num{font-size:2rem;font-weight:900;color:#0d47a1;line-height:1;margin-bottom:.2rem}
+  .stat-label{font-size:.78rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+
+  /* ── Menu cards upgrade ── */
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.1rem}
+  .menu-card{background:#fff;border-radius:16px;padding:1.5rem 1.25rem;text-decoration:none;
+    display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;
+    box-shadow:0 2px 12px rgba(21,101,192,.08);border:1.5px solid transparent;
+    transition:transform .2s,box-shadow .2s,border-color .2s}
+  .menu-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(21,101,192,.16);
+    border-color:var(--blue,#1565c0)}
+  .menu-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;
+    justify-content:center;font-size:1.25rem;color:#fff;margin-bottom:.2rem;flex-shrink:0}
+  .menu-card h3{font-size:.97rem;font-weight:800;color:#1e293b;margin:0}
+  .menu-card p{font-size:.8rem;color:#64748b;margin:0;line-height:1.45}
+  .menu-card-arrow{margin-top:.4rem;font-size:.75rem;color:#1565c0;font-weight:700;
+    display:flex;align-items:center;gap:.25rem}
+
+  /* ── Pengumuman upgrade ── */
+  .peng-list{display:flex;flex-direction:column;gap:.85rem}
+  .peng-item{background:#fff;border-radius:12px;padding:1rem 1.25rem;
+    display:flex;gap:1rem;align-items:flex-start;box-shadow:0 2px 10px rgba(21,101,192,.07);
+    border-left:4px solid #e3f2fd;transition:border-color .2s,box-shadow .2s}
+  .peng-item:hover{border-left-color:#1565c0;box-shadow:0 4px 18px rgba(21,101,192,.13)}
+  .peng-item.penting{border-left-color:#ef4444}
+  .peng-item.kegiatan{border-left-color:#2563eb}
+  .peng-item.info{border-left-color:#16a34a}
+  .peng-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;
+    justify-content:center;flex-shrink:0;font-size:1rem}
+  .peng-body h4{font-size:.93rem;font-weight:700;color:#1e293b;margin:0 0 .25rem}
+  .peng-body p{font-size:.82rem;color:#475569;margin:0 0 .4rem;line-height:1.5}
+  .peng-meta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+  .peng-date{font-size:.73rem;color:#94a3b8;display:flex;align-items:center;gap:.3rem}
+  .peng-empty{text-align:center;padding:3rem;color:#94a3b8}
+  .peng-empty i{font-size:2.5rem;display:block;margin-bottom:.75rem}
+
+  /* ── Kontak darurat ── */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+  .contact-card{background:#fff;border-radius:14px;padding:1.25rem;
+    box-shadow:0 2px 12px rgba(21,101,192,.08);display:flex;flex-direction:column;gap:.5rem;
+    border:1.5px solid #e3f2fd;transition:transform .2s,box-shadow .2s}
+  .contact-card:hover{transform:translateY(-3px);box-shadow:0 6px 22px rgba(21,101,192,.15)}
+  .contact-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;
+    justify-content:center;font-size:1.2rem;color:#fff}
+  .contact-card h4{font-size:.88rem;font-weight:700;color:#1e293b;margin:0}
+  .contact-card p{font-size:.78rem;color:#64748b;margin:0}
+  .contact-card a{font-size:.88rem;font-weight:700;color:#1565c0;text-decoration:none;
+    display:inline-flex;align-items:center;gap:.35rem}
+  .contact-card a:hover{text-decoration:underline}
+
+  /* ── Quick stats bar ── */
+  .quick-bar{background:linear-gradient(90deg,#0d47a1,#0288d1);padding:.6rem 0}
+  .quick-bar-inner{display:flex;align-items:center;justify-content:center;gap:2rem;
+    flex-wrap:wrap;font-size:.8rem;color:rgba(255,255,255,.85)}
+  .quick-bar-inner span{display:flex;align-items:center;gap:.4rem}
+  .quick-bar-inner i{color:#29b6f6}
+
+  @media(max-width:768px){
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .stat-card{border-bottom:1px solid #e3f2fd}
+    .hero-logos-right{display:none}
+    .quick-bar-inner{gap:1rem}
+  }
+  @media(max-width:480px){
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .menu-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  </style>
 </head>
 <body>
+<!-- NAVBAR -->
 <nav class="navbar">
   <div class="container nav-container">
     <div class="nav-brand">
@@ -37,89 +159,181 @@
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="container hero-content">
-    <h1>Selamat Datang di Website Resmi</h1>
-    <h2>RT 04 / RW 02</h2>
-    <h3>Kp. Gedong - Jombang, Ciputat, Tangerang Selatan</h3>
-    <p>Portal informasi dan layanan warga lingkungan RT 04 RW 02</p>
-    <a href="lapor.html" class="btn btn-primary"><i class="fas fa-triangle-exclamation"></i> Lapor Kejadian</a>
-    <a href="iuran.html" class="btn btn-outline"><i class="fas fa-money-bill-wave"></i> Cek Iuran</a>
-  </div>
-  <div class="hero-logos">
-    <img src="assets/img/logo-rt.png" alt="Logo RT 04 RW 02" class="logo-rt-hero"/>
-    <div class="hero-logos-sep"></div>
-    <img src="assets/img/logo-tangsel.png" alt="Logo Kota Tangerang Selatan" class="logo-tangsel-hero"/>
-  </div>
-</section>
-
-<section class="stats-section">
-  <div class="container stats-grid">
-    <div class="stat-card"><i class="fas fa-users"></i><h3>127</h3><p>Kepala Keluarga</p></div>
-    <div class="stat-card"><i class="fas fa-person-shelter"></i><h3>412</h3><p>Warga</p></div>
-    <div class="stat-card"><i class="fas fa-store"></i><h3>18</h3><p>UMKM</p></div>
-    <div class="stat-card"><i class="fas fa-shield-halved"></i><h3>12</h3><p>Petugas Ronda</p></div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section-header"><h2>Layanan Warga</h2><p>Semua informasi dan layanan RT tersedia dalam satu tempat</p></div>
-    <div class="menu-grid">
-      <a href="iuran.html" class="menu-card"><div class="menu-icon bg-green"><i class="fas fa-money-bill-wave"></i></div><h3>Iuran Warga</h3><p>Informasi pembayaran iuran bulanan dan metode pembayaran</p></a>
-      <a href="umkm.html" class="menu-card"><div class="menu-icon bg-orange"><i class="fas fa-store"></i></div><h3>UMKM Lokal</h3><p>Daftar usaha mikro kecil menengah di lingkungan RT</p></a>
-      <a href="lapor.html" class="menu-card"><div class="menu-icon bg-red"><i class="fas fa-triangle-exclamation"></i></div><h3>Lapor Kejadian</h3><p>Laporkan kejadian atau keadaan darurat di lingkungan</p></a>
-      <a href="kegiatan.html" class="menu-card"><div class="menu-icon bg-blue"><i class="fas fa-calendar-days"></i></div><h3>Kegiatan</h3><p>Jadwal dan informasi kegiatan warga RT</p></a>
-      <a href="ronda.html" class="menu-card"><div class="menu-icon bg-purple"><i class="fas fa-moon"></i></div><h3>Jadwal Ronda</h3><p>Jadwal giliran ronda malam keamanan lingkungan</p></a>
-      <a href="pengurus.html" class="menu-card"><div class="menu-icon bg-teal"><i class="fas fa-id-card"></i></div><h3>Pengurus RT</h3><p>Susunan dan kontak pengurus RT 04 / RW 02</p></a>
+  <div class="hero-bg-dots"></div>
+  <div class="container hero-inner">
+    <div class="hero-text fade-up">
+      <div class="hero-eyebrow"><i class="fas fa-circle-check"></i> Portal Resmi Warga</div>
+      <h1 class="hero-title">Website Resmi<br><span>RT 04 / RW 02</span></h1>
+      <p class="hero-sub">Kp. Gedong — Jombang, Ciputat</p>
+      <p class="hero-loc"><i class="fas fa-location-dot"></i> Tangerang Selatan, Banten 15411</p>
+      <div class="hero-btns">
+        <a href="lapor.html" class="hero-btn-primary"><i class="fas fa-triangle-exclamation"></i> Lapor Kejadian</a>
+        <a href="iuran.html" class="hero-btn-outline"><i class="fas fa-money-bill-wave"></i> Cek Iuran</a>
+      </div>
+    </div>
+    <div class="hero-logos-right fade-up">
+      <img src="assets/img/logo-rt.png" alt="Logo RT 04 RW 02" class="hero-logo-rt"/>
+      <div class="hero-sep"></div>
+      <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel" class="hero-logo-tg"/>
     </div>
   </div>
 </section>
 
+<!-- QUICK INFO BAR -->
+<div class="quick-bar">
+  <div class="container quick-bar-inner">
+    <span><i class="fas fa-calendar-day"></i> Periode: 2025 – 2028</span>
+    <span><i class="fas fa-user-tie"></i> Ketua RT: Bpk. Novi Aziz</span>
+    <span><i class="fas fa-phone"></i> 085692347458</span>
+    <span><i class="fas fa-shield-halved"></i> Keamanan: Bpk. Dambas — 081517892573</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card fade-up">
+        <div class="stat-icon" style="background:linear-gradient(135deg,#1565c0,#1976d2)"><i class="fas fa-id-card" style="color:#fff"></i></div>
+        <div class="stat-num" id="statKartu">235</div>
+        <div class="stat-label">Kartu Warga</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><i class="fas fa-store" style="color:#fff"></i></div>
+        <div class="stat-num" id="statUmkm">—</div>
+        <div class="stat-label">UMKM Terdaftar</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon" style="background:linear-gradient(135deg,#dc2626,#ef4444)"><i class="fas fa-shield-halved" style="color:#fff"></i></div>
+        <div class="stat-num">15</div>
+        <div class="stat-label">Regu Ronda</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon" style="background:linear-gradient(135deg,#d97706,#f59e0b)"><i class="fas fa-people-group" style="color:#fff"></i></div>
+        <div class="stat-num" id="statPengurus">17</div>
+        <div class="stat-label">Pengurus RT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LAYANAN -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Layanan Warga</h2>
+      <p>Semua informasi dan layanan RT tersedia dalam satu portal</p>
+    </div>
+    <div class="menu-grid">
+      <a href="iuran.html" class="menu-card fade-up">
+        <div class="menu-icon bg-green"><i class="fas fa-money-bill-wave"></i></div>
+        <h3>Iuran Warga</h3>
+        <p>Status pembayaran iuran kebersihan &amp; keamanan bulanan</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lihat Detail</span>
+      </a>
+      <a href="umkm.html" class="menu-card fade-up">
+        <div class="menu-icon bg-orange"><i class="fas fa-store"></i></div>
+        <h3>UMKM Lokal</h3>
+        <p>Dukung usaha warga RT 04 — makanan, jasa, kerajinan dan lainnya</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lihat UMKM</span>
+      </a>
+      <a href="lapor.html" class="menu-card fade-up">
+        <div class="menu-icon bg-red"><i class="fas fa-triangle-exclamation"></i></div>
+        <h3>Lapor Kejadian</h3>
+        <p>Laporkan kejadian atau situasi darurat di lingkungan RT</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lapor Sekarang</span>
+      </a>
+      <a href="kegiatan.html" class="menu-card fade-up">
+        <div class="menu-icon bg-blue"><i class="fas fa-calendar-days"></i></div>
+        <h3>Kegiatan</h3>
+        <p>Jadwal kerja bakti, arisan, posyandu, dan kegiatan warga lainnya</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lihat Jadwal</span>
+      </a>
+      <a href="ronda.html" class="menu-card fade-up">
+        <div class="menu-icon bg-purple"><i class="fas fa-moon"></i></div>
+        <h3>Jadwal Ronda</h3>
+        <p>15 regu ronda giliran malam — jadwal lengkap Juli–Agustus 2026</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Cek Jadwal</span>
+      </a>
+      <a href="pengurus.html" class="menu-card fade-up">
+        <div class="menu-icon bg-teal"><i class="fas fa-id-card"></i></div>
+        <h3>Pengurus RT</h3>
+        <p>Susunan 17 pengurus RT 04 beserta kontak langsung</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lihat Pengurus</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PENGUMUMAN -->
 <section class="section bg-light">
   <div class="container">
-    <div class="section-header"><h2>Pengumuman Terkini</h2><p>Informasi terbaru dari pengurus RT 04 / RW 02</p></div>
-    <div class="announcement-list">
-      <div class="announcement-item">
-        <span class="badge badge-red">Penting</span>
-        <div class="announcement-body">
-          <h4>Pembayaran Iuran Bulan Juli 2026</h4>
-          <p>Iuran bulan Juli 2026 sudah dapat dibayarkan. Batas pembayaran tanggal 31 Juli 2026.</p>
-          <span class="announcement-date"><i class="fas fa-clock"></i> 1 Juli 2026</span>
-        </div>
-      </div>
-      <div class="announcement-item">
-        <span class="badge badge-blue">Kegiatan</span>
-        <div class="announcement-body">
-          <h4>Kerja Bakti Lingkungan</h4>
-          <p>Kerja bakti bersama pada hari Minggu, 27 Juli 2026 pukul 07.00 WIB. Harap seluruh warga hadir.</p>
-          <span class="announcement-date"><i class="fas fa-clock"></i> 20 Juli 2026</span>
-        </div>
-      </div>
-      <div class="announcement-item">
-        <span class="badge badge-green">Info</span>
-        <div class="announcement-body">
-          <h4>Pendaftaran UMKM Baru</h4>
-          <p>Bagi warga yang memiliki usaha dan ingin didaftarkan ke daftar UMKM RT, silakan hubungi sekretaris RT.</p>
-          <span class="announcement-date"><i class="fas fa-clock"></i> 15 Juli 2026</span>
-        </div>
-      </div>
+    <div class="section-header">
+      <h2>Pengumuman Terkini</h2>
+      <p>Informasi terbaru dari pengurus RT 04 / RW 02</p>
+    </div>
+    <div class="peng-list" id="pengList">
+      <div class="peng-empty"><i class="fas fa-spinner fa-spin"></i> Memuat pengumuman...</div>
+    </div>
+    <div style="text-align:right;margin-top:1rem">
+      <a href="kegiatan.html" style="font-size:.83rem;color:#1565c0;font-weight:600;display:inline-flex;align-items:center;gap:.35rem">
+        Lihat semua kegiatan <i class="fas fa-arrow-right"></i>
+      </a>
     </div>
   </div>
 </section>
 
+<!-- KONTAK DARURAT -->
 <section class="section">
   <div class="container">
-    <div class="section-header"><h2>Kontak Darurat</h2><p>Hubungi langsung jika ada situasi darurat</p></div>
+    <div class="section-header">
+      <h2>Kontak Penting</h2>
+      <p>Hubungi langsung pengurus atau layanan darurat</p>
+    </div>
     <div class="contact-grid">
-      <div class="contact-card"><i class="fas fa-phone bg-green"></i><h4>Ketua RT</h4><p>Bapak Ahmad Santoso</p><a href="tel:+6281234567890">0812-3456-7890</a></div>
-      <div class="contact-card"><i class="fas fa-shield-halved bg-blue"></i><h4>Keamanan / Satpam</h4><p>Pos Keamanan RT</p><a href="tel:+6281234567891">0812-3456-7891</a></div>
-      <div class="contact-card"><i class="fas fa-fire bg-red"></i><h4>Pemadam Kebakaran</h4><p>Dinas Pemadam Kota</p><a href="tel:113">113</a></div>
-      <div class="contact-card"><i class="fas fa-truck-medical bg-orange"></i><h4>Ambulans</h4><p>Layanan Darurat</p><a href="tel:118">118 / 119</a></div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#1565c0,#1976d2)"><i class="fas fa-user-tie"></i></div>
+        <h4>Ketua RT</h4>
+        <p>Bpk. Novi Aziz</p>
+        <a href="tel:+6285692347458"><i class="fas fa-phone"></i> 085692347458</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#dc2626,#ef4444)"><i class="fas fa-shield-halved"></i></div>
+        <h4>Ketua Keamanan</h4>
+        <p>Bpk. Dambas Muhari</p>
+        <a href="tel:+6281517892573"><i class="fas fa-phone"></i> 081517892573</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#0891b2,#06b6d4)"><i class="fas fa-pen-clip"></i></div>
+        <h4>Sekretaris RT</h4>
+        <p>Bpk. Lukman</p>
+        <a href="tel:+6289635719264"><i class="fas fa-phone"></i> 089635719264</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#b91c1c,#dc2626)"><i class="fas fa-fire"></i></div>
+        <h4>Pemadam Kebakaran</h4>
+        <p>Dinas Pemadam Kota Tangsel</p>
+        <a href="tel:113"><i class="fas fa-phone"></i> 113</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#d97706,#f59e0b)"><i class="fas fa-truck-medical"></i></div>
+        <h4>Ambulans / Darurat</h4>
+        <p>Layanan Darurat Medis</p>
+        <a href="tel:119"><i class="fas fa-phone"></i> 118 / 119</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#15803d,#16a34a)"><i class="fab fa-whatsapp"></i></div>
+        <h4>WhatsApp Ketua RT</h4>
+        <p>Chat langsung via WhatsApp</p>
+        <a href="https://wa.me/6285692347458" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Chat WA</a>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer class="footer">
   <div class="container footer-content">
     <div class="footer-brand">
@@ -140,16 +354,122 @@
       <li><a href="lapor.html">Lapor Kejadian</a></li>
     </ul></div>
     <div class="footer-contact"><h4>Kontak</h4>
-      <p><i class="fas fa-phone"></i> 0812-3456-7890</p>
-      <p><i class="fab fa-whatsapp"></i> 0812-3456-7890</p>
-      <p><i class="fas fa-envelope"></i> rt04rw02jombang@gmail.com</p>
+      <p><i class="fas fa-user-tie"></i> Ketua: Bpk. Novi Aziz</p>
+      <p><i class="fas fa-phone"></i> 085692347458</p>
+      <p><i class="fab fa-whatsapp"></i> 085692347458</p>
       <p><i class="fas fa-location-dot"></i> Kp. Gedong, Jombang, Ciputat</p>
     </div>
   </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan. &nbsp;|&nbsp; <a href="admin-login.html" style="color:rgba(255,255,255,.5);font-size:.78rem"><i class="fas fa-lock"></i> Admin</a></p>
-    </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan.
+    &nbsp;|&nbsp; <a href="admin-login.html" style="color:rgba(255,255,255,.4);font-size:.78rem"><i class="fas fa-lock"></i> Admin</a></p>
+  </div>
 </footer>
+
 <script src="assets/js/main.js"></script>
+<script>
+// ── Stat dinamis dari localStorage ─────────────────────────
+(function updateStats() {
+  try {
+    const umkm  = JSON.parse(localStorage.getItem('rt04_umkm'))  || [];
+    const peng  = JSON.parse(localStorage.getItem('rt04_pengurus')) || [];
+    const iuran = JSON.parse(localStorage.getItem('rt04_iuran')) || [];
+
+    const elU = document.getElementById('statUmkm');
+    const elP = document.getElementById('statPengurus');
+    const elK = document.getElementById('statKartu');
+
+    if (elU) elU.textContent = umkm.length  || 5;
+    if (elP) elP.textContent = peng.length  || 17;
+    if (elK) elK.textContent = iuran.length || 235;
+
+    // Counter animasi
+    document.querySelectorAll('.stat-num').forEach(el => {
+      const target = parseInt(el.textContent);
+      if (isNaN(target)) return;
+      let cur = 0;
+      const step = Math.ceil(target / 40);
+      const t = setInterval(() => {
+        cur = Math.min(cur + step, target);
+        el.textContent = cur;
+        if (cur >= target) clearInterval(t);
+      }, 28);
+    });
+  } catch(e) {}
+})();
+
+// ── Render pengumuman dari localStorage ────────────────────
+(function renderPengumuman() {
+  const list = document.getElementById('pengList');
+  if (!list) return;
+
+  let data = [];
+  try { data = JSON.parse(localStorage.getItem('rt04_pengumuman')) || []; } catch(e) {}
+
+  const BADGE_COLOR = { Penting:'#ef4444', Kegiatan:'#2563eb', Info:'#16a34a', Umum:'#64748b' };
+  const ICON_BG     = { Penting:'#fef2f2', Kegiatan:'#eff6ff', Info:'#f0fdf4', Umum:'#f8fafc' };
+  const ICON_ICON   = { Penting:'fa-circle-exclamation', Kegiatan:'fa-calendar-days', Info:'fa-circle-info', Umum:'fa-bullhorn' };
+  const CSS_CLASS   = { Penting:'penting', Kegiatan:'kegiatan', Info:'info', Umum:'' };
+
+  function fmtTgl(d) {
+    if (!d) return '';
+    const p = d.split('-');
+    const bln = ['','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return +p[2] + ' ' + (bln[+p[1]]||'') + ' ' + p[0];
+  }
+
+  // Tampilkan max 4 pengumuman terbaru
+  const shown = data.slice(0, 4);
+
+  if (!shown.length) {
+    // Fallback: tampilkan pengumuman statis real
+    list.innerHTML = `
+    <div class="peng-item penting">
+      <div class="peng-icon" style="background:#fef2f2"><i class="fas fa-circle-exclamation" style="color:#ef4444"></i></div>
+      <div class="peng-body">
+        <h4>Pembayaran Iuran Bulan Juli 2026</h4>
+        <p>Iuran bulan Juli 2026 sudah dapat dibayarkan. Batas pembayaran tanggal <strong>31 Juli 2026</strong>. Iuran Kebersihan Rp 30.000 + Keamanan Rp 20.000 = Rp 50.000/bulan.</p>
+        <div class="peng-meta"><span class="peng-date"><i class="fas fa-clock"></i> 1 Juli 2026</span><span class="badge badge-red" style="font-size:.68rem">Penting</span></div>
+      </div>
+    </div>
+    <div class="peng-item kegiatan">
+      <div class="peng-icon" style="background:#eff6ff"><i class="fas fa-calendar-days" style="color:#2563eb"></i></div>
+      <div class="peng-body">
+        <h4>Jadwal Ronda Malam — Juli–Agustus 2026</h4>
+        <p>Jadwal ronda 15 regu telah disusun untuk periode 22 Juli – 5 Agustus 2026. Harap seluruh anggota regu hadir tepat waktu.</p>
+        <div class="peng-meta"><span class="peng-date"><i class="fas fa-clock"></i> 20 Juli 2026</span><span class="badge badge-blue" style="font-size:.68rem">Kegiatan</span></div>
+      </div>
+    </div>
+    <div class="peng-item info">
+      <div class="peng-icon" style="background:#f0fdf4"><i class="fas fa-circle-info" style="color:#16a34a"></i></div>
+      <div class="peng-body">
+        <h4>Pendaftaran UMKM Warga</h4>
+        <p>Bagi warga yang memiliki usaha dan ingin didaftarkan ke daftar UMKM RT, silakan hubungi Sekretaris RT Bpk. Lukman.</p>
+        <div class="peng-meta"><span class="peng-date"><i class="fas fa-clock"></i> 15 Juli 2026</span><span class="badge badge-green" style="font-size:.68rem">Info</span></div>
+      </div>
+    </div>`;
+    return;
+  }
+
+  list.innerHTML = shown.map(x => {
+    const kat = x.kategori || 'Umum';
+    const cls = CSS_CLASS[kat] || '';
+    const ic  = ICON_ICON[kat] || 'fa-bullhorn';
+    const bg  = ICON_BG[kat]   || '#f8fafc';
+    const col = BADGE_COLOR[kat]|| '#64748b';
+    return `<div class="peng-item ${cls}">
+      <div class="peng-icon" style="background:${bg}"><i class="fas ${ic}" style="color:${col}"></i></div>
+      <div class="peng-body">
+        <h4>${x.judul||''}</h4>
+        <p>${x.isi||''}</p>
+        <div class="peng-meta">
+          <span class="peng-date"><i class="fas fa-clock"></i> ${fmtTgl(x.tanggal)}</span>
+          <span class="badge" style="background:${bg};color:${col};font-size:.68rem">${kat}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+})();
+</script>
 </body>
 </html>
