@@ -10,7 +10,7 @@
   // - localhost:3000  → pakai /api (relative, Express serve static)
   // - localhost:5500  → pakai http://localhost:3000/api (Live Server)
   // - GitHub Pages / domain lain → pakai URL Render (diisi saat deploy)
-  const RENDER_URL = 'https://rt04rw02-api.onrender.com';
+  const RENDER_URL = 'https://website-rt04rw02-production.up.railway.app';
 
   function getApiBase() {
     const { hostname, port } = window.location;
