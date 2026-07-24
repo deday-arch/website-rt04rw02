@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: rt04rw02-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DB_HOST
+        value: aws-1-ap-northeast-2.pooler.supabase.com
+      - key: DB_PORT
+        value: 5432
+      - key: DB_NAME
+        value: postgres
+      - key: DB_USER
+        value: postgres.xseyolcaejzvujgxqlge
+      - key: DB_SSL
+        value: true
+      - key: DB_POOL_MIN
+        value: 1
+      - key: DB_POOL_MAX
+        value: 5
+      - key: DB_IDLE_TIMEOUT
+        value: 30000
+      - key: DB_CONNECTION_TIMEOUT
+        value: 15000
+      - key: JWT_EXPIRES_IN
+        value: 8h
+      # DB_PASSWORD dan JWT_SECRET diisi manual di Render dashboard (rahasia)

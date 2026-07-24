@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <title>Login Administrator - RT 04 / RW 02</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/admin.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="login-body">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">
+        <div style="display:flex;align-items:center;justify-content:center;gap:1.25rem;margin-bottom:.25rem">
+          <img src="assets/img/logo-rt.png" alt="Logo RT 04 RW 02" style="height:85px;width:auto"/>
+          <img src="assets/img/logo-tangsel.png" alt="Logo Kota Tangerang Selatan" style="height:75px;width:auto"/>
+        </div>
+      </div>
+      <h1 class="login-title">Portal Administrator</h1>
+      <p class="login-sub">RT 04 / RW 02 · Jombang, Ciputat, Tangerang Selatan</p>
+
+      <div id="loginError" class="login-error" style="display:none">
+        <i class="fas fa-circle-exclamation"></i> Username atau password salah!
+      </div>
+
+      <form id="loginForm" onsubmit="doLogin(event)">
+        <div class="login-group">
+          <label><i class="fas fa-user"></i> Username</label>
+          <input type="text" id="loginUser" placeholder="Masukkan username" autocomplete="username" required/>
+        </div>
+        <div class="login-group">
+          <label><i class="fas fa-lock"></i> Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="loginPass" placeholder="Masukkan password" autocomplete="current-password" required/>
+            <button type="button" class="pw-toggle" onclick="togglePw()"><i class="fas fa-eye" id="pwIcon"></i></button>
+          </div>
+        </div>
+        <button type="submit" class="login-btn">
+          <i class="fas fa-right-to-bracket"></i> Masuk
+        </button>
+      </form>
+
+      <a href="index.html" class="login-back"><i class="fas fa-arrow-left"></i> Kembali ke Website</a>
+    </div>
+  </div>
+  <script src="assets/js/api-connector.js"></script><script src="assets/js/admin.js"></script>
+</body>
+</html>

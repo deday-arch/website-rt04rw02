@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <title>Kelola Pengurus - Admin RT 04</title>
+  <link rel="stylesheet" href="assets/css/admin.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="admin-body">
+<aside class="admin-sidebar">
+  <div class="sidebar-logo"><img src="assets/img/logo-rt.png" alt="Logo"/><img src="assets/img/logo-tangsel.png" alt="Tangsel" style="height:32px;width:auto"/><span>Admin RT 04<span class="sl-sub">RW 02 · Jombang</span></span></div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section">Menu Utama</div>
+    <a href="admin-dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a>
+    <div class="sidebar-section">Kelola Konten</div>
+    <a href="admin-pengumuman.html"><i class="fas fa-bullhorn"></i> Pengumuman</a>
+    <a href="admin-iuran.html"><i class="fas fa-money-bill-wave"></i> Iuran Warga</a>
+    <a href="admin-umkm.html"><i class="fas fa-store"></i> UMKM</a>
+    <a href="admin-kegiatan.html"><i class="fas fa-calendar-days"></i> Kegiatan</a>
+    <a href="admin-pengurus.html" class="active"><i class="fas fa-id-card"></i> Pengurus</a>
+    <a href="admin-ronda.html"><i class="fas fa-moon"></i> Jadwal Ronda</a>
+    <a href="admin-laporan.html"><i class="fas fa-triangle-exclamation"></i> Laporan</a>
+  </nav>
+  <div class="sidebar-footer"><a href="pengurus.html" target="_blank"><i class="fas fa-globe"></i> Lihat Halaman</a></div>
+</aside>
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="topbar-title"><i class="fas fa-id-card"></i> Kelola Pengurus RT</div>
+    <div class="topbar-right">
+      <span class="admin-badge"><i class="fas fa-user-shield"></i> <span id="adminUsername">admin</span></span>
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Keluar</button>
+    </div>
+  </div>
+  <div class="admin-content">
+    <div class="crud-toolbar">
+      <h2>Daftar Pengurus</h2>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <input type="text" id="searchPengurus" class="crud-search" placeholder="Cari nama / jabatan..." oninput="renderPengurusTable(this.value)"/>
+        <button class="btn-add" onclick="openAddPengurus()"><i class="fas fa-plus"></i> Tambah</button>
+      </div>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>No</th><th>Foto</th><th>Nama</th><th>Jabatan</th><th>Kontak</th><th>Aksi</th></tr></thead>
+        <tbody id="tbodyPengurus"><tr class="empty-row"><td colspan="6">Memuat data...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TAMBAH/EDIT -->
+<div class="modal-overlay" id="modalPengurus">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalPengurusTitle">Tambah Pengurus</h3>
+      <button class="modal-close" onclick="closeModal('modalPengurus')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="pngId"/>
+      <input type="hidden" id="pngFotoData"/>
+      <div class="form-row">
+        <div class="form-group"><label>Nama Lengkap *</label><input type="text" id="pngNama" placeholder="Nama pengurus"/></div>
+        <div class="form-group"><label>Jabatan *</label><input type="text" id="pngJabatan" placeholder="Contoh: Ketua RT"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Nomor Kontak / WA</label><input type="text" id="pngKontak" placeholder="08xx-xxxx-xxxx"/></div>
+        <div class="form-group"><label>Alamat / No. Rumah</label><input type="text" id="pngAlamat" placeholder="No. xx"/></div>
+      </div>
+      <div class="form-group">
+        <label>Foto Pengurus</label>
+        <input type="file" id="pngFotoFile" accept="image/*" onchange="previewPngFoto(this)" style="display:block;margin-bottom:.5rem"/>
+        <div id="pngFotoPreview" style="display:none;margin-top:.5rem">
+          <img id="pngFotoImg" src="" alt="Preview" style="width:100px;height:100px;object-fit:cover;border-radius:50%;border:3px solid var(--border);display:block;margin-bottom:.4rem"/>
+          <button type="button" onclick="hapusPngFoto()" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:.85rem"><i class="fas fa-trash"></i> Hapus foto</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('modalPengurus')">Batal</button>
+      <button class="btn-save" onclick="savePengurus()"><i class="fas fa-floppy-disk"></i> Simpan</button>
+    </div>
+  </div>
+</div>
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <i class="fas fa-triangle-exclamation"></i><h3>Konfirmasi Hapus</h3>
+    <p>Yakin ingin menghapus <span id="confirmLabel"></span>?</p>
+    <button class="btn-cancel" onclick="confirmNo()">Batal</button>
+    <button class="btn-del" onclick="confirmYes()">Ya, Hapus</button>
+  </div>
+</div>
+
+<script src="assets/js/api-connector.js"></script><script src="assets/js/admin.js"></script>
+</body></html>

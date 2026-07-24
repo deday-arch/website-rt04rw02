@@ -1,0 +1,982 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <title>Website RT 04 / RW 02 - Jombang Ciputat Tangerang Selatan</title>
+  <meta name="description" content="Portal resmi RT 04 RW 02 Kp. Gedong Jombang, Ciputat, Tangerang Selatan."/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+  /* ═══════════════════════════════════════════════════
+     GLOBAL ANIMATIONS
+  ═══════════════════════════════════════════════════ */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @keyframes rotateFloral{0%{transform:rotate(0deg) scale(1)}100%{transform:rotate(360deg) scale(1)}}
+  @keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+  @keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(41,182,246,.4)}70%{box-shadow:0 0 0 12px rgba(41,182,246,0)}100%{box-shadow:0 0 0 0 rgba(41,182,246,0)}}
+  .fade-up{animation:fadeUp .7s ease both}
+  .fade-up:nth-child(1){animation-delay:.05s}.fade-up:nth-child(2){animation-delay:.15s}
+  .fade-up:nth-child(3){animation-delay:.25s}.fade-up:nth-child(4){animation-delay:.35s}
+  .fade-up:nth-child(5){animation-delay:.45s}.fade-up:nth-child(6){animation-delay:.55s}
+</style>
+  <style>
+  /* ═══════════════════════════════════════════════════
+     HERO — gradasi corak ornamen floral
+  ═══════════════════════════════════════════════════ */
+  .hero{position:relative;min-height:94vh;display:flex;align-items:center;overflow:hidden;
+    background:linear-gradient(135deg,
+      #020c1f 0%, #041533 12%, #062a6e 28%,
+      #0d47a1 48%, #1565c0 62%,
+      #0288d1 78%, #0277bd 88%, #01579b 100%)}
+  /* Lapisan gradasi radial shimmer */
+  .hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 80% 60% at 72% 40%, rgba(41,182,246,.22) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 15% 75%, rgba(100,181,246,.14) 0%, transparent 55%),
+      radial-gradient(ellipse 30% 25% at 90% 85%, rgba(179,229,252,.08) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 30% at 5%  10%, rgba(21,101,192,.2)  0%, transparent 60%)}
+  /* Glow emas mewah tipis di top */
+  .hero::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,transparent,#c9a227,#f0d060,#c9a227,transparent);opacity:.7}
+
+  /* Ornamen floral SVG kiri & kanan */
+  .floral-left,.floral-right{position:absolute;top:0;bottom:0;pointer-events:none;z-index:1;opacity:.13}
+  .floral-left{left:-20px;width:340px}
+  .floral-right{right:-20px;width:300px;transform:scaleX(-1)}
+  .floral-left svg,.floral-right svg{width:100%;height:100%;position:absolute;top:0;left:0}
+
+  /* Cincin dekoratif */
+  .hero-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.06);pointer-events:none}
+  .hero-ring-1{width:600px;height:600px;top:-150px;right:-120px}
+  .hero-ring-2{width:380px;height:380px;bottom:-80px;left:-100px}
+  .hero-ring-3{width:220px;height:220px;top:30%;right:28%;border-color:rgba(41,182,246,.1)}
+
+  /* Titik-titik bintang latar */
+  .hero-stars{position:absolute;inset:0;pointer-events:none;z-index:0}
+
+  .hero-inner{position:relative;z-index:3;width:100%;display:flex;align-items:center;
+    justify-content:space-between;gap:2rem;flex-wrap:wrap}
+  .hero-text{max-width:640px}
+
+  /* Label kecil atas judul */
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;
+    background:linear-gradient(90deg,rgba(201,162,39,.18),rgba(255,255,255,.1));
+    border:1px solid rgba(201,162,39,.45);border-radius:99px;
+    padding:.3rem .95rem;font-size:.78rem;font-weight:700;
+    color:#f0d060;letter-spacing:.6px;text-transform:uppercase;
+    margin-bottom:1.1rem;backdrop-filter:blur(8px)}
+  .hero-eyebrow i{color:#f0d060}
+
+  /* Judul utama dengan gradient text */
+  .hero-title{font-size:clamp(2rem,4.8vw,3.2rem);font-weight:900;line-height:1.15;margin-bottom:.5rem;
+    background:linear-gradient(135deg,#fff 0%,#e3f2fd 40%,#29b6f6 70%,#ffffff 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero-title-sub{font-size:clamp(1.3rem,3vw,2rem);font-weight:800;
+    background:linear-gradient(90deg,#f0d060,#ffe082,#c9a227);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    display:block;margin-top:.1rem}
+
+  /* Garis dekoratif bawah judul */
+  .hero-divider{width:80px;height:3px;margin:.7rem 0 .9rem;border-radius:2px;
+    background:linear-gradient(90deg,#c9a227,#f0d060,#c9a227)}
+
+  .hero-sub{font-size:1rem;color:rgba(255,255,255,.78);margin-bottom:.3rem}
+  .hero-loc{font-size:.88rem;color:rgba(255,255,255,.5);margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:.4rem}
+  .hero-loc i{color:#f0d060}
+  .hero-btns{display:flex;gap:.85rem;flex-wrap:wrap}
+
+  /* Tombol primary emas */
+  .hero-btn-gold{display:inline-flex;align-items:center;gap:.5rem;
+    background:linear-gradient(135deg,#c9a227,#f0d060,#c9a227);
+    background-size:200% auto;
+    color:#1a1a00;padding:.68rem 1.5rem;border-radius:99px;font-weight:800;font-size:.9rem;
+    box-shadow:0 4px 20px rgba(201,162,39,.4);transition:all .3s;animation:shimmer 3s linear infinite}
+  .hero-btn-gold:hover{background-position:right center;box-shadow:0 8px 30px rgba(201,162,39,.55);transform:translateY(-2px)}
+  .hero-btn-outline{display:inline-flex;align-items:center;gap:.5rem;
+    border:2px solid rgba(255,255,255,.4);color:#fff;padding:.65rem 1.35rem;
+    border-radius:99px;font-weight:600;font-size:.9rem;backdrop-filter:blur(4px);
+    transition:all .2s}
+  .hero-btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.7)}
+
+  /* Logo kanan hero */
+  .hero-logos-right{display:flex;flex-direction:column;align-items:center;gap:.9rem;
+    animation:floatY 4s ease-in-out infinite}
+  .hero-logo-rt{height:110px;width:auto;filter:drop-shadow(0 6px 24px rgba(0,0,0,.4)) drop-shadow(0 0 30px rgba(41,182,246,.3))}
+  .hero-logo-tg{height:72px;width:auto;opacity:.85;filter:drop-shadow(0 4px 14px rgba(0,0,0,.3))}
+  .hero-sep{width:1px;height:32px;background:linear-gradient(to bottom,transparent,rgba(201,162,39,.5),transparent)}
+
+  /* ── Google Maps mini di hero ── */
+  .hero-map-wrap{margin:1rem 0 1.5rem;max-width:420px}
+  .hero-map-label{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.55);
+    letter-spacing:.5px;text-transform:uppercase;margin-bottom:.45rem;
+    display:flex;align-items:center;gap:.35rem}
+  .hero-map-label i{color:#f0d060}
+  .hero-map-frame{position:relative;border-radius:12px;overflow:hidden;
+    border:1px solid rgba(201,162,39,.3);
+    box-shadow:0 4px 20px rgba(0,0,0,.35)}
+  .hero-map-frame iframe{display:block;width:100%;height:140px;border:0}
+  .hero-map-link{display:flex;align-items:center;gap:.4rem;
+    background:linear-gradient(90deg,rgba(0,0,0,.65),rgba(0,0,0,.5));
+    backdrop-filter:blur(4px);
+    color:rgba(255,255,255,.85);font-size:.73rem;font-weight:600;
+    padding:.4rem .75rem;text-decoration:none;transition:color .2s;
+    border-top:1px solid rgba(255,255,255,.1)}
+  .hero-map-link:hover{color:#f0d060}
+  .hero-map-link i{color:#f0d060;font-size:.7rem}
+
+  @media(max-width:768px){
+    .hero-map-wrap{max-width:100%}
+    .hero-map-frame iframe{height:120px}
+  }
+  .hero-logos-mobile{display:none;align-items:center;gap:1rem;margin:.75rem 0 1rem}
+  .hero-logos-mobile img:first-child{height:72px;filter:drop-shadow(0 3px 12px rgba(0,0,0,.3))}
+  .hero-logos-mobile img:last-child{height:52px;opacity:.9}
+  .hero-logos-mobile .hero-sep{width:1px;height:44px;background:rgba(201,162,39,.4);flex-shrink:0}
+</style>
+  <style>
+  /* ═══════════════════════════════════════════════════
+     QUICK BAR & STATS
+  ═══════════════════════════════════════════════════ */
+  .quick-bar{background:linear-gradient(90deg,#01579b,#0d47a1,#1565c0,#0288d1);
+    border-top:1px solid rgba(201,162,39,.3);border-bottom:1px solid rgba(201,162,39,.3);
+    padding:.55rem 0}
+  .quick-bar-inner{display:flex;align-items:center;justify-content:center;gap:2rem;
+    flex-wrap:wrap;font-size:.8rem;color:rgba(255,255,255,.85)}
+  .quick-bar-inner span{display:flex;align-items:center;gap:.4rem}
+  .quick-bar-inner i{color:#f0d060}
+
+  .stats-section{background:#fff;padding:0}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    box-shadow:0 6px 32px rgba(21,101,192,.14);border-radius:0 0 20px 20px;overflow:hidden}
+  .stat-card{padding:1.6rem 1rem;text-align:center;border-right:1px solid #e3f2fd;transition:all .25s;
+    background:linear-gradient(180deg,#fff 0%,#f8fbff 100%)}
+  .stat-card:last-child{border-right:none}
+  .stat-card:hover{background:linear-gradient(180deg,#f0f7ff,#e3f2fd);transform:translateY(-3px)}
+  .stat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;
+    justify-content:center;margin:0 auto .75rem;font-size:1.3rem;
+    box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .stat-num{font-size:2.1rem;font-weight:900;color:#0d47a1;line-height:1;margin-bottom:.2rem}
+  .stat-label{font-size:.75rem;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+
+  /* ═══════════════════════════════════════════════════
+     SLIDESHOW PENGURUS — FOTO PROFESIONAL
+  ═══════════════════════════════════════════════════ */
+  .pengurus-section{
+    background:linear-gradient(160deg,#020c1f 0%,#041533 15%,#062a6e 35%,#0d47a1 55%,#0288d1 80%,#01579b 100%);
+    position:relative;overflow:hidden;padding:4.5rem 0 3.5rem}
+  .pengurus-section::before{content:'';position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 50%,rgba(201,162,39,.08) 0%,transparent 60%),
+      radial-gradient(ellipse 40% 60% at 80% 50%,rgba(41,182,246,.1) 0%,transparent 55%)}
+  .pengurus-section::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,#c9a227,#f0d060,#c9a227,transparent)}
+
+  .peng-section-title{text-align:center;margin-bottom:3rem;position:relative;z-index:2}
+  .peng-section-title .eyebrow{display:inline-flex;align-items:center;gap:.5rem;
+    background:rgba(201,162,39,.15);border:1px solid rgba(201,162,39,.4);
+    border-radius:99px;padding:.28rem .9rem;font-size:.73rem;font-weight:700;
+    color:#f0d060;letter-spacing:.7px;text-transform:uppercase;margin-bottom:.75rem}
+  .peng-section-title h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;
+    background:linear-gradient(135deg,#fff,#e3f2fd,#f0d060);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.35rem}
+  .peng-section-title p{color:rgba(255,255,255,.5);font-size:.88rem}
+  .peng-gold-line{width:60px;height:3px;border-radius:2px;margin:.65rem auto 0;
+    background:linear-gradient(90deg,#c9a227,#f0d060,#c9a227)}
+
+  /* ── Slider wrapper ── */
+  .pengurus-slider-wrap{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:0 1rem}
+  .pengurus-slider{overflow:hidden;border-radius:24px}
+  .pengurus-track{display:flex;transition:transform .65s cubic-bezier(.4,0,.2,1)}
+
+  /* ── Slide: layout foto besar + info ── */
+  .peng-slide{min-width:100%;display:flex;align-items:stretch;background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1);border-radius:24px;overflow:hidden;
+    backdrop-filter:blur(10px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+
+  /* Kolom foto */
+  .peng-photo-col{flex:0 0 280px;position:relative;overflow:hidden;
+    background:linear-gradient(160deg,#0d2a5c,#0d47a1,#0288d1)}
+  .peng-photo-col::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.5) 100%)}
+
+  /* Foto asli jika ada */
+  .peng-photo-img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+    min-height:320px;transition:transform .5s ease}
+  .peng-slide:hover .peng-photo-img{transform:scale(1.04)}
+
+  /* Avatar fallback (inisial + ikon) */
+  .peng-photo-fallback{width:100%;min-height:320px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:1rem;position:relative;z-index:1}
+  .peng-initials{width:110px;height:110px;border-radius:50%;
+    background:rgba(255,255,255,.12);
+    border:3px solid rgba(201,162,39,.6);
+    display:flex;align-items:center;justify-content:center;
+    font-size:2.6rem;font-weight:900;color:#fff;letter-spacing:1px;
+    box-shadow:0 8px 32px rgba(0,0,0,.3),0 0 0 8px rgba(201,162,39,.1),inset 0 1px 0 rgba(255,255,255,.2);
+    text-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .peng-ikon-jabatan{font-size:1.1rem;color:rgba(255,255,255,.5)}
+
+  /* Nomor urut di sudut foto */
+  .peng-nomor{position:absolute;top:1rem;left:1rem;z-index:3;
+    width:36px;height:36px;border-radius:50%;
+    background:linear-gradient(135deg,#c9a227,#f0d060);
+    display:flex;align-items:center;justify-content:center;
+    font-size:.8rem;font-weight:900;color:#1a1200;
+    box-shadow:0 3px 10px rgba(0,0,0,.3)}
+
+  /* Kolom info */
+  .peng-info-col{flex:1;padding:2.2rem 2rem;display:flex;flex-direction:column;justify-content:center;
+    background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.02) 100%)}
+
+  /* Badge jabatan */
+  .peng-jabatan-badge{display:inline-flex;align-items:center;gap:.45rem;
+    background:linear-gradient(135deg,rgba(201,162,39,.25),rgba(240,208,96,.15));
+    border:1px solid rgba(201,162,39,.5);
+    color:#f0d060;padding:.32rem .9rem;border-radius:99px;
+    font-size:.72rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;
+    margin-bottom:1rem;width:fit-content;
+    box-shadow:0 2px 8px rgba(201,162,39,.2)}
+
+  /* Nama */
+  .peng-nama{font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:900;letter-spacing:.5px;
+    line-height:1.15;margin-bottom:.4rem;
+    background:linear-gradient(135deg,#ffffff,#dff0ff);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+  /* Jabatan besar */
+  .peng-jabatan-besar{font-size:1rem;font-weight:700;color:#f0d060;
+    letter-spacing:.4px;margin-bottom:.6rem;text-transform:uppercase;opacity:.9}
+
+  /* Garis emas */
+  .peng-divider{width:50px;height:2.5px;background:linear-gradient(90deg,#c9a227,#f0d060);
+    border-radius:2px;margin:.75rem 0}
+
+  /* Kontak */
+  .peng-kontak-row{display:flex;align-items:center;gap:.6rem;font-size:.85rem;
+    color:rgba(255,255,255,.6);margin-bottom:.4rem}
+  .peng-kontak-row i{color:#29b6f6;width:16px;text-align:center}
+  .peng-kontak-row strong{color:rgba(255,255,255,.85)}
+  .peng-wa-btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:.6rem;
+    background:linear-gradient(135deg,#128c7e,#25d366);
+    color:#fff;padding:.45rem 1.1rem;border-radius:99px;font-size:.8rem;font-weight:700;
+    text-decoration:none;transition:all .2s;box-shadow:0 3px 10px rgba(37,211,102,.3)}
+  .peng-wa-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(37,211,102,.4)}
+
+  /* Navigasi */
+  .slider-nav{display:flex;align-items:center;justify-content:center;gap:1.5rem;
+    margin-top:1.8rem;position:relative;z-index:2}
+  .slider-arrow{width:46px;height:46px;border-radius:50%;
+    border:2px solid rgba(201,162,39,.45);background:rgba(255,255,255,.07);
+    color:#f0d060;font-size:1rem;cursor:pointer;display:flex;align-items:center;
+    justify-content:center;transition:all .2s;backdrop-filter:blur(6px)}
+  .slider-arrow:hover{background:rgba(201,162,39,.22);border-color:#f0d060;transform:scale(1.1)}
+  .slider-dots{display:flex;gap:.45rem;align-items:center}
+  .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);
+    cursor:pointer;transition:all .3s}
+  .dot.active{width:24px;border-radius:4px;background:linear-gradient(90deg,#c9a227,#f0d060)}
+  .slider-counter{font-size:.8rem;color:rgba(255,255,255,.4);min-width:40px;text-align:center;
+    font-variant-numeric:tabular-nums}
+
+  /* Floral corners */
+  .floral-corner{position:absolute;pointer-events:none;opacity:.08}
+  .floral-corner-tl{top:0;left:0;width:220px}
+  .floral-corner-br{bottom:0;right:0;width:180px;transform:rotate(180deg)}
+
+  @media(max-width:768px){
+    .peng-photo-col{flex:0 0 180px}
+    .peng-photo-img,.peng-photo-fallback{min-height:240px}
+    .peng-initials{width:80px;height:80px;font-size:2rem}
+    .peng-info-col{padding:1.5rem 1.25rem}
+  }
+  @media(max-width:540px){
+    .peng-slide{flex-direction:column}
+    .peng-photo-col{flex:0 0 auto}
+    .peng-photo-img,.peng-photo-fallback{min-height:200px}
+    .peng-info-col{padding:1.25rem}
+    .peng-nama{font-size:1.4rem}
+  }
+</style>
+  <style>
+  /* ═══════════════════════════════════════════════════
+     MENU CARDS, PENGUMUMAN, KONTAK, FOOTER
+  ═══════════════════════════════════════════════════ */
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.15rem}
+  .menu-card{background:#fff;border-radius:16px;padding:1.5rem 1.25rem;text-decoration:none;
+    display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;
+    box-shadow:0 2px 14px rgba(21,101,192,.08);border:1.5px solid #e8f0fe;
+    transition:transform .2s,box-shadow .2s,border-color .2s}
+  .menu-card:hover{transform:translateY(-5px);box-shadow:0 10px 32px rgba(21,101,192,.18);border-color:#1565c0}
+  .menu-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;
+    justify-content:center;font-size:1.3rem;color:#fff;flex-shrink:0;margin-bottom:.1rem;
+    box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .menu-card h3{font-size:.97rem;font-weight:800;color:#1e293b;margin:0}
+  .menu-card p{font-size:.8rem;color:#64748b;margin:0;line-height:1.45}
+  .menu-card-arrow{margin-top:.4rem;font-size:.75rem;color:#1565c0;font-weight:700;
+    display:flex;align-items:center;gap:.25rem}
+
+  .peng-list{display:flex;flex-direction:column;gap:.85rem}
+  .peng-item{background:#fff;border-radius:12px;padding:1rem 1.25rem;
+    display:flex;gap:1rem;align-items:flex-start;box-shadow:0 2px 10px rgba(21,101,192,.07);
+    border-left:4px solid #e3f2fd;transition:border-color .2s,box-shadow .2s}
+  .peng-item:hover{border-left-color:#1565c0;box-shadow:0 4px 18px rgba(21,101,192,.13)}
+  .peng-item.penting{border-left-color:#ef4444}
+  .peng-item.kegiatan{border-left-color:#2563eb}
+  .peng-item.info{border-left-color:#16a34a}
+  .peng-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;
+    justify-content:center;flex-shrink:0;font-size:1rem}
+  .peng-body h4{font-size:.93rem;font-weight:700;color:#1e293b;margin:0 0 .25rem}
+  .peng-body p{font-size:.82rem;color:#475569;margin:0 0 .4rem;line-height:1.5}
+  .peng-meta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+  .peng-date{font-size:.73rem;color:#94a3b8;display:flex;align-items:center;gap:.3rem}
+  .peng-empty{text-align:center;padding:3rem;color:#94a3b8}
+
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+  .contact-card{background:#fff;border-radius:14px;padding:1.25rem;
+    box-shadow:0 2px 12px rgba(21,101,192,.08);display:flex;flex-direction:column;gap:.5rem;
+    border:1.5px solid #e3f2fd;transition:transform .2s,box-shadow .2s}
+  .contact-card:hover{transform:translateY(-3px);box-shadow:0 6px 22px rgba(21,101,192,.15)}
+  .contact-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;
+    justify-content:center;font-size:1.2rem;color:#fff}
+  .contact-card h4{font-size:.88rem;font-weight:700;color:#1e293b;margin:0}
+  .contact-card p{font-size:.78rem;color:#64748b;margin:0}
+  .contact-card a{font-size:.88rem;font-weight:700;color:#1565c0;text-decoration:none;
+    display:inline-flex;align-items:center;gap:.35rem}
+
+  @media(max-width:900px){
+    .peng-photo-col{flex:0 0 200px}
+  }
+  @media(max-width:768px){
+    /* Umum */
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .stat-card{border-bottom:1px solid #e3f2fd}
+    .hero-logos-right{display:none}
+    .hero-logos-mobile{display:flex}
+    .quick-bar-inner{gap:.75rem;font-size:.75rem}
+    /* Hero */
+    .hero-text{max-width:100%}
+    .hero-btns{gap:.6rem}
+    .hero-btn-gold,.hero-btn-outline{padding:.55rem 1.1rem;font-size:.83rem}
+    .hero-map-wrap{max-width:100%}
+    .hero-map-frame iframe{height:120px}
+    /* Slider */
+    .peng-photo-col{flex:0 0 160px}
+    .peng-photo-img,.peng-photo-fallback{min-height:240px}
+    .peng-initials{width:80px;height:80px;font-size:2rem}
+    .peng-info-col{padding:1.5rem 1.25rem}
+    .peng-jabatan-badge{font-size:.68rem}
+  }
+  @media(max-width:540px){
+    .peng-slide{flex-direction:column}
+    .peng-photo-col{flex:0 0 auto;width:100%}
+    .peng-photo-img{min-height:220px;max-height:260px}
+    .peng-photo-fallback{min-height:180px}
+    .peng-info-col{padding:1.25rem 1rem}
+    .peng-nama{font-size:1.4rem}
+    .peng-jabatan-besar{font-size:.9rem}
+    .pengurus-slider-wrap{padding:0 .5rem}
+  }
+  @media(max-width:480px){
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .menu-grid{grid-template-columns:repeat(2,1fr)}
+    .hero-title{font-size:1.7rem}
+    .hero-title-sub{font-size:1.2rem}
+    .hero-map-frame iframe{height:110px}
+    .quick-bar{display:none}
+    .peng-section-title h2{font-size:1.3rem}
+    .peng-wa-btn{font-size:.75rem;padding:.4rem .85rem}
+  }
+  </style>
+</head>
+<body>
+
+<!-- SVG Floral defs (reusable) -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="floral-svg" viewBox="0 0 300 550">
+      <!-- Batang utama -->
+      <path d="M150 520 C150 520 140 440 130 380 C118 310 80 270 60 200 C40 130 80 60 150 40
+               C220 60 260 130 240 200 C220 270 182 310 170 380 C160 440 150 520 150 520Z"
+            fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Daun kiri bawah -->
+      <path d="M135 380 C100 370 70 330 75 290 C100 300 125 340 135 380Z" fill="white" opacity=".7"/>
+      <!-- Daun kanan bawah -->
+      <path d="M165 375 C200 362 228 322 222 282 C198 295 172 335 165 375Z" fill="white" opacity=".7"/>
+      <!-- Daun kiri tengah -->
+      <path d="M122 280 C82 255 62 210 72 175 C98 190 118 240 122 280Z" fill="white" opacity=".65"/>
+      <!-- Daun kanan tengah -->
+      <path d="M178 275 C218 248 238 204 228 168 C202 185 182 236 178 275Z" fill="white" opacity=".65"/>
+      <!-- Kuncup bunga atas -->
+      <ellipse cx="150" cy="55" rx="22" ry="30" fill="white" opacity=".8"/>
+      <ellipse cx="130" cy="75" rx="15" ry="22" fill="white" opacity=".6" transform="rotate(-25 130 75)"/>
+      <ellipse cx="170" cy="75" rx="15" ry="22" fill="white" opacity=".6" transform="rotate(25 170 75)"/>
+      <!-- Spiral kiri -->
+      <path d="M118 200 C95 195 80 175 90 158 C100 141 120 150 118 168 C116 182 108 190 118 200Z"
+            fill="none" stroke="white" stroke-width="2"/>
+      <!-- Spiral kanan -->
+      <path d="M182 196 C205 191 220 171 210 154 C200 137 180 146 182 164 C184 178 192 186 182 196Z"
+            fill="none" stroke="white" stroke-width="2"/>
+      <!-- Titik-titik ornamen -->
+      <circle cx="108" cy="308" r="3" fill="white" opacity=".5"/>
+      <circle cx="100" cy="295" r="2" fill="white" opacity=".4"/>
+      <circle cx="92"  cy="285" r="1.5" fill="white" opacity=".3"/>
+      <circle cx="192" cy="303" r="3" fill="white" opacity=".5"/>
+      <circle cx="200" cy="290" r="2" fill="white" opacity=".4"/>
+      <circle cx="208" cy="280" r="1.5" fill="white" opacity=".3"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container nav-container">
+    <div class="nav-brand">
+      <img src="assets/img/logo-rt.png" alt="Logo RT 04 RW 02"/>
+      <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel"/>
+      <span>RT 04 / RW 02<span class="brand-sub">Jombang · Ciputat · Tangsel</span></span>
+    </div>
+    <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html" class="active">Beranda</a></li>
+      <li><a href="iuran.html">Iuran</a></li>
+      <li><a href="umkm.html">UMKM</a></li>
+      <li><a href="kegiatan.html">Kegiatan</a></li>
+      <li><a href="ronda.html">Ronda</a></li>
+      <li><a href="pengurus.html">Pengurus</a></li>
+      <li><a href="dokumentasi.html">Dokumentasi</a></li>
+      <li><a href="lapor.html" class="btn-lapor">Lapor Kejadian</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="hero">
+  <!-- Ornamen floral kiri & kanan -->
+  <div class="floral-left"><svg><use href="#floral-svg"/></svg></div>
+  <div class="floral-right"><svg><use href="#floral-svg"/></svg></div>
+  <!-- Cincin dekoratif -->
+  <div class="hero-ring hero-ring-1"></div>
+  <div class="hero-ring hero-ring-2"></div>
+  <div class="hero-ring hero-ring-3"></div>
+  <!-- Bintang-bintang latar -->
+  <div class="hero-stars" id="heroStars"></div>
+
+  <div class="container hero-inner">
+    <div class="hero-text fade-up">
+      <div class="hero-eyebrow"><i class="fas fa-circle-check"></i> RT 04 / RW 02 — Jombang Ciputat</div>
+      <h1 class="hero-title">
+        Website Resmi
+        <span class="hero-title-sub">RT 04 / RW 02</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-sub">Kp. Gedong — Jombang, Ciputat</p>
+      <p class="hero-loc"><i class="fas fa-location-dot"></i> Tangerang Selatan, Banten 15411</p>
+      <!-- Google Maps mini embed -->
+      <div class="hero-map-wrap">
+        <div class="hero-map-label"><i class="fas fa-map-pin"></i> Lokasi RT 04 / RW 02 — Jombang, Ciputat</div>
+        <div class="hero-map-frame">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.215!2d106.73815!3d-6.31214!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69efe209bbbbbb%3A0x1!2sJombang%2C+Ciputat%2C+Tangerang+Selatan%2C+Banten+15411!5e0!3m2!1sid!2sid!4v1722000000001!5m2!1sid!2sid"
+            width="100%" height="140" style="border:0;border-radius:10px 10px 0 0;display:block"
+            allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Lokasi RT 04 RW 02 Jombang Ciputat Tangsel">
+          </iframe>
+          <a href="https://maps.google.com/?q=Jombang,Ciputat,Tangerang+Selatan,Banten" target="_blank" rel="noopener" class="hero-map-link">
+            <i class="fas fa-up-right-from-square"></i> Buka di Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="hero-logos-mobile">
+        <img src="assets/img/logo-rt.png" alt="Logo RT"/>
+        <div class="hero-sep"></div>
+        <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel"/>
+      </div>
+      <div class="hero-btns">
+        <a href="lapor.html"  class="hero-btn-gold"><i class="fas fa-triangle-exclamation"></i> Lapor Kejadian</a>
+        <a href="iuran.html"  class="hero-btn-outline"><i class="fas fa-money-bill-wave"></i> Cek Iuran</a>
+      </div>
+    </div>
+    <div class="hero-logos-right fade-up">
+      <img src="assets/img/logo-rt.png"      alt="Logo RT"     class="hero-logo-rt"/>
+      <div class="hero-sep"></div>
+      <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel" class="hero-logo-tg"/>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK INFO BAR -->
+<div class="quick-bar">
+  <div class="container quick-bar-inner">
+    <span><i class="fas fa-calendar-day"></i> Periode: 2025 – 2028</span>
+    <span><i class="fas fa-user-tie"></i> Ketua RT: Bpk. Novi Aziz</span>
+    <span><i class="fas fa-phone"></i> 085692347458</span>
+    <span><i class="fas fa-shield-halved"></i> Keamanan: Bpk. Dambas — 081517892573</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card fade-up">
+        <div class="stat-icon" style="background:linear-gradient(135deg,#1565c0,#1976d2)"><i class="fas fa-id-card" style="color:#fff"></i></div>
+        <div class="stat-num" id="statKartu">235</div>
+        <div class="stat-label">Kartu Warga</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><i class="fas fa-store" style="color:#fff"></i></div>
+        <div class="stat-num" id="statUmkm">—</div>
+        <div class="stat-label">UMKM Terdaftar</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon" style="background:linear-gradient(135deg,#dc2626,#ef4444)"><i class="fas fa-shield-halved" style="color:#fff"></i></div>
+        <div class="stat-num">15</div>
+        <div class="stat-label">Regu Ronda</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon" style="background:linear-gradient(135deg,#d97706,#f59e0b)"><i class="fas fa-people-group" style="color:#fff"></i></div>
+        <div class="stat-num" id="statPengurus">17</div>
+        <div class="stat-label">Pengurus RT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ SLIDESHOW JAJARAN PENGURUS ════════ -->
+<section class="pengurus-section">
+  <!-- Ornamen sudut -->
+  <div class="floral-corner floral-corner-tl"><svg viewBox="0 0 300 550" xmlns="http://www.w3.org/2000/svg"><use href="#floral-svg"/></svg></div>
+  <div class="floral-corner floral-corner-br"><svg viewBox="0 0 300 550" xmlns="http://www.w3.org/2000/svg"><use href="#floral-svg"/></svg></div>
+
+  <div class="container">
+    <div class="peng-section-title">
+      <div class="eyebrow"><i class="fas fa-crown"></i> Susunan Pengurus</div>
+      <h2>Jajaran Pengurus RT 04 / RW 02</h2>
+      <p>Kp. Gedong — Jombang, Ciputat, Tangerang Selatan · Periode 2025–2028</p>
+      <div class="peng-gold-line"></div>
+    </div>
+
+    <div class="pengurus-slider-wrap">
+      <div class="pengurus-slider">
+        <div class="pengurus-track" id="pengurusTrack">
+          <!-- Slide diisi JS -->
+        </div>
+      </div>
+
+      <!-- Navigasi -->
+      <div class="slider-nav">
+        <button class="slider-arrow" id="prevBtn" onclick="slidePrev()"><i class="fas fa-chevron-left"></i></button>
+        <div class="slider-dots" id="sliderDots"></div>
+        <span class="slider-counter" id="sliderCounter">1 / 17</span>
+        <button class="slider-arrow" id="nextBtn" onclick="slideNext()"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LAYANAN -->
+<section class="section">
+  <div class="container">
+    <div class="section-header"><h2>Layanan Warga</h2><p>Semua informasi dan layanan RT tersedia dalam satu portal</p></div>
+    <div class="menu-grid">
+      <a href="iuran.html" class="menu-card fade-up">
+        <div class="menu-icon" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><i class="fas fa-money-bill-wave"></i></div>
+        <h3>Iuran Warga</h3><p>Status pembayaran iuran kebersihan &amp; keamanan bulanan</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lihat Detail</span>
+      </a>
+      <a href="umkm.html" class="menu-card fade-up">
+        <div class="menu-icon" style="background:linear-gradient(135deg,#ea580c,#f97316)"><i class="fas fa-store"></i></div>
+        <h3>UMKM Lokal</h3><p>Dukung usaha warga RT 04 — makanan, jasa, kerajinan dan lainnya</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lihat UMKM</span>
+      </a>
+      <a href="lapor.html" class="menu-card fade-up">
+        <div class="menu-icon" style="background:linear-gradient(135deg,#dc2626,#ef4444)"><i class="fas fa-triangle-exclamation"></i></div>
+        <h3>Lapor Kejadian</h3><p>Laporkan kejadian atau situasi darurat di lingkungan RT</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lapor Sekarang</span>
+      </a>
+      <a href="kegiatan.html" class="menu-card fade-up">
+        <div class="menu-icon" style="background:linear-gradient(135deg,#1565c0,#1976d2)"><i class="fas fa-calendar-days"></i></div>
+        <h3>Kegiatan</h3><p>Jadwal kerja bakti, arisan, posyandu, dan kegiatan warga lainnya</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lihat Jadwal</span>
+      </a>
+      <a href="ronda.html" class="menu-card fade-up">
+        <div class="menu-icon" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6)"><i class="fas fa-moon"></i></div>
+        <h3>Jadwal Ronda</h3><p>15 regu ronda giliran malam — jadwal lengkap Juli–Agustus 2026</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Cek Jadwal</span>
+      </a>
+      <a href="dokumentasi.html" class="menu-card fade-up">
+        <div class="menu-icon" style="background:linear-gradient(135deg,#0891b2,#06b6d4)"><i class="fas fa-photo-film"></i></div>
+        <h3>Dokumentasi</h3><p>Galeri foto dan video kegiatan RT per periode bulanan</p>
+        <span class="menu-card-arrow"><i class="fas fa-arrow-right"></i> Lihat Galeri</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PENGUMUMAN -->
+<section class="section bg-light">
+  <div class="container">
+    <div class="section-header"><h2>Pengumuman Terkini</h2><p>Informasi terbaru dari pengurus RT 04 / RW 02</p></div>
+    <div class="peng-list" id="pengList"><div class="peng-empty"><i class="fas fa-spinner fa-spin"></i> Memuat...</div></div>
+    <div style="text-align:right;margin-top:1rem">
+      <a href="kegiatan.html" style="font-size:.83rem;color:#1565c0;font-weight:600;display:inline-flex;align-items:center;gap:.35rem">Lihat semua kegiatan <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAK -->
+<section class="section">
+  <div class="container">
+    <div class="section-header"><h2>Kontak Penting</h2><p>Hubungi langsung pengurus atau layanan darurat</p></div>
+    <div class="contact-grid">
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#1565c0,#1976d2)"><i class="fas fa-user-tie"></i></div>
+        <h4>Ketua RT</h4><p>Bpk. Novi Aziz</p>
+        <a href="tel:+6285692347458"><i class="fas fa-phone"></i> 085692347458</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#dc2626,#ef4444)"><i class="fas fa-shield-halved"></i></div>
+        <h4>Ketua Keamanan</h4><p>Bpk. Dambas Muhari</p>
+        <a href="tel:+6281517892573"><i class="fas fa-phone"></i> 081517892573</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#0891b2,#06b6d4)"><i class="fas fa-pen-clip"></i></div>
+        <h4>Sekretaris RT</h4><p>Bpk. Lukman</p>
+        <a href="tel:+6289635719264"><i class="fas fa-phone"></i> 089635719264</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#b91c1c,#dc2626)"><i class="fas fa-fire"></i></div>
+        <h4>Pemadam Kebakaran</h4><p>Dinas Pemadam Kota Tangsel</p>
+        <a href="tel:113"><i class="fas fa-phone"></i> 113</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#d97706,#f59e0b)"><i class="fas fa-truck-medical"></i></div>
+        <h4>Ambulans / Darurat</h4><p>Layanan Darurat Medis</p>
+        <a href="tel:119"><i class="fas fa-phone"></i> 118 / 119</a>
+      </div>
+      <div class="contact-card fade-up">
+        <div class="contact-icon" style="background:linear-gradient(135deg,#15803d,#16a34a)"><i class="fab fa-whatsapp"></i></div>
+        <h4>WhatsApp Ketua RT</h4><p>Chat langsung via WhatsApp</p>
+        <a href="https://wa.me/6285692347458" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Chat WA</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-content">
+    <div class="footer-brand">
+      <div class="footer-logos">
+        <img src="assets/img/logo-rt.png" alt="Logo RT" class="logo-footer"/>
+        <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel" class="logo-tangsel-footer"/>
+      </div>
+      <h3>RT 04 / RW 02</h3>
+      <p class="footer-sub">Kp. Gedong - Jombang</p>
+      <p>Ciputat, Tangerang Selatan, Banten 15411</p>
+    </div>
+    <div class="footer-links"><h4>Menu</h4><ul>
+      <li><a href="iuran.html">Iuran Warga</a></li>
+      <li><a href="umkm.html">UMKM Lokal</a></li>
+      <li><a href="kegiatan.html">Kegiatan</a></li>
+      <li><a href="ronda.html">Jadwal Ronda</a></li>
+      <li><a href="pengurus.html">Pengurus RT</a></li>
+      <li><a href="dokumentasi.html">Dokumentasi</a></li>
+      <li><a href="lapor.html">Lapor Kejadian</a></li>
+    </ul></div>
+    <div class="footer-contact"><h4>Kontak</h4>
+      <p><i class="fas fa-user-tie"></i> Ketua: Bpk. Novi Aziz</p>
+      <p><i class="fas fa-phone"></i> 085692347458</p>
+      <p><i class="fab fa-whatsapp"></i> 085692347458</p>
+      <p><i class="fas fa-location-dot"></i> Kp. Gedong, Jombang, Ciputat</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan.
+    &nbsp;|&nbsp; <a href="admin-login.html" style="color:rgba(255,255,255,.4);font-size:.78rem"><i class="fas fa-lock"></i> Admin</a></p>
+  </div>
+</footer>
+
+<script src="assets/js/api-connector.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+// ════════════════════════════════════════════════════════
+//  DATA PENGURUS
+// ════════════════════════════════════════════════════════
+const PENGURUS_DATA = [
+  { nama:'NOVI AZIZ',     jabatan:'Ketua RT',             kontak:'085692347458', ikon:'fa-user-tie',        warna:'linear-gradient(135deg,#1565c0,#1976d2)' },
+  { nama:'SAPTONO',       jabatan:'Wakil Ketua RT',        kontak:'081318938658', ikon:'fa-user-check',      warna:'linear-gradient(135deg,#0288d1,#0891b2)' },
+  { nama:'LUKMAN',        jabatan:'Sekretaris',            kontak:'089635719264', ikon:'fa-pen-clip',        warna:'linear-gradient(135deg,#0891b2,#06b6d4)' },
+  { nama:'MERRY',         jabatan:'Bendahara',             kontak:'088975921141', ikon:'fa-wallet',          warna:'linear-gradient(135deg,#d97706,#f59e0b)' },
+  { nama:'ALEX',          jabatan:'Penasehat',             kontak:'081510924462', ikon:'fa-star',            warna:'linear-gradient(135deg,#7c3aed,#8b5cf6)' },
+  { nama:"MA'RUF",        jabatan:'Penasehat',             kontak:'089513899071', ikon:'fa-star',            warna:'linear-gradient(135deg,#7c3aed,#8b5cf6)' },
+  { nama:'M IDHAM',       jabatan:'Humas',                 kontak:'081287044231', ikon:'fa-bullhorn',        warna:'linear-gradient(135deg,#ea580c,#f97316)' },
+  { nama:'AMAR',          jabatan:'Humas',                 kontak:'081213567147', ikon:'fa-bullhorn',        warna:'linear-gradient(135deg,#ea580c,#f97316)' },
+  { nama:'G. ISWAHYUDI',  jabatan:'Pembina',               kontak:'082114777892', ikon:'fa-chalkboard-user', warna:'linear-gradient(135deg,#0f766e,#0d9488)' },
+  { nama:'DAMBAS',        jabatan:'Ketua Keamanan',        kontak:'081517892573', ikon:'fa-shield-halved',   warna:'linear-gradient(135deg,#dc2626,#ef4444)' },
+  { nama:'SUPRAPTO',      jabatan:'Wakil Ketua Keamanan',  kontak:'081318802245', ikon:'fa-shield',          warna:'linear-gradient(135deg,#b91c1c,#dc2626)' },
+  { nama:'FAUZI',         jabatan:'Rois',                  kontak:'089603025585', ikon:'fa-mosque',          warna:'linear-gradient(135deg,#15803d,#16a34a)' },
+  { nama:'AGUNG',         jabatan:'Perlengkapan',          kontak:'085921211033', ikon:'fa-boxes-stacked',   warna:'linear-gradient(135deg,#4f46e5,#6366f1)' },
+  { nama:'ZAINUDIN',      jabatan:'Perlengkapan',          kontak:'085691300893', ikon:'fa-boxes-stacked',   warna:'linear-gradient(135deg,#4f46e5,#6366f1)' },
+  { nama:'ENCANG',        jabatan:'Kepemudaan',            kontak:null,           ikon:'fa-people-group',    warna:'linear-gradient(135deg,#db2777,#ec4899)' },
+  { nama:'ILYAS',         jabatan:'Kepemudaan',            kontak:null,           ikon:'fa-people-group',    warna:'linear-gradient(135deg,#db2777,#ec4899)' },
+  { nama:'YOGA',          jabatan:'Kepemudaan',            kontak:null,           ikon:'fa-people-group',    warna:'linear-gradient(135deg,#db2777,#ec4899)' },
+];
+
+// ════════════════════════════════════════════════════════
+//  BUILD SLIDER — FOTO PROFESIONAL
+// ════════════════════════════════════════════════════════
+let currentSlide = 0;
+let autoTimer    = null;
+let TOTAL        = PENGURUS_DATA.length;  // diupdate saat slider dibangun
+
+function getInitials(nama) {
+  return (nama||'').split(' ').slice(0,2).map(w => w[0]||'').join('').toUpperCase() || '?';
+}
+
+function buildSlider(data) {
+  const track = document.getElementById('pengurusTrack');
+  const dots  = document.getElementById('sliderDots');
+  if (!track) return;
+
+  track.innerHTML = data.map((p, i) => {
+    // Foto: coba dari API pengurus jika sudah ada, fallback inisial
+    const fotoSrc = p.foto_url || null;
+    const inisial = getInitials(p.nama);
+
+    const fotoHtml = fotoSrc
+      ? `<img class="peng-photo-img" src="${fotoSrc}" alt="${p.nama}"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+         <div class="peng-photo-fallback" style="display:none">
+           <div class="peng-initials">${inisial}</div>
+           <div class="peng-ikon-jabatan"><i class="fas ${p.ikon}"></i></div>
+         </div>`
+      : `<div class="peng-photo-fallback">
+           <div class="peng-initials">${inisial}</div>
+           <div class="peng-ikon-jabatan"><i class="fas ${p.ikon}"></i></div>
+         </div>`;
+
+    const waHtml = p.kontak
+      ? `<a class="peng-wa-btn"
+            href="https://wa.me/62${p.kontak.replace(/^0/,'').replace(/\D/g,'')}"
+            target="_blank" rel="noopener">
+           <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
+         </a>`
+      : '';
+
+    return `<div class="peng-slide">
+      <div class="peng-photo-col">
+        ${fotoHtml}
+        <div class="peng-nomor">${String(i+1).padStart(2,'0')}</div>
+      </div>
+      <div class="peng-info-col">
+        <div class="peng-jabatan-badge"><i class="fas ${p.ikon}"></i> ${p.jabatan}</div>
+        <div class="peng-nama">${p.nama}</div>
+        <div class="peng-jabatan-besar">${p.jabatan}</div>
+        <div class="peng-divider"></div>
+        ${p.kontak ? `
+        <div class="peng-kontak-row">
+          <i class="fas fa-phone"></i>
+          <strong>${p.kontak}</strong>
+        </div>` : `
+        <div class="peng-kontak-row" style="opacity:.35">
+          <i class="fas fa-phone"></i> —
+        </div>`}
+        ${waHtml}
+      </div>
+    </div>`;
+  }).join('');
+
+  dots.innerHTML = data.map((_,i) =>
+    `<div class="dot${i===0?' active':''}" onclick="goTo(${i})"></div>`
+  ).join('');
+
+  TOTAL = data.length;  // update TOTAL sesuai data aktual
+  updateCounter();
+}
+
+// Coba ambil data pengurus dari API (dengan foto)
+async function loadPengurusSlider() {
+  try {
+    const r = await fetch('/api/pengurus').then(r=>r.json());
+    if (r.success && r.data && r.data.length) {
+      // Data dari API sudah punya: id, nama, jabatan, kontak, ikon_css, warna_hex, foto_url, urutan
+      const apiData = r.data.map(p => ({
+        nama:     (p.nama    || '').toUpperCase(),
+        jabatan:  p.jabatan  || '',
+        kontak:   p.kontak   || null,
+        ikon:     p.ikon_css || 'fa-user',
+        warna:    p.warna_hex
+                  ? `linear-gradient(135deg,${p.warna_hex},${p.warna_hex}cc)`
+                  : 'linear-gradient(135deg,#1565c0,#1976d2)',
+        foto_url: p.foto_url || null,
+      }));
+      buildSlider(apiData);
+      return;
+    }
+  } catch(e) { /* fallback ke data statis */ }
+  // Fallback: data statis tanpa foto
+  buildSlider(PENGURUS_DATA);
+}
+
+function goTo(idx) {
+  currentSlide = (idx + TOTAL) % TOTAL;
+  const track  = document.getElementById('pengurusTrack');
+  if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i === currentSlide));
+  updateCounter();
+}
+
+function slideNext() { goTo(currentSlide + 1); resetAuto(); }
+function slidePrev() { goTo(currentSlide - 1); resetAuto(); }
+
+function updateCounter() {
+  const el = document.getElementById('sliderCounter');
+  if (el) el.textContent = `${currentSlide + 1} / ${TOTAL}`;
+}
+
+function startAuto() {
+  autoTimer = setInterval(() => goTo(currentSlide + 1), 4500);
+}
+function resetAuto() {
+  clearInterval(autoTimer); startAuto();
+}
+
+// Swipe touch support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+document.addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) { dx < 0 ? slideNext() : slidePrev(); }
+}, {passive:true});
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') slideNext();
+  if (e.key === 'ArrowLeft')  slidePrev();
+});
+
+// ════════════════════════════════════════════════════════
+//  BINTANG LATAR HERO (generatif)
+// ════════════════════════════════════════════════════════
+function buildStars() {
+  const el = document.getElementById('heroStars');
+  if (!el) return;
+  let html = '';
+  for (let i = 0; i < 60; i++) {
+    const x = Math.random() * 100, y = Math.random() * 100;
+    const s = (Math.random() * 2 + 0.5).toFixed(1);
+    const op = (Math.random() * 0.35 + 0.05).toFixed(2);
+    html += `<div style="position:absolute;left:${x}%;top:${y}%;width:${s}px;height:${s}px;
+      border-radius:50%;background:rgba(255,255,255,${op})"></div>`;
+  }
+  el.innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════════
+//  STATS COUNTER ANIMATION
+// ════════════════════════════════════════════════════════
+function animateCounter(el, target) {
+  let cur = 0;
+  const step = Math.max(1, Math.ceil(target / 45));
+  const t = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur;
+    if (cur >= target) clearInterval(t);
+  }, 28);
+}
+
+// ════════════════════════════════════════════════════════
+//  PENGUMUMAN
+// ════════════════════════════════════════════════════════
+const BADGE_COLOR = { Penting:'#ef4444', Kegiatan:'#2563eb', Info:'#16a34a', Spesial:'#d97706', Umum:'#64748b' };
+const ICON_BG     = { Penting:'#fef2f2', Kegiatan:'#eff6ff', Info:'#f0fdf4', Spesial:'#fffbeb', Umum:'#f8fafc' };
+const ICON_ICON   = { Penting:'fa-circle-exclamation', Kegiatan:'fa-calendar-days', Info:'fa-circle-info', Spesial:'fa-star', Umum:'fa-bullhorn' };
+const CSS_CLS     = { Penting:'penting', Kegiatan:'kegiatan', Info:'info', Spesial:'', Umum:'' };
+
+function fmtTgl(d) {
+  if (!d) return '';
+  const p = (d+'').split('T')[0].split('-');
+  const B = ['','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  return +p[2] + ' ' + (B[+p[1]]||'') + ' ' + p[0];
+}
+
+async function loadPengumuman() {
+  const list = document.getElementById('pengList');
+  if (!list) return;
+  try {
+    const r = await fetch('/api/pengumuman?limit=4').then(r=>r.json());
+    if (r.success && r.data.length) {
+      list.innerHTML = r.data.map(x => {
+        const kat = x.kategori||'Umum';
+        return `<div class="peng-item ${CSS_CLS[kat]||''}">
+          <div class="peng-icon" style="background:${ICON_BG[kat]||'#f8fafc'}">
+            <i class="fas ${ICON_ICON[kat]||'fa-bullhorn'}" style="color:${BADGE_COLOR[kat]||'#64748b'}"></i>
+          </div>
+          <div class="peng-body">
+            <h4>${x.judul||''}</h4><p>${x.isi||''}</p>
+            <div class="peng-meta">
+              <span class="peng-date"><i class="fas fa-clock"></i> ${fmtTgl(x.tanggal)}</span>
+              <span style="background:${ICON_BG[kat]};color:${BADGE_COLOR[kat]};font-size:.68rem;padding:.15rem .5rem;border-radius:99px;font-weight:600">${kat}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      return;
+    }
+  } catch(e) {}
+  // Fallback statis
+  list.innerHTML = `
+    <div class="peng-item penting">
+      <div class="peng-icon" style="background:#fef2f2"><i class="fas fa-circle-exclamation" style="color:#ef4444"></i></div>
+      <div class="peng-body"><h4>Pembayaran Iuran Bulan Juli 2026</h4>
+        <p>Batas pembayaran <strong>31 Juli 2026</strong>. Kebersihan Rp 30.000 + Keamanan Rp 20.000.</p>
+        <div class="peng-meta"><span class="peng-date"><i class="fas fa-clock"></i> 1 Juli 2026</span></div>
+      </div>
+    </div>
+    <div class="peng-item kegiatan">
+      <div class="peng-icon" style="background:#eff6ff"><i class="fas fa-calendar-days" style="color:#2563eb"></i></div>
+      <div class="peng-body"><h4>Jadwal Ronda Malam Juli–Agustus 2026</h4>
+        <p>Jadwal 15 regu telah disusun. Harap seluruh anggota hadir tepat waktu.</p>
+        <div class="peng-meta"><span class="peng-date"><i class="fas fa-clock"></i> 20 Juli 2026</span></div>
+      </div>
+    </div>
+    <div class="peng-item info">
+      <div class="peng-icon" style="background:#f0fdf4"><i class="fas fa-circle-info" style="color:#16a34a"></i></div>
+      <div class="peng-body"><h4>Pendaftaran UMKM Warga</h4>
+        <p>Hubungi Sekretaris RT Bpk. Lukman untuk mendaftarkan usaha Anda secara gratis.</p>
+        <div class="peng-meta"><span class="peng-date"><i class="fas fa-clock"></i> 15 Juli 2026</span></div>
+      </div>
+    </div>`;
+}
+
+// ════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+  buildStars();
+  loadPengurusSlider();   // ambil foto dari API, fallback ke inisial
+  startAuto();
+  loadPengumuman();
+
+  // Stats dari API
+  try {
+    const rU = await fetch('/api/umkm').then(r=>r.json());
+    const elU = document.getElementById('statUmkm');
+    if (rU.success && elU) animateCounter(elU, rU.data.length);
+  } catch(e) {}
+
+  // Animasi counter semua stat
+  document.querySelectorAll('.stat-num').forEach(el => {
+    const t = parseInt(el.textContent);
+    if (!isNaN(t)) animateCounter(el, t);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <title>Lapor Kejadian - RT 04 / RW 02 Jombang Ciputat</title>
+  <meta name="description" content="Laporan kejadian dan kondisi darurat di lingkungan RT 04 RW 02"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .emergency-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+    .emergency-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:1.25rem;border-radius:var(--radius);font-weight:700;font-size:.9rem;cursor:pointer;border:none;text-decoration:none;transition:transform .15s}
+    .emergency-btn:hover{transform:scale(1.04)}
+    .emergency-btn i{font-size:1.8rem}
+    .em-red{background:#fef2f2;color:#991b1b;border:2px solid #fecaca}
+    .em-blue{background:#eff6ff;color:#1e40af;border:2px solid #bfdbfe}
+    .em-orange{background:#fff7ed;color:#9a3412;border:2px solid #fed7aa}
+    .em-green{background:#f0fdf4;color:#166534;border:2px solid #bbf7d0}
+    .lapor-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+    .laporan-list{display:flex;flex-direction:column;gap:.85rem}
+    .laporan-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;display:grid;grid-template-columns:44px 1fr auto;gap:.85rem;align-items:start;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+    .laporan-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+    .laporan-foto-thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;cursor:pointer;border:2px solid #e2e8f0}
+    .status-diproses{color:#92400e;background:#fef3c7;padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600}
+    .status-selesai{color:#1e3a8a;background:#dbeafe;padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600}
+    .status-masuk{color:#166534;background:#dcfce7;padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600}
+    /* periode filter */
+    .periode-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+    .periode-btn{padding:.3rem .8rem;border-radius:20px;font-size:.78rem;font-weight:600;cursor:pointer;border:1.5px solid #cbd5e1;background:#fff;color:#475569;transition:all .15s}
+    .periode-btn.active{background:#1565c0;color:#fff;border-color:#1565c0}
+    /* foto kamera section */
+    .foto-box{border:2px dashed #93c5fd;border-radius:12px;padding:1.1rem;background:#f0f7ff;margin-bottom:.75rem}
+    .foto-box-title{font-size:.82rem;font-weight:700;color:#1e40af;margin-bottom:.75rem;display:flex;align-items:center;gap:.35rem}
+    .foto-btns{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem}
+    .fbtn{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .9rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;transition:.15s}
+    .fbtn-cam{background:#1565c0;color:#fff}.fbtn-cam:hover{background:#0d47a1}
+    .fbtn-file{background:#f1f5f9;color:#334155;border:1px solid #cbd5e1}.fbtn-file:hover{background:#e2e8f0}
+    .fbtn-del{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;display:none}.fbtn-del:hover{background:#fee2e2}
+    .foto-preview{display:none;border-radius:8px;overflow:hidden;max-height:200px;background:#000;margin-bottom:.4rem}
+    .foto-preview img{width:100%;max-height:200px;object-fit:contain;display:block}
+    .foto-info{font-size:.7rem;color:#64748b}
+    /* lokasi gps */
+    .lokasi-gps-row{display:flex;gap:.5rem;align-items:center}
+    .lokasi-gps-row input{flex:1}
+    .btn-gps{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .9rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;background:#0f766e;color:#fff;flex-shrink:0;transition:.15s}
+    .btn-gps:hover{background:#0d6b62}
+    .gps-status{font-size:.72rem;margin-top:.3rem;min-height:1rem}
+    /* kamera modal */
+    .cam-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:1rem}
+    .cam-modal.open{display:flex}
+    .cam-video{width:100%;max-width:500px;border-radius:12px;background:#000;display:block}
+    .cam-toolbar{display:flex;gap:1rem;align-items:center}
+    .cam-snap{width:68px;height:68px;border-radius:50%;background:#fff;border:4px solid #1565c0;cursor:pointer;font-size:1.8rem;color:#1565c0;display:flex;align-items:center;justify-content:center;transition:.15s;flex-shrink:0}
+    .cam-snap:hover{transform:scale(1.08)}
+    .cam-close{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:8px;padding:.55rem 1.1rem;font-size:.85rem;font-weight:600;cursor:pointer}
+    .cam-switch{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:8px;padding:.55rem .9rem;font-size:.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:.35rem}
+    .cam-hint{color:rgba(255,255,255,.6);font-size:.75rem;text-align:center}
+    /* lightbox */
+    .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9998;align-items:center;justify-content:center}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:95vw;max-height:95vh;border-radius:10px;object-fit:contain}
+    .lightbox-close{position:fixed;top:1rem;right:1.2rem;background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:8px;padding:.45rem .9rem;font-size:1.2rem;cursor:pointer}
+    @media(max-width:768px){.emergency-grid{grid-template-columns:repeat(2,1fr)}.lapor-layout{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<nav class="navbar"><div class="container nav-container">
+  <div class="nav-brand"><img src="assets/img/logo-rt.png" alt="Logo RT 04 RW 02"/><img src="assets/img/logo-tangsel.png" alt="Logo Tangsel"/><span>RT 04 / RW 02<span class="brand-sub">Jombang · Ciputat · Tangsel</span></span></div>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="index.html">Beranda</a></li><li><a href="iuran.html">Iuran</a></li>
+    <li><a href="umkm.html">UMKM</a></li><li><a href="kegiatan.html">Kegiatan</a></li>
+    <li><a href="ronda.html">Ronda</a></li><li><a href="pengurus.html">Pengurus</a></li>
+    <li><a href="dokumentasi.html">Dokumentasi</a></li>
+    <li><a href="lapor.html" class="btn-lapor active">Lapor Kejadian</a></li>
+  </ul>
+</div></nav>
+
+<div class="page-header" style="background:linear-gradient(135deg,#7f1d1d,#991b1b,#b91c1c)">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Beranda</a><span>/</span><span>Lapor Kejadian</span></div>
+    <h1><i class="fas fa-triangle-exclamation"></i> Lapor Kejadian</h1>
+    <p>Laporkan kejadian atau kondisi darurat di lingkungan RT 04 / RW 02</p>
+  </div>
+</div>
+
+<section class="section"><div class="container">
+  <!-- Kontak Darurat -->
+  <h2 style="font-size:1rem;font-weight:700;margin-bottom:.85rem">Kontak Darurat Cepat</h2>
+  <div class="emergency-grid">
+    <a href="tel:110" class="emergency-btn em-blue"><i class="fas fa-shield-halved"></i><span>Polisi</span><strong>110</strong></a>
+    <a href="tel:113" class="emergency-btn em-red"><i class="fas fa-fire"></i><span>Pemadam</span><strong>113</strong></a>
+    <a href="tel:118" class="emergency-btn em-orange"><i class="fas fa-truck-medical"></i><span>Ambulans</span><strong>118 / 119</strong></a>
+    <a href="tel:+6285692347458" class="emergency-btn em-green"><i class="fas fa-house-user"></i><span>Ketua RT</span><strong>085692347458</strong></a>
+  </div>
+
+  <div class="lapor-layout">
+    <!-- ── FORM LAPORAN ── -->
+    <div>
+      <h2 style="font-size:1.15rem;font-weight:800;margin-bottom:1.1rem"><i class="fas fa-pen-to-square"></i> Form Laporan Kejadian</h2>
+      <div class="form-section">
+        <div id="formSuccess" class="alert alert-success" style="display:none"><i class="fas fa-circle-check"></i><div><strong>Laporan berhasil dikirim!</strong> Pengurus RT akan segera menindaklanjuti.</div></div>
+        <div id="formError" class="alert alert-error" style="display:none"><i class="fas fa-circle-xmark"></i><div id="formErrorMsg">Terjadi kesalahan.</div></div>
+        <form id="laporForm" onsubmit="submitLaporan(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Nama Pelapor *</label><input type="text" id="namaLapor" placeholder="Nama lengkap" required/></div>
+            <div class="form-group"><label>No. Rumah *</label><input type="text" id="noRumah" placeholder="Contoh: No. 12" required/></div>
+          </div>
+          <div class="form-group"><label>Nomor HP / WA *</label><input type="tel" id="noHp" placeholder="08xx-xxxx-xxxx" required/></div>
+          <div class="form-group"><label>Jenis Kejadian *</label>
+            <select id="jenisKejadian" required>
+              <option value="">-- Pilih Jenis Kejadian --</option>
+              <option>Gangguan Keamanan</option><option>Kebakaran</option>
+              <option>Banjir / Genangan Air</option><option>Kecelakaan</option>
+              <option>Pohon Tumbang</option><option>Gangguan Listrik / PLN</option>
+              <option>Masalah Sampah</option><option>Fasilitas Umum Rusak</option>
+              <option>Lainnya</option>
+            </select>
+          </div>
+          <!-- Lokasi teks + GPS -->
+          <div class="form-group">
+            <label>Lokasi Kejadian *</label>
+            <div class="lokasi-gps-row">
+              <input type="text" id="lokasi" placeholder="Dekat rumah no. berapa / nama jalan" required/>
+              <button type="button" class="btn-gps" onclick="getGPS()"><i class="fas fa-location-crosshairs"></i> GPS</button>
+            </div>
+            <div class="gps-status" id="gpsStatus"></div>
+          </div>
+          <div class="form-group"><label>Keterangan / Deskripsi *</label>
+            <textarea id="deskripsi" rows="4" placeholder="Ceritakan secara detail kejadian yang terjadi..." required></textarea>
+          </div>
+          <div class="form-group"><label>Tingkat Urgensi</label>
+            <select id="tingkatUrgensi">
+              <option value="Normal">Normal</option>
+              <option value="Mendesak">Mendesak</option>
+              <option value="Darurat / Emergency">Darurat / Emergency</option>
+            </select>
+          </div>
+
+          <!-- FOTO / KAMERA -->
+          <div class="foto-box">
+            <div class="foto-box-title"><i class="fas fa-camera"></i> Foto Bukti Kejadian <span style="font-weight:400;color:#64748b">(opsional, maks 5MB)</span></div>
+            <div class="foto-btns">
+              <button type="button" class="fbtn fbtn-cam" onclick="bukaKamera()"><i class="fas fa-camera"></i> Kamera</button>
+              <button type="button" class="fbtn fbtn-file" onclick="document.getElementById('fotoFile').click()"><i class="fas fa-image"></i> Pilih File</button>
+              <button type="button" class="fbtn fbtn-del" id="btnHapusFoto" onclick="hapusFoto()"><i class="fas fa-trash"></i> Hapus</button>
+            </div>
+            <input type="file" id="fotoFile" accept="image/*" style="display:none" onchange="onFileChange(this)"/>
+            <div class="foto-preview" id="fotoPreview"><img id="fotoImg" src="" alt="preview"/></div>
+            <div class="foto-info" id="fotoInfo"></div>
+          </div>
+
+          <button type="submit" class="btn-submit" id="btnSubmit"><i class="fas fa-paper-plane"></i> Kirim Laporan</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── DAFTAR LAPORAN TERKINI ── -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem">
+        <h2 style="font-size:1.15rem;font-weight:800"><i class="fas fa-list-check"></i> Laporan Terkini</h2>
+      </div>
+      <!-- Filter periode bulanan -->
+      <div class="periode-bar" id="periodeLaporBar"></div>
+      <div class="laporan-list" id="laporanPublikList">
+        <div style="text-align:center;padding:2rem;color:#94a3b8"><i class="fas fa-spinner fa-spin" style="font-size:1.5rem;display:block;margin-bottom:.5rem"></i>Memuat...</div>
+      </div>
+      <div class="alert alert-info" style="margin-top:1.25rem"><i class="fas fa-circle-info"></i><div>Untuk laporan darurat, segera hubungi ketua RT atau nomor darurat di atas.</div></div>
+    </div>
+  </div>
+</div></section>
+<footer class="footer"><div class="container footer-content">
+  <div class="footer-brand"><div class="footer-logos"><img src="assets/img/logo-rt.png" alt="Logo RT" class="logo-footer"/><img src="assets/img/logo-tangsel.png" alt="Logo Tangsel" class="logo-tangsel-footer"/></div><h3>RT 04 / RW 02</h3><p class="footer-sub">Kp. Gedong - Jombang</p><p>Ciputat, Tangerang Selatan, Banten 15411</p></div>
+  <div class="footer-links"><h4>Menu</h4><ul><li><a href="iuran.html">Iuran Warga</a></li><li><a href="umkm.html">UMKM Lokal</a></li><li><a href="kegiatan.html">Kegiatan</a></li><li><a href="ronda.html">Jadwal Ronda</a></li><li><a href="pengurus.html">Pengurus RT</a></li><li><a href="dokumentasi.html">Dokumentasi</a></li><li><a href="lapor.html">Lapor Kejadian</a></li></ul></div>
+  <div class="footer-contact"><h4>Kontak</h4><p><i class="fas fa-user-tie"></i> Ketua: Bpk. Novi Aziz</p><p><i class="fas fa-phone"></i> 085692347458</p><p><i class="fab fa-whatsapp"></i> 085692347458</p><p><i class="fas fa-location-dot"></i> Kp. Gedong, Jombang, Ciputat</p></div>
+</div><div class="footer-bottom"><p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan.</p></div></footer>
+
+<!-- KAMERA MODAL -->
+<div class="cam-modal" id="camModal">
+  <video class="cam-video" id="camVideo" autoplay playsinline muted></video>
+  <canvas id="camCanvas" style="display:none"></canvas>
+  <div class="cam-toolbar">
+    <button class="cam-close" onclick="tutupKamera()"><i class="fas fa-xmark"></i> Batal</button>
+    <button class="cam-snap" onclick="jepretFoto()" title="Jepret"><i class="fas fa-camera"></i></button>
+    <button class="cam-switch" onclick="gantikamera()"><i class="fas fa-rotate"></i> Ganti</button>
+  </div>
+  <div class="cam-hint">Tekan tombol kamera untuk mengambil foto</div>
+</div>
+
+<!-- LIGHTBOX FOTO -->
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <button class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')">&times;</button>
+  <img id="lightboxImg" src="" alt="foto laporan"/>
+</div>
+
+<script src="assets/js/api-connector.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+// ============================================================
+//  lapor.html — Script kamera, GPS, form submit, render list
+// ============================================================
+const BLN = ['','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const JENIS_ICON = {'Gangguan Keamanan':'fa-shield-halved','Kebakaran':'fa-fire','Banjir / Genangan Air':'fa-water','Kecelakaan':'fa-car-burst','Pohon Tumbang':'fa-tree','Gangguan Listrik / PLN':'fa-lightbulb','Masalah Sampah':'fa-trash','Fasilitas Umum Rusak':'fa-road','Lainnya':'fa-circle-exclamation'};
+const JENIS_BG   = {'Gangguan Keamanan':'#fee2e2','Kebakaran':'#fee2e2','Banjir / Genangan Air':'#dbeafe','Kecelakaan':'#fef3c7','Pohon Tumbang':'#dcfce7','Gangguan Listrik / PLN':'#fef9c3','Masalah Sampah':'#fef3c7','Fasilitas Umum Rusak':'#ede9fe','Lainnya':'#f1f5f9'};
+const JENIS_COL  = {'Gangguan Keamanan':'#991b1b','Kebakaran':'#991b1b','Banjir / Genangan Air':'#1e40af','Kecelakaan':'#92400e','Pohon Tumbang':'#166534','Gangguan Listrik / PLN':'#a16207','Masalah Sampah':'#92400e','Fasilitas Umum Rusak':'#5b21b6','Lainnya':'#475569'};
+const ST_CLS = {Selesai:'status-selesai',Diproses:'status-diproses',Masuk:'status-masuk'};
+
+let fotoBase64 = null;
+let camStream  = null;
+let camFacing  = 'environment';
+let gpsLat = null, gpsLng = null;
+let periodeAktif = null;
+
+function fmtTgl(d) { if(!d) return '-'; const p=(d+'').split('T')[0].split('-'); return +p[2]+' '+(BLN[+p[1]]||'')+' '+p[0]; }
+</script>
+<script>
+// ── GPS ──────────────────────────────────────────────────────
+function getGPS() {
+  const el = document.getElementById('gpsStatus');
+  if (!navigator.geolocation) { el.innerHTML='<span style="color:#991b1b">Browser tidak mendukung GPS.</span>'; return; }
+  el.innerHTML='<i class="fas fa-spinner fa-spin"></i> Mendapatkan lokasi...';
+  navigator.geolocation.getCurrentPosition(pos => {
+    gpsLat = pos.coords.latitude;
+    gpsLng = pos.coords.longitude;
+    el.innerHTML=`<span style="color:#166534"><i class="fas fa-check-circle"></i> GPS berhasil: ${gpsLat.toFixed(5)}, ${gpsLng.toFixed(5)}</span>`;
+    const lok = document.getElementById('lokasi');
+    if (!lok.value) lok.value = `${gpsLat.toFixed(5)}, ${gpsLng.toFixed(5)}`;
+  }, err => {
+    el.innerHTML=`<span style="color:#991b1b"><i class="fas fa-xmark-circle"></i> GPS gagal: ${err.message}</span>`;
+  }, { enableHighAccuracy:true, timeout:10000 });
+}
+
+// ── UPLOAD FILE ───────────────────────────────────────────────
+function onFileChange(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { alert('Ukuran file maks 5MB.'); input.value=''; return; }
+  const reader = new FileReader();
+  reader.onload = e => { setFotoPreview(e.target.result, file.name, file.size); };
+  reader.readAsDataURL(file);
+}
+
+function setFotoPreview(dataUrl, name, size) {
+  fotoBase64 = dataUrl;
+  document.getElementById('fotoImg').src = dataUrl;
+  document.getElementById('fotoPreview').style.display = 'block';
+  document.getElementById('btnHapusFoto').style.display = 'inline-flex';
+  document.getElementById('fotoInfo').textContent = name + ' — ' + (size ? (size/1024).toFixed(1)+'KB' : '');
+}
+
+function hapusFoto() {
+  fotoBase64 = null;
+  document.getElementById('fotoPreview').style.display = 'none';
+  document.getElementById('btnHapusFoto').style.display = 'none';
+  document.getElementById('fotoInfo').textContent = '';
+  document.getElementById('fotoFile').value = '';
+}
+
+// ── KAMERA ───────────────────────────────────────────────────
+async function bukaKamera() {
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:camFacing }, audio:false });
+    document.getElementById('camVideo').srcObject = camStream;
+    document.getElementById('camModal').classList.add('open');
+  } catch(e) { alert('Kamera tidak dapat diakses: ' + e.message); }
+}
+
+function tutupKamera() {
+  if (camStream) camStream.getTracks().forEach(t=>t.stop());
+  camStream = null;
+  document.getElementById('camModal').classList.remove('open');
+}
+
+async function gantikamera() {
+  camFacing = camFacing === 'environment' ? 'user' : 'environment';
+  if (camStream) camStream.getTracks().forEach(t=>t.stop());
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:camFacing }, audio:false });
+    document.getElementById('camVideo').srcObject = camStream;
+  } catch(e) { alert('Ganti kamera gagal.'); }
+}
+
+function jepretFoto() {
+  const video  = document.getElementById('camVideo');
+  const canvas = document.getElementById('camCanvas');
+  canvas.width  = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+  setFotoPreview(dataUrl, 'foto-kamera.jpg', Math.round(dataUrl.length * 0.75));
+  tutupKamera();
+}
+
+// ── LIGHTBOX ─────────────────────────────────────────────────
+function bukaLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+// ── RENDER LAPORAN ────────────────────────────────────────────
+function renderLaporan(data) {
+  const el = document.getElementById('laporanPublikList');
+  if (!data.length) {
+    el.innerHTML='<div style="text-align:center;padding:2rem;color:#94a3b8"><i class="fas fa-inbox" style="font-size:2rem;display:block;margin-bottom:.5rem"></i>Belum ada laporan.</div>';
+    return;
+  }
+  el.innerHTML = data.map(x => {
+    const icon = JENIS_ICON[x.jenis]||'fa-circle-exclamation';
+    const bg   = JENIS_BG[x.jenis]||'#f1f5f9';
+    const col  = JENIS_COL[x.jenis]||'#475569';
+    const stCls= ST_CLS[x.status]||'status-masuk';
+    const fotoHtml = x.ada_foto
+      ? `<img class="laporan-foto-thumb" src="/api/laporan/${x.id}/foto" alt="foto" onclick="bukaLightbox(this.src)"/>`
+      : `<div class="laporan-icon" style="background:${bg};color:${col}"><i class="fas ${icon}"></i></div>`;
+    const gpsHtml = (x.lat && x.lng)
+      ? `<a href="https://maps.google.com?q=${x.lat},${x.lng}" target="_blank" style="font-size:.72rem;color:#1565c0"><i class="fas fa-map-pin"></i> Lihat Peta</a>`
+      : '';
+    return `<div class="laporan-item">
+      ${fotoHtml}
+      <div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-bottom:.15rem">${x.jenis} · ${fmtTgl(x.created_at)}</div>
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:.15rem">${x.lokasi||''}</div>
+        <p style="font-size:.8rem;color:var(--text-muted);margin-bottom:.25rem">${(x.deskripsi||'').slice(0,100)}${(x.deskripsi||'').length>100?'…':''}</p>
+        ${gpsHtml}
+      </div>
+      <div><span class="${stCls}">${x.status||'Masuk'}</span></div>
+    </div>`;
+  }).join('');
+}
+
+async function loadLaporan(params={}) {
+  const el = document.getElementById('laporanPublikList');
+  el.innerHTML='<div style="text-align:center;padding:1.5rem;color:#94a3b8"><i class="fas fa-spinner fa-spin"></i></div>';
+  try {
+    const r = await window.API.getLaporanPublik
+      ? await fetch('/api/laporan/publik?' + new URLSearchParams(params).toString()).then(r=>r.json())
+      : { success:false };
+    if (r.success) renderLaporan(r.data||[]);
+  } catch(e) { el.innerHTML='<div style="color:#991b1b;padding:1rem">Gagal memuat laporan.</div>'; }
+}
+
+async function loadPeriodeLaporan() {
+  try {
+    const r = await fetch('/api/laporan/periode').then(r=>r.json());
+    if (!r.success || !r.data.length) return;
+    const bar = document.getElementById('periodeLaporBar');
+    bar.innerHTML = r.data.map((p,i) =>
+      `<button class="periode-btn${i===0?' active':''}" onclick="pilihPeriode(${p.bulan},${p.tahun},this)">${BLN[p.bulan]} ${p.tahun} <small>(${p.total})</small></button>`
+    ).join('');
+    const first = r.data[0];
+    periodeAktif = first;
+    loadLaporan({ bulan: first.bulan, tahun: first.tahun });
+  } catch(e) { loadLaporan(); }
+}
+
+function pilihPeriode(bulan, tahun, el) {
+  document.querySelectorAll('.periode-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  periodeAktif = {bulan, tahun};
+  loadLaporan({ bulan, tahun });
+}
+
+// ── SUBMIT LAPORAN ────────────────────────────────────────────
+async function submitLaporan(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true; btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+
+  const payload = {
+    nama_pelapor: document.getElementById('namaLapor').value.trim(),
+    no_rumah:     document.getElementById('noRumah').value.trim(),
+    no_hp:        document.getElementById('noHp').value.trim(),
+    jenis:        document.getElementById('jenisKejadian').value,
+    lokasi:       document.getElementById('lokasi').value.trim(),
+    deskripsi:    document.getElementById('deskripsi').value.trim(),
+    urgensi:      document.getElementById('tingkatUrgensi').value,
+    foto_data:    fotoBase64 || null,
+    lat:          gpsLat, lng: gpsLng,
+    lokasi_gps:   (gpsLat && gpsLng) ? `${gpsLat},${gpsLng}` : null,
+  };
+
+  try {
+    const res = await fetch('/api/laporan', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('formSuccess').style.display='flex';
+      document.getElementById('formError').style.display='none';
+      document.getElementById('laporForm').reset();
+      hapusFoto(); gpsLat=null; gpsLng=null;
+      document.getElementById('gpsStatus').innerHTML='';
+      document.getElementById('formSuccess').scrollIntoView({behavior:'smooth',block:'nearest'});
+      setTimeout(()=>{ document.getElementById('formSuccess').style.display='none'; },7000);
+      loadPeriodeLaporan();
+    } else {
+      document.getElementById('formErrorMsg').textContent = data.message||'Gagal mengirim laporan.';
+      document.getElementById('formError').style.display='flex';
+    }
+  } catch(err) {
+    document.getElementById('formErrorMsg').textContent = 'Koneksi gagal. Periksa koneksi internet.';
+    document.getElementById('formError').style.display='flex';
+  }
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-paper-plane"></i> Kirim Laporan';
+}
+
+document.addEventListener('DOMContentLoaded', loadPeriodeLaporan);
+</script>
+</body></html>

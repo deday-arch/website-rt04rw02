@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <title>Dokumentasi - RT 04 / RW 02 Jombang Ciputat</title>
+  <meta name="description" content="Galeri foto dan video kegiatan RT 04 RW 02 Jombang, Ciputat"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .periode-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+    .ptab{padding:.4rem 1rem;border-radius:20px;font-size:.82rem;font-weight:600;cursor:pointer;border:1.5px solid #cbd5e1;background:#fff;color:#475569;transition:.15s}
+    .ptab.active{background:#1565c0;color:#fff;border-color:#1565c0}
+    .dok-filter{display:flex;gap:.75rem;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap}
+    .filter-btn{padding:.35rem .9rem;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid #e2e8f0;background:#fff;color:#475569;transition:.15s}
+    .filter-btn.active{background:#1565c0;color:#fff;border-color:#1565c0}
+    .dok-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.1rem}
+    .dok-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);transition:transform .15s,box-shadow .15s;cursor:pointer}
+    .dok-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+    .dok-thumb{width:100%;height:175px;object-fit:cover;display:block;background:#f1f5f9}
+    .dok-thumb-video{width:100%;height:175px;background:#0f172a;display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff;position:relative}
+    .dok-thumb-video .play-icon{position:absolute;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    .dok-body{padding:.85rem 1rem}
+    .dok-title{font-weight:700;font-size:.9rem;margin-bottom:.3rem;color:#1e293b;line-height:1.3}
+    .dok-meta{font-size:.75rem;color:#64748b;display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+    .dok-badge{padding:.15rem .55rem;border-radius:20px;font-size:.7rem;font-weight:600}
+    .badge-foto{background:#dbeafe;color:#1e40af}
+    .badge-video{background:#fce7f3;color:#9d174d}
+    .dok-empty{text-align:center;padding:3rem;color:#94a3b8;grid-column:1/-1}
+    /* lightbox */
+    .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:1rem}
+    .lb.open{display:flex}
+    .lb img{max-width:96vw;max-height:82vh;border-radius:10px;object-fit:contain}
+    .lb video{max-width:96vw;max-height:82vh;border-radius:10px}
+    .lb-title{color:#fff;font-size:1rem;font-weight:600;text-align:center}
+    .lb-close{position:fixed;top:.75rem;right:1rem;background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:8px;padding:.4rem .9rem;font-size:1.3rem;cursor:pointer;line-height:1}
+    @media(max-width:600px){.dok-grid{grid-template-columns:repeat(2,1fr)}.dok-thumb,.dok-thumb-video{height:130px}}
+  </style>
+</head>
+<body>
+<nav class="navbar"><div class="container nav-container">
+  <div class="nav-brand"><img src="assets/img/logo-rt.png" alt="Logo RT 04 RW 02"/><img src="assets/img/logo-tangsel.png" alt="Logo Tangsel"/><span>RT 04 / RW 02<span class="brand-sub">Jombang · Ciputat · Tangsel</span></span></div>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="index.html">Beranda</a></li><li><a href="iuran.html">Iuran</a></li>
+    <li><a href="umkm.html">UMKM</a></li><li><a href="kegiatan.html">Kegiatan</a></li>
+    <li><a href="ronda.html">Ronda</a></li><li><a href="pengurus.html">Pengurus</a></li>
+    <li><a href="dokumentasi.html" class="active">Dokumentasi</a></li>
+    <li><a href="lapor.html" class="btn-lapor">Lapor Kejadian</a></li>
+  </ul>
+</div></nav>
+
+<div class="page-header" style="background:linear-gradient(135deg,#1e3a5f,#1565c0,#1976d2)">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Beranda</a><span>/</span><span>Dokumentasi</span></div>
+    <h1><i class="fas fa-photo-film"></i> Dokumentasi Kegiatan</h1>
+    <p>Galeri foto dan video kegiatan RT 04 / RW 02 per periode bulanan</p>
+  </div>
+</div>
+
+<section class="section"><div class="container">
+  <!-- Statistik cepat -->
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem">
+    <div style="background:#eff6ff;border-radius:10px;padding:.75rem 1.25rem;display:flex;align-items:center;gap:.6rem">
+      <i class="fas fa-images" style="color:#1565c0;font-size:1.3rem"></i>
+      <div><div style="font-size:1.5rem;font-weight:800;color:#1e40af" id="statFoto">-</div><div style="font-size:.75rem;color:#64748b">Total Foto</div></div>
+    </div>
+    <div style="background:#fdf2f8;border-radius:10px;padding:.75rem 1.25rem;display:flex;align-items:center;gap:.6rem">
+      <i class="fas fa-video" style="color:#9d174d;font-size:1.3rem"></i>
+      <div><div style="font-size:1.5rem;font-weight:800;color:#9d174d" id="statVideo">-</div><div style="font-size:.75rem;color:#64748b">Total Video</div></div>
+    </div>
+    <div style="background:#f0fdf4;border-radius:10px;padding:.75rem 1.25rem;display:flex;align-items:center;gap:.6rem">
+      <i class="fas fa-calendar-days" style="color:#166534;font-size:1.3rem"></i>
+      <div><div style="font-size:1.5rem;font-weight:800;color:#166534" id="statPeriode">-</div><div style="font-size:.75rem;color:#64748b">Periode</div></div>
+    </div>
+  </div>
+
+  <!-- Filter tipe -->
+  <div class="dok-filter">
+    <span style="font-size:.82rem;font-weight:600;color:#475569">Filter:</span>
+    <button class="filter-btn active" onclick="setTipe('',this)"><i class="fas fa-th"></i> Semua</button>
+    <button class="filter-btn" onclick="setTipe('foto',this)"><i class="fas fa-image"></i> Foto</button>
+    <button class="filter-btn" onclick="setTipe('video',this)"><i class="fas fa-video"></i> Video</button>
+  </div>
+
+  <!-- Periode tabs -->
+  <div class="periode-tabs" id="periodeTabs"></div>
+
+  <!-- Grid konten -->
+  <div class="dok-grid" id="dokGrid">
+    <div class="dok-empty"><i class="fas fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:.75rem"></i>Memuat dokumentasi...</div>
+  </div>
+</div></section>
+
+<footer class="footer"><div class="container footer-content">
+  <div class="footer-brand"><div class="footer-logos"><img src="assets/img/logo-rt.png" alt="Logo RT" class="logo-footer"/><img src="assets/img/logo-tangsel.png" alt="Logo Tangsel" class="logo-tangsel-footer"/></div><h3>RT 04 / RW 02</h3><p class="footer-sub">Kp. Gedong - Jombang</p><p>Ciputat, Tangerang Selatan, Banten 15411</p></div>
+  <div class="footer-links"><h4>Menu</h4><ul><li><a href="iuran.html">Iuran Warga</a></li><li><a href="umkm.html">UMKM Lokal</a></li><li><a href="kegiatan.html">Kegiatan</a></li><li><a href="ronda.html">Jadwal Ronda</a></li><li><a href="dokumentasi.html">Dokumentasi</a></li><li><a href="lapor.html">Lapor Kejadian</a></li></ul></div>
+  <div class="footer-contact"><h4>Kontak</h4><p><i class="fas fa-user-tie"></i> Ketua: Bpk. Novi Aziz</p><p><i class="fas fa-phone"></i> 085692347458</p><p><i class="fab fa-whatsapp"></i> 085692347458</p></div>
+</div><div class="footer-bottom"><p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan.</p></div></footer>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="if(event.target===this)tutupLb()">
+  <button class="lb-close" onclick="tutupLb()">&times;</button>
+  <div class="lb-title" id="lbTitle"></div>
+  <img id="lbImg" src="" alt="" style="display:none"/>
+  <video id="lbVideo" controls style="display:none"></video>
+</div>
+
+<script src="assets/js/api-connector.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+const BLN = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+let periodeAktif = null, tipeAktif = '';
+
+function tutupLb() {
+  const lb = document.getElementById('lb');
+  lb.classList.remove('open');
+  const v = document.getElementById('lbVideo');
+  v.pause(); v.src='';
+}
+
+function bukaItem(id, judul, tipe, videoUrl) {
+  document.getElementById('lbTitle').textContent = judul;
+  const img = document.getElementById('lbImg');
+  const vid = document.getElementById('lbVideo');
+  if (tipe === 'video') {
+    img.style.display='none'; vid.style.display='block';
+    vid.src = videoUrl || `/api/dokumentasi/${id}/media`;
+  } else {
+    vid.style.display='none'; img.style.display='block';
+    img.src = `/api/dokumentasi/${id}/media`;
+  }
+  document.getElementById('lb').classList.add('open');
+}
+
+function renderDok(data) {
+  const grid = document.getElementById('dokGrid');
+  if (!data.length) {
+    grid.innerHTML='<div class="dok-empty"><i class="fas fa-photo-film" style="font-size:2.5rem;display:block;margin-bottom:.75rem"></i>Belum ada dokumentasi untuk periode ini.</div>';
+    return;
+  }
+  grid.innerHTML = data.map(d => {
+    const badge = d.tipe==='video'
+      ? '<span class="dok-badge badge-video"><i class="fas fa-video"></i> Video</span>'
+      : '<span class="dok-badge badge-foto"><i class="fas fa-image"></i> Foto</span>';
+    const thumb = d.tipe==='video'
+      ? `<div class="dok-thumb-video"><div class="play-icon"><i class="fas fa-play" style="margin-left:4px"></i></div></div>`
+      : `<img class="dok-thumb" src="/api/dokumentasi/${d.id}/media" alt="${d.judul}" loading="lazy" onerror="this.style.background='#e2e8f0'"/>`;
+    return `<div class="dok-card" onclick="bukaItem('${d.id}','${d.judul.replace(/'/g,"\\'")}','${d.tipe}','${d.video_url||''}')">
+      ${thumb}
+      <div class="dok-body">
+        <div class="dok-title">${d.judul}</div>
+        <div class="dok-meta">${badge}<span><i class="fas fa-calendar-days"></i> ${BLN[d.bulan]||d.bulan} ${d.tahun}</span></div>
+        ${d.deskripsi ? `<div style="font-size:.75rem;color:#64748b;margin-top:.35rem">${d.deskripsi.slice(0,80)}${d.deskripsi.length>80?'…':''}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function loadDok(bulan, tahun, tipe='') {
+  const grid = document.getElementById('dokGrid');
+  grid.innerHTML='<div class="dok-empty"><i class="fas fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:.5rem"></i></div>';
+  const params = new URLSearchParams();
+  if (bulan) params.set('bulan', bulan);
+  if (tahun) params.set('tahun', tahun);
+  if (tipe)  params.set('tipe', tipe);
+  try {
+    const r = await fetch('/api/dokumentasi?' + params).then(r=>r.json());
+    renderDok(r.data || []);
+  } catch(e) { grid.innerHTML='<div class="dok-empty" style="color:#991b1b">Gagal memuat data.</div>'; }
+}
+
+function setTipe(tipe, el) {
+  tipeAktif = tipe;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  if (periodeAktif) loadDok(periodeAktif.bulan, periodeAktif.tahun, tipe);
+}
+
+async function loadPeriode() {
+  try {
+    const r = await fetch('/api/dokumentasi/periode').then(r=>r.json());
+    const tabs = document.getElementById('periodeTabs');
+    if (!r.success || !r.data.length) {
+      tabs.innerHTML='<span style="font-size:.82rem;color:#94a3b8">Belum ada dokumentasi.</span>';
+      document.getElementById('dokGrid').innerHTML='<div class="dok-empty"><i class="fas fa-photo-film" style="font-size:2.5rem;display:block;margin-bottom:.75rem"></i>Belum ada dokumentasi.</div>';
+      return;
+    }
+    // Hitung statistik
+    let tf=0, tv=0;
+    r.data.forEach(p=>{ tf+=p.total_foto||0; tv+=p.total_video||0; });
+    document.getElementById('statFoto').textContent    = tf;
+    document.getElementById('statVideo').textContent   = tv;
+    document.getElementById('statPeriode').textContent = r.data.length;
+
+    tabs.innerHTML = r.data.map((p,i)=>
+      `<button class="ptab${i===0?' active':''}" onclick="pilihPeriode(${p.bulan},${p.tahun},this)">${BLN[p.bulan]} ${p.tahun} <small style="opacity:.7">(${p.total})</small></button>`
+    ).join('');
+    periodeAktif = r.data[0];
+    loadDok(periodeAktif.bulan, periodeAktif.tahun, tipeAktif);
+  } catch(e) {
+    document.getElementById('dokGrid').innerHTML='<div class="dok-empty" style="color:#991b1b">Gagal memuat periode.</div>';
+  }
+}
+
+function pilihPeriode(bulan, tahun, el) {
+  document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  periodeAktif = {bulan, tahun};
+  loadDok(bulan, tahun, tipeAktif);
+}
+
+document.addEventListener('DOMContentLoaded', loadPeriode);
+</script>
+</body></html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <title>Kelola Dokumentasi - Admin RT 04</title>
+  <link rel="stylesheet" href="assets/css/admin.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .dok-grid-admin{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-top:1rem}
+    .dok-card-admin{background:#fff;border-radius:10px;border:1.5px solid #e2e8f0;overflow:hidden;transition:.15s;position:relative}
+    .dok-card-admin:hover{box-shadow:0 4px 14px rgba(0,0,0,.1)}
+    .dok-thumb{width:100%;height:150px;object-fit:cover;display:block;background:#f1f5f9;cursor:pointer}
+    .dok-thumb-video{width:100%;height:150px;background:#0f172a;display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#fff;cursor:pointer;position:relative}
+    .dok-thumb-video .play-ico{position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    .dok-card-body{padding:.7rem .85rem .85rem}
+    .dok-card-title{font-weight:700;font-size:.86rem;margin-bottom:.25rem;color:#1e293b;line-height:1.3}
+    .dok-card-meta{font-size:.73rem;color:#64748b;display:flex;gap:.5rem;flex-wrap:wrap}
+    .dok-card-actions{display:flex;gap:.35rem;padding:.5rem .85rem .7rem;border-top:1px solid #f1f5f9}
+    .badge-foto{background:#dbeafe;color:#1e40af;padding:.15rem .45rem;border-radius:20px;font-size:.7rem;font-weight:600}
+    .badge-video{background:#fce7f3;color:#9d174d;padding:.15rem .45rem;border-radius:20px;font-size:.7rem;font-weight:600}
+    .badge-nonaktif{background:#f1f5f9;color:#94a3b8;padding:.15rem .45rem;border-radius:20px;font-size:.7rem;font-weight:600}
+    .periode-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0 1rem}
+    .ptab{padding:.3rem .75rem;border-radius:20px;font-size:.78rem;font-weight:600;cursor:pointer;border:1.5px solid #e2e8f0;background:#fff;color:#475569;transition:.15s}
+    .ptab.active{background:#1565c0;color:#fff;border-color:#1565c0}
+    .media-preview{width:100%;max-height:200px;object-fit:contain;border-radius:8px;background:#0f172a;display:none;margin-bottom:.5rem}
+    .media-preview-video{width:100%;max-height:200px;border-radius:8px;display:none;margin-bottom:.5rem}
+    .upload-area{border:2px dashed #93c5fd;border-radius:10px;padding:1.5rem;text-align:center;background:#f0f7ff;cursor:pointer;transition:.15s}
+    .upload-area:hover{border-color:#1565c0;background:#eff6ff}
+    .upload-area-txt{font-size:.85rem;color:#1e40af;font-weight:600;margin-top:.5rem}
+    /* kamera modal */
+    .cam-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:1rem}
+    .cam-modal.open{display:flex}
+    .cam-video{width:100%;max-width:500px;border-radius:12px;background:#000;display:block}
+    .cam-toolbar{display:flex;gap:1rem;align-items:center}
+    .cam-snap{width:64px;height:64px;border-radius:50%;background:#fff;border:4px solid #1565c0;cursor:pointer;font-size:1.6rem;color:#1565c0;display:flex;align-items:center;justify-content:center;transition:.15s;flex-shrink:0}
+    .cam-snap:hover{transform:scale(1.08)}
+    .cam-close-btn{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:8px;padding:.5rem 1rem;font-size:.85rem;font-weight:600;cursor:pointer}
+    .cam-switch-btn{background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:8px;padding:.5rem .85rem;font-size:.85rem;font-weight:600;cursor:pointer}
+    /* lightbox */
+    .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:9998;align-items:center;justify-content:center}
+    .lb.open{display:flex}
+    .lb img{max-width:95vw;max-height:92vh;border-radius:10px;object-fit:contain}
+    .lb video{max-width:95vw;max-height:92vh;border-radius:10px}
+    .lb-close{position:fixed;top:.75rem;right:1rem;background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:8px;padding:.4rem .9rem;font-size:1.3rem;cursor:pointer}
+    .filter-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+    .filter-row select{padding:.4rem .7rem;border-radius:8px;border:1.5px solid #e2e8f0;font-size:.82rem}
+  </style>
+</head>
+<body class="admin-body">
+<aside class="admin-sidebar">
+  <div class="sidebar-logo"><img src="assets/img/logo-rt.png" alt="Logo"/><img src="assets/img/logo-tangsel.png" alt="Logo Tangsel" style="height:32px;width:auto"/><span>Admin RT 04<span class="sl-sub">RW 02 · Jombang Ciputat</span></span></div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section">Menu Utama</div>
+    <a href="admin-dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a>
+    <div class="sidebar-section">Kelola Konten</div>
+    <a href="admin-pengumuman.html"><i class="fas fa-bullhorn"></i> Pengumuman</a>
+    <a href="admin-iuran.html"><i class="fas fa-money-bill-wave"></i> Iuran Warga</a>
+    <a href="admin-umkm.html"><i class="fas fa-store"></i> UMKM</a>
+    <a href="admin-kegiatan.html"><i class="fas fa-calendar-days"></i> Kegiatan</a>
+    <a href="admin-ronda.html"><i class="fas fa-moon"></i> Jadwal Ronda</a>
+    <a href="admin-pengurus.html"><i class="fas fa-users"></i> Pengurus</a>
+    <a href="admin-laporan.html"><i class="fas fa-triangle-exclamation"></i> Laporan</a>
+    <a href="admin-dokumentasi.html" class="active"><i class="fas fa-photo-film"></i> Dokumentasi</a>
+  </nav>
+  <div class="sidebar-footer"><a href="index.html" target="_blank"><i class="fas fa-globe"></i> Lihat Website</a></div>
+</aside>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="topbar-title"><i class="fas fa-photo-film"></i> Kelola Dokumentasi</div>
+    <div class="topbar-right">
+      <span class="admin-badge"><i class="fas fa-user-shield"></i> <span id="adminUsername">admin</span></span>
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Keluar</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <div class="crud-toolbar" style="flex-wrap:wrap;gap:.6rem">
+      <h2 style="margin:0">Foto &amp; Video Kegiatan RT</h2>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
+        <div class="filter-row">
+          <select id="filterTipe" onchange="loadDok()">
+            <option value="">Semua Tipe</option>
+            <option value="foto">Foto</option>
+            <option value="video">Video</option>
+          </select>
+        </div>
+        <input type="text" id="searchDok" class="crud-search" placeholder="Cari judul..." oninput="debounceLoad()"/>
+        <button class="btn-add" onclick="bukaTambah()"><i class="fas fa-plus"></i> Tambah</button>
+      </div>
+    </div>
+
+    <div class="periode-tabs" id="periodeTabs"></div>
+
+    <div class="dok-grid-admin" id="dokGrid">
+      <div style="grid-column:1/-1;text-align:center;padding:2rem;color:#94a3b8">
+        <i class="fas fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:.5rem"></i>Memuat...
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TAMBAH / EDIT -->
+<div class="modal-overlay" id="modalDok">
+  <div class="modal-box" style="max-width:560px">
+    <div class="modal-head">
+      <h3 id="modalDokTitle">Tambah Dokumentasi</h3>
+      <button class="modal-close" onclick="closeModal('modalDok')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="dokId"/>
+      <div class="form-group">
+        <label>Judul *</label>
+        <input type="text" id="dokJudul" placeholder="Judul foto/video" required/>
+      </div>
+      <div class="form-group">
+        <label>Deskripsi</label>
+        <textarea id="dokDeskripsi" rows="2" placeholder="Deskripsi singkat (opsional)"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem" class="form-group">
+        <div>
+          <label>Tipe *</label>
+          <select id="dokTipe" onchange="onTipeChange()">
+            <option value="foto">Foto</option>
+            <option value="video">Video</option>
+          </select>
+        </div>
+        <div>
+          <label>Bulan *</label>
+          <select id="dokBulan">
+            <option value="1">Januari</option><option value="2">Februari</option>
+            <option value="3">Maret</option><option value="4">April</option>
+            <option value="5">Mei</option><option value="6">Juni</option>
+            <option value="7">Juli</option><option value="8">Agustus</option>
+            <option value="9">September</option><option value="10">Oktober</option>
+            <option value="11">November</option><option value="12">Desember</option>
+          </select>
+        </div>
+        <div>
+          <label>Tahun *</label>
+          <input type="number" id="dokTahun" min="2020" max="2099" value="2026"/>
+        </div>
+      </div>
+
+      <!-- SECTION FOTO -->
+      <div id="sectionFoto">
+        <label style="font-size:.82rem;font-weight:600">Media Foto</label>
+        <div class="upload-area" onclick="document.getElementById('mediaFile').click()">
+          <i class="fas fa-cloud-arrow-up" style="font-size:1.8rem;color:#1565c0"></i>
+          <div class="upload-area-txt">Klik untuk pilih file atau gunakan kamera</div>
+          <div style="font-size:.72rem;color:#64748b;margin-top:.25rem">JPEG, PNG, WEBP — maks 5MB</div>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap">
+          <button type="button" class="btn-edit" style="font-size:.8rem" onclick="bukaKameraAdmin()"><i class="fas fa-camera"></i> Kamera</button>
+          <button type="button" class="btn-cancel" style="font-size:.8rem" id="btnHapusMedia" onclick="hapusMedia()" style="display:none"><i class="fas fa-trash"></i> Hapus</button>
+        </div>
+        <img id="mediaPreviewImg" class="media-preview" src="" alt="preview"/>
+        <div id="mediaInfo" style="font-size:.72rem;color:#64748b;margin-top:.2rem"></div>
+      </div>
+
+      <!-- SECTION VIDEO -->
+      <div id="sectionVideo" style="display:none">
+        <div class="form-group">
+          <label>URL Video (YouTube / embed)</label>
+          <input type="url" id="dokVideoUrl" placeholder="https://youtube.com/watch?v=..."/>
+          <div style="font-size:.72rem;color:#64748b;margin-top:.2rem">Atau upload file video (maks 40MB):</div>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.3rem;flex-wrap:wrap">
+          <button type="button" class="btn-edit" style="font-size:.8rem" onclick="document.getElementById('mediaFile').click()"><i class="fas fa-video"></i> Pilih Video</button>
+          <button type="button" class="btn-cancel" style="font-size:.8rem" id="btnHapusVideo" onclick="hapusMedia()" style="display:none"><i class="fas fa-trash"></i> Hapus</button>
+        </div>
+        <video id="mediaPreviewVideo" class="media-preview-video" controls></video>
+        <div id="mediaInfoVideo" style="font-size:.72rem;color:#64748b;margin-top:.2rem"></div>
+      </div>
+
+      <input type="file" id="mediaFile" accept="image/*,video/mp4,video/webm" style="display:none" onchange="onMediaFile(this)"/>
+      <div class="form-group" style="margin-top:.75rem">
+        <label>Status</label>
+        <select id="dokAktif">
+          <option value="true">Aktif (tampil publik)</option>
+          <option value="false">Nonaktif (disembunyikan)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('modalDok')">Batal</button>
+      <button class="btn-save" onclick="simpanDok()"><i class="fas fa-floppy-disk"></i> Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM HAPUS -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <i class="fas fa-triangle-exclamation"></i><h3>Konfirmasi Hapus</h3>
+    <p>Hapus dokumentasi <strong id="confirmLabel"></strong>?</p>
+    <button class="btn-cancel" onclick="confirmNo()">Batal</button>
+    <button class="btn-del" onclick="confirmYes()">Ya, Hapus</button>
+  </div>
+</div>
+
+<!-- KAMERA MODAL (admin) -->
+<div class="cam-modal" id="camModal">
+  <video class="cam-video" id="camVideo" autoplay playsinline muted></video>
+  <canvas id="camCanvas" style="display:none"></canvas>
+  <div class="cam-toolbar">
+    <button class="cam-close-btn" onclick="tutupKamera()"><i class="fas fa-xmark"></i> Batal</button>
+    <button class="cam-snap" onclick="jepret()" title="Jepret"><i class="fas fa-camera"></i></button>
+    <button class="cam-switch-btn" onclick="gantiKamera()"><i class="fas fa-rotate"></i></button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="tutupLb()">
+  <button class="lb-close">&times;</button>
+  <img id="lbImg" src="" alt="" style="display:none"/>
+  <video id="lbVideo" controls style="display:none"></video>
+</div>
+
+<script src="assets/js/api-connector.js"></script>
+<script src="assets/js/admin.js"></script>
+<script>
+const BLN = ['','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+let periodeAktif = null, mediaBase64 = null, deleteId = null, debTimer = null;
+let camStream = null, camFacing = 'environment';
+
+function authHeader() {
+  const t = sessionStorage.getItem('rt04_jwt');
+  return t ? {'Authorization':'Bearer '+t,'Content-Type':'application/json'} : {'Content-Type':'application/json'};
+}
+function debounceLoad() { clearTimeout(debTimer); debTimer = setTimeout(loadDok, 350); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function tutupLb() {
+  const lb = document.getElementById('lb');
+  lb.classList.remove('open');
+  const v = document.getElementById('lbVideo'); v.pause(); v.src='';
+}
+function bukaLb(src, tipe, videoUrl) {
+  const img = document.getElementById('lbImg'), vid = document.getElementById('lbVideo');
+  if (tipe === 'video') { img.style.display='none'; vid.style.display='block'; vid.src = videoUrl||src; }
+  else { vid.style.display='none'; img.style.display='block'; img.src=src; }
+  document.getElementById('lb').classList.add('open');
+}
+
+// ── Kamera ────────────────────────────────────────────────────
+async function bukaKameraAdmin() {
+  try {
+    camStream = await navigator.mediaDevices.getUserMedia({ video:{facingMode:camFacing}, audio:false });
+    document.getElementById('camVideo').srcObject = camStream;
+    document.getElementById('camModal').classList.add('open');
+  } catch(e) { alert('Kamera gagal: '+e.message); }
+}
+function tutupKamera() {
+  if(camStream) camStream.getTracks().forEach(t=>t.stop());
+  camStream=null;
+  document.getElementById('camModal').classList.remove('open');
+}
+async function gantiKamera() {
+  camFacing = camFacing==='environment'?'user':'environment';
+  if(camStream) camStream.getTracks().forEach(t=>t.stop());
+  camStream = await navigator.mediaDevices.getUserMedia({ video:{facingMode:camFacing}, audio:false });
+  document.getElementById('camVideo').srcObject = camStream;
+}
+function jepret() {
+  const v = document.getElementById('camVideo'), c = document.getElementById('camCanvas');
+  c.width=v.videoWidth; c.height=v.videoHeight;
+  c.getContext('2d').drawImage(v,0,0);
+  const d = c.toDataURL('image/jpeg',0.85);
+  setMedia(d, 'foto-kamera.jpg', Math.round(d.length*0.75));
+  tutupKamera();
+}
+
+// ── Media handler ─────────────────────────────────────────────
+function onTipeChange() {
+  const t = document.getElementById('dokTipe').value;
+  document.getElementById('sectionFoto').style.display  = t==='foto'  ? '' : 'none';
+  document.getElementById('sectionVideo').style.display = t==='video' ? '' : 'none';
+  document.getElementById('mediaFile').accept = t==='video' ? 'video/mp4,video/webm' : 'image/*';
+  hapusMedia();
+}
+
+function onMediaFile(input) {
+  const f = input.files[0]; if (!f) return;
+  const isVideo = f.type.startsWith('video/');
+  const maxSize = isVideo ? 40*1024*1024 : 5*1024*1024;
+  if (f.size > maxSize) { alert(`Ukuran maks ${isVideo?'40MB':'5MB'}.`); input.value=''; return; }
+  const r = new FileReader();
+  r.onload = e => setMedia(e.target.result, f.name, f.size);
+  r.readAsDataURL(f);
+}
+
+function setMedia(dataUrl, name, size) {
+  mediaBase64 = dataUrl;
+  const isVideo = dataUrl.startsWith('data:video');
+  if (isVideo) {
+    const v = document.getElementById('mediaPreviewVideo');
+    v.src = dataUrl; v.style.display='block';
+    document.getElementById('mediaInfoVideo').textContent = name+' — '+(size/1024/1024).toFixed(1)+'MB';
+    document.getElementById('btnHapusVideo').style.display='inline-flex';
+  } else {
+    const img = document.getElementById('mediaPreviewImg');
+    img.src=dataUrl; img.style.display='block';
+    document.getElementById('mediaInfo').textContent = name+' — '+(size/1024).toFixed(0)+'KB';
+    document.getElementById('btnHapusMedia').style.display='inline-flex';
+  }
+}
+
+function hapusMedia() {
+  mediaBase64=null;
+  document.getElementById('mediaPreviewImg').style.display='none';
+  document.getElementById('mediaPreviewVideo').style.display='none';
+  document.getElementById('mediaInfo').textContent='';
+  document.getElementById('mediaInfoVideo').textContent='';
+  document.getElementById('btnHapusMedia').style.display='none';
+  document.getElementById('btnHapusVideo').style.display='none';
+  document.getElementById('mediaFile').value='';
+}
+
+// ── Load periode ──────────────────────────────────────────────
+async function loadPeriode() {
+  const r = await fetch('/api/dokumentasi/periode').then(r=>r.json()).catch(()=>({success:false}));
+  const tabs = document.getElementById('periodeTabs');
+  if (!r.success || !r.data.length) {
+    tabs.innerHTML='<span style="font-size:.78rem;color:#94a3b8">Belum ada periode. Tambah dokumentasi terlebih dahulu.</span>';
+    loadDok(); return;
+  }
+  tabs.innerHTML = r.data.map((p,i)=>
+    `<button class="ptab${i===0?' active':''}" onclick="pilihPeriode(${p.bulan},${p.tahun},this)">${BLN[p.bulan]} ${p.tahun} (${p.total})</button>`
+  ).join('');
+  periodeAktif = r.data[0];
+  loadDok();
+}
+
+function pilihPeriode(b, y, el) {
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active'); periodeAktif={bulan:b,tahun:y}; loadDok();
+}
+
+// ── Load & render grid ────────────────────────────────────────
+async function loadDok() {
+  const grid = document.getElementById('dokGrid');
+  grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#94a3b8"><i class="fas fa-spinner fa-spin"></i></div>';
+  const params = new URLSearchParams();
+  if (periodeAktif) { params.set('bulan',periodeAktif.bulan); params.set('tahun',periodeAktif.tahun); }
+  const tipe = document.getElementById('filterTipe').value;
+  const q    = document.getElementById('searchDok').value.trim();
+  if (tipe) params.set('tipe', tipe);
+  if (q)    params.set('search', q);
+  try {
+    const r = await fetch('/api/dokumentasi/admin?'+params, { headers: authHeader() }).then(r=>r.json());
+    renderGrid(r.data||[]);
+  } catch(e) { grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:#991b1b">Gagal memuat.</div>'; }
+}
+
+function renderGrid(data) {
+  const grid = document.getElementById('dokGrid');
+  if (!data.length) {
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:2.5rem;color:#94a3b8"><i class="fas fa-photo-film" style="font-size:2rem;display:block;margin-bottom:.5rem"></i>Belum ada dokumentasi.</div>';
+    return;
+  }
+  grid.innerHTML = data.map(d => {
+    const badge = d.tipe==='video'
+      ? '<span class="badge-video"><i class="fas fa-video"></i> Video</span>'
+      : '<span class="badge-foto"><i class="fas fa-image"></i> Foto</span>';
+    const aktifBadge = !d.aktif ? '<span class="badge-nonaktif">Nonaktif</span>' : '';
+    const thumb = d.tipe==='video'
+      ? `<div class="dok-thumb-video" onclick="bukaLb('','video','${d.video_url||'/api/dokumentasi/'+d.id+'/media'}')"><div class="play-ico"><i class="fas fa-play" style="margin-left:4px"></i></div></div>`
+      : (d.ada_media
+          ? `<img class="dok-thumb" src="/api/dokumentasi/${d.id}/media" loading="lazy" alt="${d.judul}" onclick="bukaLb('/api/dokumentasi/${d.id}/media','foto','')" onerror="this.style.background='#e2e8f0'">`
+          : `<div class="dok-thumb" style="display:flex;align-items:center;justify-content:center;color:#94a3b8"><i class="fas fa-image" style="font-size:2rem"></i></div>`);
+    return `<div class="dok-card-admin">
+      ${thumb}
+      <div class="dok-card-body">
+        <div class="dok-card-title">${d.judul}</div>
+        <div class="dok-card-meta">${badge} ${aktifBadge}<span>${BLN[d.bulan]} ${d.tahun}</span></div>
+      </div>
+      <div class="dok-card-actions">
+        <button class="btn-edit" style="flex:1;font-size:.78rem" onclick="bukaEdit('${d.id}')"><i class="fas fa-pen"></i> Edit</button>
+        <button class="btn-del" style="font-size:.78rem" onclick="konfirmasiHapus('${d.id}','${d.judul.replace(/'/g,"\\'")}')"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Tambah ────────────────────────────────────────────────────
+function bukaTambah() {
+  document.getElementById('dokId').value='';
+  document.getElementById('modalDokTitle').textContent='Tambah Dokumentasi';
+  document.getElementById('dokJudul').value='';
+  document.getElementById('dokDeskripsi').value='';
+  document.getElementById('dokTipe').value='foto';
+  document.getElementById('dokVideoUrl').value='';
+  document.getElementById('dokAktif').value='true';
+  const now = new Date();
+  document.getElementById('dokBulan').value = now.getMonth()+1;
+  document.getElementById('dokTahun').value = now.getFullYear();
+  hapusMedia(); onTipeChange();
+  document.getElementById('modalDok').classList.add('open');
+}
+
+// ── Edit ──────────────────────────────────────────────────────
+async function bukaEdit(id) {
+  try {
+    const r = await fetch('/api/dokumentasi/admin?', { headers: authHeader() }).then(r=>r.json());
+    const d = (r.data||[]).find(x=>x.id===id);
+    if (!d) return;
+    document.getElementById('dokId').value=id;
+    document.getElementById('modalDokTitle').textContent='Edit Dokumentasi';
+    document.getElementById('dokJudul').value=d.judul||'';
+    document.getElementById('dokDeskripsi').value=d.deskripsi||'';
+    document.getElementById('dokTipe').value=d.tipe||'foto';
+    document.getElementById('dokVideoUrl').value=d.video_url||'';
+    document.getElementById('dokBulan').value=d.bulan;
+    document.getElementById('dokTahun').value=d.tahun;
+    document.getElementById('dokAktif').value=d.aktif?'true':'false';
+    hapusMedia(); onTipeChange();
+    if (d.ada_media && d.tipe==='foto') {
+      document.getElementById('mediaPreviewImg').src='/api/dokumentasi/'+id+'/media';
+      document.getElementById('mediaPreviewImg').style.display='block';
+    }
+    document.getElementById('modalDok').classList.add('open');
+  } catch(e) { alert('Gagal memuat data: '+e.message); }
+}
+
+// ── Simpan ────────────────────────────────────────────────────
+async function simpanDok() {
+  const id      = document.getElementById('dokId').value;
+  const judul   = document.getElementById('dokJudul').value.trim();
+  const tipe    = document.getElementById('dokTipe').value;
+  const bulan   = document.getElementById('dokBulan').value;
+  const tahun   = document.getElementById('dokTahun').value;
+  if (!judul)  { alert('Judul wajib diisi.'); return; }
+  if (!bulan || !tahun) { alert('Bulan dan tahun wajib diisi.'); return; }
+
+  const payload = {
+    judul,
+    deskripsi:  document.getElementById('dokDeskripsi').value.trim()||null,
+    tipe,
+    bulan:      +bulan,
+    tahun:      +tahun,
+    aktif:      document.getElementById('dokAktif').value === 'true',
+    video_url:  document.getElementById('dokVideoUrl').value.trim()||null,
+    media_data: mediaBase64||null,
+  };
+
+  try {
+    const url    = id ? '/api/dokumentasi/'+id : '/api/dokumentasi';
+    const method = id ? 'PUT' : 'POST';
+    const r = await fetch(url, { method, headers: authHeader(), body: JSON.stringify(payload) }).then(r=>r.json());
+    if (!r.success) throw new Error(r.message);
+    closeModal('modalDok');
+    await loadPeriode();
+  } catch(e) { alert('Gagal menyimpan: '+e.message); }
+}
+
+// ── Hapus ─────────────────────────────────────────────────────
+function konfirmasiHapus(id, judul) {
+  deleteId=id;
+  document.getElementById('confirmLabel').textContent=judul;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function confirmNo() { document.getElementById('confirmOverlay').classList.remove('open'); deleteId=null; }
+async function confirmYes() {
+  if (!deleteId) return;
+  try {
+    const r = await fetch('/api/dokumentasi/'+deleteId, { method:'DELETE', headers: authHeader() }).then(r=>r.json());
+    if (!r.success) throw new Error(r.message);
+    confirmNo(); loadPeriode();
+  } catch(e) { alert('Gagal menghapus: '+e.message); confirmNo(); }
+}
+
+document.addEventListener('DOMContentLoaded', loadPeriode);
+</script>
+</body></html>

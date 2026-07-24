@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <title>UMKM Lokal - RT 04 / RW 02 Jombang Ciputat</title>
+  <meta name="description" content="Daftar UMKM lokal warga RT 04 RW 02 Kp. Gedong Jombang, Ciputat, Tangerang Selatan."/>
+  <link rel="canonical" href="https://deday-arch.github.io/website-rt04rw02/umkm.html"/>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+<nav class="navbar"><div class="container nav-container">
+  <div class="nav-brand">
+    <img src="assets/img/logo-rt.png" alt="Logo RT 04 RW 02"/>
+    <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel"/>
+    <span>RT 04 / RW 02<span class="brand-sub">Jombang · Ciputat · Tangsel</span></span>
+  </div>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="index.html">Beranda</a></li>
+    <li><a href="iuran.html">Iuran</a></li>
+    <li><a href="umkm.html" class="active">UMKM</a></li>
+    <li><a href="kegiatan.html">Kegiatan</a></li>
+    <li><a href="dokumentasi.html">Dokumentasi</a></li>
+    <li><a href="ronda.html">Ronda</a></li>
+    <li><a href="pengurus.html">Pengurus</a></li>
+    <li><a href="lapor.html" class="btn-lapor">Lapor Kejadian</a></li>
+  </ul>
+</div></nav>
+
+<div class="page-header"><div class="container">
+  <div class="breadcrumb"><a href="index.html">Beranda</a><span>/</span><span>UMKM Lokal</span></div>
+  <h1><i class="fas fa-store"></i> UMKM Lokal RT 04</h1>
+  <p>Dukung usaha tetangga kita! Daftar UMKM di lingkungan RT 04 / RW 02 Jombang Ciputat</p>
+</div></div>
+
+<section class="section"><div class="container">
+
+  <div class="alert alert-success" style="margin-bottom:2rem">
+    <i class="fas fa-circle-check"></i>
+    <div>Ingin mendaftarkan usaha? Hubungi sekretaris RT untuk pendaftaran <strong>GRATIS!</strong></div>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter-bar">
+    <input type="text" id="searchUmkm" placeholder="Cari nama usaha / pemilik..." oninput="renderUmkmPublik()"/>
+    <select id="filterKategori" onchange="renderUmkmPublik()">
+      <option value="">Semua Kategori</option>
+      <option value="Makanan">Makanan &amp; Minuman</option>
+      <option value="Kerajinan">Kerajinan</option>
+      <option value="Jasa">Jasa</option>
+      <option value="Sembako">Sembako</option>
+      <option value="Fashion">Fashion</option>
+    </select>
+  </div>
+
+  <!-- Grid UMKM — diisi oleh JavaScript dari localStorage -->
+  <div class="umkm-grid" id="umkmGrid">
+    <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted)">
+      <i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:1rem;display:block"></i>
+      Memuat data UMKM...
+    </div>
+  </div>
+
+  <div id="noResult" style="display:none;text-align:center;padding:3rem;color:var(--muted)">
+    <i class="fas fa-search" style="font-size:2.5rem;display:block;margin-bottom:1rem"></i>
+    <p>Tidak ada UMKM yang ditemukan.</p>
+  </div>
+
+</div></section>
+
+<footer class="footer"><div class="container footer-content">
+  <div class="footer-brand">
+    <div class="footer-logos">
+      <img src="assets/img/logo-rt.png" alt="Logo RT" class="logo-footer"/>
+      <img src="assets/img/logo-tangsel.png" alt="Logo Tangsel" class="logo-tangsel-footer"/>
+    </div>
+    <h3>RT 04 / RW 02</h3>
+    <p class="footer-sub">Kp. Gedong - Jombang</p>
+    <p>Ciputat, Tangerang Selatan, Banten 15411</p>
+  </div>
+  <div class="footer-links"><h4>Menu</h4><ul>
+    <li><a href="iuran.html">Iuran Warga</a></li>
+    <li><a href="umkm.html">UMKM Lokal</a></li>
+    <li><a href="kegiatan.html">Kegiatan</a></li>
+    <li><a href="ronda.html">Jadwal Ronda</a></li>
+    <li><a href="pengurus.html">Pengurus RT</a></li>
+    <li><a href="lapor.html">Lapor Kejadian</a></li>
+  </ul></div>
+  <div class="footer-contact"><h4>Kontak</h4>
+    <p><i class="fas fa-phone"></i> 0812-3456-7890</p>
+    <p><i class="fab fa-whatsapp"></i> 0812-3456-7890</p>
+    <p><i class="fas fa-envelope"></i> rt04rw02jombang@gmail.com</p>
+    <p><i class="fas fa-location-dot"></i> Kp. Gedong, Jombang, Ciputat</p>
+  </div>
+</div><div class="footer-bottom">
+  <p>&copy; 2026 RT 04 / RW 02 Kp. Gedong - Jombang, Ciputat, Tangerang Selatan. &nbsp;|&nbsp;
+  <a href="admin-login.html" style="color:rgba(255,255,255,.4);font-size:.78rem"><i class="fas fa-lock"></i> Admin</a></p>
+</div></footer>
+
+<script src="assets/js/api-connector.js"></script><script src="assets/js/main.js"></script>
+<script>
+// ── Peta warna & ikon per kategori ─────────────────────────
+const KAT = {
+  'Makanan & Minuman': { emoji:'🍱', bg:'linear-gradient(135deg,#fef3c7,#fde68a)', accent:'#d97706', tag:'background:#fef3c7;color:#92400e' },
+  'Sembako':           { emoji:'🛒', bg:'linear-gradient(135deg,#dcfce7,#bbf7d0)', accent:'#16a34a', tag:'background:#dcfce7;color:#166534' },
+  'Jasa':              { emoji:'🔧', bg:'linear-gradient(135deg,#dbeafe,#bfdbfe)', accent:'#2563eb', tag:'background:#dbeafe;color:#1e40af' },
+  'Kerajinan':         { emoji:'🎨', bg:'linear-gradient(135deg,#ffedd5,#fed7aa)', accent:'#ea580c', tag:'background:#ffedd5;color:#9a3412' },
+  'Fashion':           { emoji:'👗', bg:'linear-gradient(135deg,#fce7f3,#fbcfe8)', accent:'#db2777', tag:'background:#fce7f3;color:#9d174d' },
+  'Lainnya':           { emoji:'🏪', bg:'linear-gradient(135deg,#ede9fe,#ddd6fe)', accent:'#7c3aed', tag:'background:#ede9fe;color:#5b21b6' }
+};
+
+function getUmkmData(){try{return JSON.parse(localStorage.getItem('rt04_umkm'))||[];}catch{return[];}}
+
+function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function waLink(kontak){
+  const num=(kontak||'').replace(/\D/g,'').replace(/^0/,'62');
+  return num?`https://wa.me/${num}`:'#';
+}
+
+function renderUmkmPublik(){
+  const search  =(document.getElementById('searchUmkm').value||'').toLowerCase();
+  const kat     =(document.getElementById('filterKategori').value||'').toLowerCase();
+  const grid    = document.getElementById('umkmGrid');
+  const noRes   = document.getElementById('noResult');
+  const data    = getUmkmData();
+
+  const list = data.filter(x=>{
+    const ok1 = (x.nama+x.pemilik+x.deskripsi).toLowerCase().includes(search);
+    const ok2 = !kat || x.kategori.toLowerCase().includes(kat);
+    return ok1 && ok2;
+  });
+
+  if(!list.length){
+    grid.innerHTML='';
+    if(noRes)noRes.style.display='block';
+    return;
+  }
+  if(noRes)noRes.style.display='none';
+
+  grid.innerHTML = list.map(x => {
+    const k   = KAT[x.kategori] || KAT['Lainnya'];
+    const wa  = waLink(x.kontak);
+
+    // Bagian gambar: foto produk jika ada, fallback ke emoji menarik
+    const imgHtml = x.gambar
+      ? `<div class="uk-img-wrap">
+           <img src="${x.gambar}" alt="${escHtml(x.nama)}" class="uk-img" loading="lazy"/>
+           <div class="uk-img-overlay"><span class="uk-kat-badge" style="${k.tag}">${escHtml(x.kategori)}</span></div>
+         </div>`
+      : `<div class="uk-img-wrap uk-img-placeholder" style="background:${k.bg}">
+           <div class="uk-emoji">${k.emoji}</div>
+           <div class="uk-img-overlay"><span class="uk-kat-badge" style="${k.tag}">${escHtml(x.kategori)}</span></div>
+         </div>`;
+
+    return `
+    <article class="uk-card">
+      ${imgHtml}
+      <div class="uk-body">
+        <h3 class="uk-nama">${escHtml(x.nama)}</h3>
+        <p class="uk-pemilik"><i class="fas fa-user-circle"></i> ${escHtml(x.pemilik)}&nbsp;
+          <span class="uk-norumah"><i class="fas fa-house"></i> ${escHtml(x.noRumah||'-')}</span>
+        </p>
+        <p class="uk-desk">${escHtml(x.deskripsi||'')}</p>
+        <div class="uk-footer">
+          <span class="uk-kontak"><i class="fas fa-phone"></i> ${escHtml(x.kontak||'-')}</span>
+          ${wa!=='#'?`<a href="${wa}" target="_blank" rel="noopener" class="uk-wa-btn"><i class="fab fa-whatsapp"></i> Chat WA</a>`:''}
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+// Jalankan saat halaman load
+document.addEventListener('DOMContentLoaded', renderUmkmPublik);
+</script>
+
+<style>
+/* ── Grid UMKM ─────────────────────────────────────── */
+.umkm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.35rem;margin-top:1rem}
+
+/* ── Kartu ─────────────────────────────────────────── */
+.uk-card{background:#fff;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.08);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.uk-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.14)}
+
+/* ── Gambar / placeholder ───────────────────────────── */
+.uk-img-wrap{position:relative;width:100%;height:190px;overflow:hidden;flex-shrink:0}
+.uk-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.uk-card:hover .uk-img{transform:scale(1.04)}
+.uk-img-placeholder{display:flex;align-items:center;justify-content:center}
+.uk-emoji{font-size:4.5rem;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
+.uk-img-overlay{position:absolute;bottom:0;left:0;right:0;padding:.5rem .75rem;background:linear-gradient(transparent,rgba(0,0,0,.35))}
+.uk-kat-badge{display:inline-block;padding:.18rem .7rem;border-radius:99px;font-size:.72rem;font-weight:700;backdrop-filter:blur(4px)}
+
+/* ── Isi kartu ──────────────────────────────────────── */
+.uk-body{padding:1rem 1.1rem 1.1rem;display:flex;flex-direction:column;gap:.35rem;flex:1}
+.uk-nama{font-size:1.05rem;font-weight:800;color:#1e293b;margin:0;line-height:1.3}
+.uk-pemilik{font-size:.8rem;color:#64748b;margin:0;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.uk-norumah{background:#f1f5f9;padding:.1rem .5rem;border-radius:99px;font-size:.75rem}
+.uk-desk{font-size:.85rem;color:#475569;margin:0;line-height:1.55;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.uk-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-top:.5rem;padding-top:.65rem;border-top:1px solid #f1f5f9}
+.uk-kontak{font-size:.8rem;color:#475569;display:flex;align-items:center;gap:.35rem}
+.uk-wa-btn{display:inline-flex;align-items:center;gap:.35rem;background:#25d366;color:#fff;padding:.3rem .85rem;border-radius:99px;font-size:.78rem;font-weight:600;text-decoration:none;transition:background .2s}
+.uk-wa-btn:hover{background:#128c7e}
+</style>
+</body>
+</html>

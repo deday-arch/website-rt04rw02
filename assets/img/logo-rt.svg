@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 460" width="580" height="460">
+  <rect width="580" height="460" fill="white"/>
+
+  <!-- =============================================
+       RUMAH BESAR (kiri-tengah) - atap biru gelap tebal
+       ============================================= -->
+  <!-- Atap sisi kiri -->
+  <path d="M 30 255 L 215 65" stroke="#0d2060" stroke-width="28" stroke-linecap="round" fill="none"/>
+  <!-- Atap sisi kanan -->
+  <path d="M 215 65 L 370 175" stroke="#0d2060" stroke-width="28" stroke-linecap="round" fill="none"/>
+
+  <!-- Dinding putih rumah besar -->
+  <rect x="68" y="175" width="242" height="160" fill="white"/>
+
+  <!-- Jendela 4 kotak - BIRU BERTAHAP (ciri khas logo) -->
+  <!-- Frame luar jendela -->
+  <rect x="118" y="192" width="92" height="80" fill="none" stroke="#1565c0" stroke-width="3"/>
+  <!-- Garis tengah -->
+  <line x1="164" y1="192" x2="164" y2="272" stroke="#1565c0" stroke-width="3"/>
+  <line x1="118" y1="232" x2="210" y2="232" stroke="#1565c0" stroke-width="3"/>
+  <!-- Kaca atas-kiri: biru tua -->
+  <rect x="121" y="195" width="40" height="34" fill="#1565c0" opacity=".75"/>
+  <!-- Kaca atas-kanan: biru sedang -->
+  <rect x="167" y="195" width="40" height="34" fill="#1e88e5" opacity=".65"/>
+  <!-- Kaca bawah-kiri: biru muda -->
+  <rect x="121" y="235" width="40" height="34" fill="#42a5f5" opacity=".6"/>
+  <!-- Kaca bawah-kanan: biru paling muda -->
+  <rect x="167" y="235" width="40" height="34" fill="#90caf9" opacity=".55"/>
+
+  <!-- =============================================
+       RUMAH KECIL (kanan) - seluruhnya biru medium
+       ============================================= -->
+  <!-- Atap rumah kecil - biru medium -->
+  <polygon points="305,138 390,138 420,178 275,178" fill="#1976d2"/>
+  <!-- Cerobong kecil -->
+  <rect x="395" y="145" width="16" height="26" fill="#1565c0"/>
+  <!-- Segitiga kecil di atas cerobong -->
+  <polygon points="395,145 403,132 411,145" fill="#0d47a1"/>
+  <!-- Dinding rumah kecil - biru terang -->
+  <rect x="278" y="178" width="140" height="110" fill="#1976d2"/>
+  <!-- Jendela rumah kecil (4 kotak kecil) -->
+  <rect x="310" y="192" width="42" height="36" fill="none" stroke="#e3f2fd" stroke-width="1.5"/>
+  <line x1="331" y1="192" x2="331" y2="228" stroke="#e3f2fd" stroke-width="1.5"/>
+  <line x1="310" y1="210" x2="352" y2="210" stroke="#e3f2fd" stroke-width="1.5"/>
+  <rect x="312" y="194" width="17" height="14" fill="#64b5f6" opacity=".6"/>
+  <rect x="333" y="194" width="17" height="14" fill="#90caf9" opacity=".55"/>
+  <rect x="312" y="213" width="17" height="14" fill="#bbdefb" opacity=".5"/>
+  <rect x="333" y="213" width="17" height="14" fill="#e3f2fd" opacity=".45"/>
+
+  <!-- Overlap segitiga biru di antara dua rumah (poligon biru) -->
+  <polygon points="282,178 370,178 340,240 250,240" fill="#1565c0" opacity=".5"/>
+  <polygon points="310,178 400,178 390,220 270,220" fill="#1976d2" opacity=".35"/>
+
+  <!-- =============================================
+       POHON KELAPA (kanan atas) - berbagai shade biru
+       ============================================= -->
+  <!-- Batang kelapa - melengkung ke kiri -->
+  <path d="M 440 310 Q 428 268 420 228 Q 413 192 422 158"
+        stroke="#0d2060" stroke-width="9" fill="none" stroke-linecap="round"/>
+
+  <!-- Daun 1 - menjulur kanan jauh (paling panjang) -->
+  <path d="M 422 158 Q 468 130 520 108 Q 485 128 422 158" fill="#1565c0"/>
+  <!-- Daun 2 - kanan atas -->
+  <path d="M 425 165 Q 470 148 515 138 Q 480 152 425 165" fill="#1976d2"/>
+  <!-- Daun 3 - kanan bawah -->
+  <path d="M 428 175 Q 466 178 505 192 Q 470 176 428 175" fill="#1565c0" opacity=".9"/>
+  <!-- Daun 4 - tegak ke atas -->
+  <path d="M 420 155 Q 428 118 434 88 Q 427 120 420 155" fill="#0d47a1"/>
+  <!-- Daun 5 - kiri atas -->
+  <path d="M 418 157 Q 388 132 365 118 Q 390 138 418 157" fill="#1976d2"/>
+  <!-- Daun 6 - kiri mendatar -->
+  <path d="M 415 165 Q 380 156 350 152 Q 382 159 415 165" fill="#1565c0" opacity=".85"/>
+  <!-- Daun 7 - kiri bawah -->
+  <path d="M 418 175 Q 390 188 368 202 Q 393 184 418 175" fill="#0d47a1" opacity=".8"/>
+  <!-- Daun 8 - kanan bawah jauh -->
+  <path d="M 430 170 Q 468 168 508 178 Q 470 166 430 170" fill="#1565c0" opacity=".75"/>
+
+  <!-- Buah kelapa -->
+  <circle cx="424" cy="167" r="8" fill="#0d2060"/>
+  <circle cx="435" cy="160" r="7" fill="#0d2060"/>
+  <circle cx="413" cy="163" r="6" fill="#0d3080"/>
+
+  <!-- =============================================
+       GELOMBANG AIR (bawah)
+       ============================================= -->
+  <!-- Gelombang 1 - biru sedang -->
+  <path d="M 20 318 Q 65 305 110 318 Q 155 331 200 318 Q 245 305 290 318 Q 335 331 380 318 Q 425 305 475 318 Q 520 331 555 318 L 555 334 L 20 334 Z"
+        fill="#1976d2" opacity=".45"/>
+  <!-- Gelombang 2 - biru tua -->
+  <path d="M 10 328 Q 58 315 105 328 Q 152 341 200 328 Q 248 315 295 328 Q 342 341 390 328 Q 438 315 560 328 L 560 344 L 10 344 Z"
+        fill="#0d47a1" opacity=".3"/>
+
+  <!-- =============================================
+       TEKS LINGKUNGAN - bold biru gelap
+       ============================================= -->
+  <text x="18" y="378"
+        font-family="Arial Black, Arial, sans-serif"
+        font-weight="900" font-size="58"
+        fill="#0d2060" letter-spacing="3">LINGKUNGAN</text>
+
+  <!-- =============================================
+       TEKS RT 04 - RW 02 - biru terang / cyan
+       ============================================= -->
+  <text x="14" y="432"
+        font-family="Arial Black, Arial, sans-serif"
+        font-weight="900" font-size="55"
+        fill="#1565c0" letter-spacing="2">RT 04 - RW 02</text>
+
+  <!-- =============================================
+       SUB TEKS (kanan bawah)
+       ============================================= -->
+  <!-- Garis dekoratif -->
+  <path d="M 340 400 Q 370 392 410 398" stroke="#1976d2" stroke-width="2" fill="none"/>
+  <!-- Kp. GEDONG - JOMBANG -->
+  <text x="328" y="398"
+        font-family="Arial, sans-serif"
+        font-weight="700" font-size="14.5"
+        fill="#0d47a1" letter-spacing=".3">Kp. GEDONG - JOMBANG</text>
+  <!-- CIPUTAT - TANGERANG SELATAN -->
+  <text x="316" y="418"
+        font-family="Arial, sans-serif"
+        font-weight="800" font-size="14.5"
+        fill="#1976d2" letter-spacing=".3">CIPUTAT - TANGERANG SELATAN</text>
+</svg>

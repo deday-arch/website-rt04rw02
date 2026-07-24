@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg"/>
+  <title>Kelola Laporan - Admin RT 04</title>
+  <link rel="stylesheet" href="assets/css/admin.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .badge-urgensi-normal{background:#f1f5f9;color:#475569;padding:.2rem .55rem;border-radius:20px;font-size:.72rem;font-weight:600}
+    .badge-urgensi-mendesak{background:#fef3c7;color:#92400e;padding:.2rem .55rem;border-radius:20px;font-size:.72rem;font-weight:600}
+    .badge-urgensi-darurat{background:#fee2e2;color:#991b1b;padding:.2rem .55rem;border-radius:20px;font-size:.72rem;font-weight:600;animation:pulse 1.4s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+    .status-selesai{color:#1e3a8a;background:#dbeafe;padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600}
+    .status-diproses{color:#92400e;background:#fef3c7;padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600}
+    .status-masuk{color:#166534;background:#dcfce7;padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600}
+    .filter-row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+    .filter-row select,.filter-row input{padding:.4rem .7rem;border-radius:8px;border:1.5px solid #e2e8f0;font-size:.82rem}
+    .foto-thumb{width:40px;height:40px;border-radius:6px;object-fit:cover;cursor:pointer;border:2px solid #e2e8f0}
+    .no-foto{width:40px;height:40px;border-radius:6px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:.8rem}
+    .periode-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+    .ptab{padding:.3rem .75rem;border-radius:20px;font-size:.78rem;font-weight:600;cursor:pointer;border:1.5px solid #e2e8f0;background:#fff;color:#475569;transition:.15s}
+    .ptab.active{background:#1565c0;color:#fff;border-color:#1565c0}
+    /* Modal detail */
+    .detail-foto{width:100%;max-height:260px;object-fit:contain;border-radius:8px;margin-bottom:.75rem;background:#f1f5f9;display:block}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .75rem;font-size:.85rem;margin-bottom:.75rem}
+    .detail-grid dt{font-weight:600;color:#475569}
+    .detail-grid dd{color:#1e293b;margin:0}
+    .lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:9999;align-items:center;justify-content:center}
+    .lb.open{display:flex}
+    .lb img{max-width:95vw;max-height:92vh;border-radius:10px;object-fit:contain}
+    .lb-close{position:fixed;top:.75rem;right:1rem;background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:8px;padding:.4rem .9rem;font-size:1.3rem;cursor:pointer}
+    .stat-chips{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem}
+    .chip{padding:.4rem .9rem;border-radius:8px;font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:.4rem}
+    .chip-all{background:#f1f5f9;color:#334155}
+    .chip-masuk{background:#dcfce7;color:#166534}
+    .chip-proses{background:#fef3c7;color:#92400e}
+    .chip-selesai{background:#dbeafe;color:#1e40af}
+  </style>
+</head>
+<body class="admin-body">
+<aside class="admin-sidebar">
+  <div class="sidebar-logo"><img src="assets/img/logo-rt.png" alt="Logo"/><img src="assets/img/logo-tangsel.png" alt="Logo Tangsel" style="height:32px;width:auto"/><span>Admin RT 04<span class="sl-sub">RW 02 · Jombang Ciputat</span></span></div>
+  <nav class="sidebar-nav">
+    <div class="sidebar-section">Menu Utama</div>
+    <a href="admin-dashboard.html"><i class="fas fa-gauge"></i> Dashboard</a>
+    <div class="sidebar-section">Kelola Konten</div>
+    <a href="admin-pengumuman.html"><i class="fas fa-bullhorn"></i> Pengumuman</a>
+    <a href="admin-iuran.html"><i class="fas fa-money-bill-wave"></i> Iuran Warga</a>
+    <a href="admin-umkm.html"><i class="fas fa-store"></i> UMKM</a>
+    <a href="admin-kegiatan.html"><i class="fas fa-calendar-days"></i> Kegiatan</a>
+    <a href="admin-ronda.html"><i class="fas fa-moon"></i> Jadwal Ronda</a>
+    <a href="admin-pengurus.html"><i class="fas fa-users"></i> Pengurus</a>
+    <a href="admin-laporan.html" class="active"><i class="fas fa-triangle-exclamation"></i> Laporan</a>
+    <a href="admin-dokumentasi.html"><i class="fas fa-photo-film"></i> Dokumentasi</a>
+  </nav>
+  <div class="sidebar-footer"><a href="index.html" target="_blank"><i class="fas fa-globe"></i> Lihat Website</a></div>
+</aside>
+
+<div class="admin-main">
+  <div class="admin-topbar">
+    <div class="topbar-title"><i class="fas fa-triangle-exclamation"></i> Kelola Laporan Kejadian</div>
+    <div class="topbar-right">
+      <span class="admin-badge"><i class="fas fa-user-shield"></i> <span id="adminUsername">admin</span></span>
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Keluar</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <!-- Stat chips -->
+    <div class="stat-chips">
+      <div class="chip chip-all"><i class="fas fa-list"></i> Total: <strong id="cTotal">-</strong></div>
+      <div class="chip chip-masuk"><i class="fas fa-inbox"></i> Masuk: <strong id="cMasuk">-</strong></div>
+      <div class="chip chip-proses"><i class="fas fa-spinner"></i> Diproses: <strong id="cProses">-</strong></div>
+      <div class="chip chip-selesai"><i class="fas fa-check-circle"></i> Selesai: <strong id="cSelesai">-</strong></div>
+    </div>
+
+    <!-- Filter -->
+    <div class="crud-toolbar" style="flex-wrap:wrap;gap:.6rem">
+      <h2 style="margin:0">Laporan Masuk dari Warga</h2>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <input type="text" id="searchLaporan" class="crud-search" placeholder="Cari nama / jenis / lokasi..." oninput="debounceLoad()"/>
+        <select id="filterStatus" onchange="loadLaporan()">
+          <option value="">Semua Status</option>
+          <option value="Masuk">Masuk</option>
+          <option value="Diproses">Diproses</option>
+          <option value="Selesai">Selesai</option>
+        </select>
+        <select id="filterUrgensi" onchange="loadLaporan()">
+          <option value="">Semua Urgensi</option>
+          <option value="Normal">Normal</option>
+          <option value="Mendesak">Mendesak</option>
+          <option value="Darurat / Emergency">Darurat</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Periode tabs -->
+    <div class="periode-tabs" id="periodeTabs"></div>
+
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>No</th><th>Foto</th><th>Pelapor</th><th>Jenis</th>
+            <th>Lokasi</th><th>Urgensi</th><th>Status</th>
+            <th>Tanggal</th><th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyLaporan"><tr class="empty-row"><td colspan="9">Memuat data...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETAIL & UPDATE STATUS -->
+<div class="modal-overlay" id="modalLaporan">
+  <div class="modal-box" style="max-width:560px">
+    <div class="modal-head">
+      <h3 id="modalLaporanTitle">Detail Laporan</h3>
+      <button class="modal-close" onclick="closeModal('modalLaporan')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="lapId"/>
+      <img id="detailFoto" class="detail-foto" src="" alt="foto" style="display:none" onclick="bukaLb(this.src)"/>
+      <dl class="detail-grid">
+        <dt>Jenis</dt>       <dd id="dJenis">-</dd>
+        <dt>Pelapor</dt>     <dd id="dNama">-</dd>
+        <dt>No. Rumah</dt>   <dd id="dNoRumah">-</dd>
+        <dt>Kontak</dt>      <dd id="dKontak">-</dd>
+        <dt>Lokasi</dt>      <dd id="dLokasi">-</dd>
+        <dt>Urgensi</dt>     <dd id="dUrgensi">-</dd>
+        <dt>Tanggal</dt>     <dd id="dTgl">-</dd>
+        <dt>GPS</dt>         <dd id="dGps">-</dd>
+      </dl>
+      <div style="background:#f8fafc;border-radius:8px;padding:.85rem;margin-bottom:.85rem;font-size:.84rem">
+        <strong>Deskripsi:</strong><br/><span id="dDeskripsi" style="color:#334155"></span>
+      </div>
+      <div class="form-group">
+        <label>Update Status</label>
+        <select id="lapStatus">
+          <option value="Masuk">Masuk</option>
+          <option value="Diproses">Diproses</option>
+          <option value="Selesai">Selesai</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Catatan Tindak Lanjut</label>
+        <textarea id="lapCatatan" rows="3" placeholder="Tulis catatan penanganan..."></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('modalLaporan')">Batal</button>
+      <button class="btn-save" onclick="simpanLaporan()"><i class="fas fa-floppy-disk"></i> Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM HAPUS -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <i class="fas fa-triangle-exclamation"></i><h3>Konfirmasi Hapus</h3>
+    <p>Yakin ingin menghapus laporan dari <strong id="confirmLabel"></strong>?</p>
+    <button class="btn-cancel" onclick="confirmNo()">Batal</button>
+    <button class="btn-del" onclick="confirmYes()">Ya, Hapus</button>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="this.classList.remove('open')">
+  <button class="lb-close">&times;</button>
+  <img id="lbImg" src="" alt="foto laporan"/>
+</div>
+
+<script src="assets/js/api-connector.js"></script>
+<script src="assets/js/admin.js"></script>
+<script>
+const BLN = ['','Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+let allData = [], periodeAktif = null, deleteId = null;
+let debTimer = null;
+
+function debounceLoad() { clearTimeout(debTimer); debTimer = setTimeout(loadLaporan, 350); }
+function bukaLb(src) { document.getElementById('lbImg').src=src; document.getElementById('lb').classList.add('open'); }
+function fmtTgl(d) { if(!d) return '-'; const p=(d+'').split('T')[0].split('-'); return +p[2]+' '+(BLN[+p[1]]||'')+' '+p[0]; }
+
+function urgensiBadge(u) {
+  if (!u) return '';
+  if (u.includes('Darurat')) return `<span class="badge-urgensi-darurat"><i class="fas fa-siren"></i> ${u}</span>`;
+  if (u === 'Mendesak')      return `<span class="badge-urgensi-mendesak">⚠ ${u}</span>`;
+  return `<span class="badge-urgensi-normal">${u}</span>`;
+}
+
+// ── Load periode laporan ──────────────────────────────────────
+async function loadPeriode() {
+  try {
+    const r = await fetch('/api/laporan/periode', { headers: authHeader() }).then(r=>r.json());
+    const tabs = document.getElementById('periodeTabs');
+    if (!r.success || !r.data.length) { tabs.innerHTML=''; return; }
+    tabs.innerHTML = r.data.map((p,i)=>
+      `<button class="ptab${i===0?' active':''}" onclick="pilihPeriode(${p.bulan},${p.tahun},this)">${BLN[p.bulan]} ${p.tahun} (${p.total})</button>`
+    ).join('');
+    periodeAktif = r.data[0];
+    loadLaporan();
+  } catch(e) { loadLaporan(); }
+}
+
+function pilihPeriode(bulan, tahun, el) {
+  document.querySelectorAll('.ptab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  periodeAktif = {bulan, tahun};
+  loadLaporan();
+}
+
+function authHeader() {
+  const t = sessionStorage.getItem('rt04_jwt');
+  return t ? { 'Authorization':'Bearer '+t, 'Content-Type':'application/json' } : { 'Content-Type':'application/json' };
+}
+
+// ── Load & render tabel ───────────────────────────────────────
+async function loadLaporan() {
+  const tbody = document.getElementById('tbodyLaporan');
+  tbody.innerHTML = '<tr class="empty-row"><td colspan="9"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>';
+  const params = new URLSearchParams();
+  const s = document.getElementById('filterStatus').value;
+  const u = document.getElementById('filterUrgensi').value;
+  const q = document.getElementById('searchLaporan').value.trim();
+  if (s) params.set('status', s);
+  if (u) params.set('urgensi', u);
+  if (q) params.set('search', q);
+  if (periodeAktif) { params.set('bulan', periodeAktif.bulan); params.set('tahun', periodeAktif.tahun); }
+
+  try {
+    const r = await fetch('/api/laporan?' + params, { headers: authHeader() }).then(r=>r.json());
+    if (!r.success) throw new Error(r.message);
+    allData = r.data || [];
+    renderTabel(allData);
+    updateChips(allData);
+  } catch(e) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="9" style="color:#991b1b">Gagal memuat: ${e.message}</td></tr>`;
+  }
+}
+
+function updateChips(data) {
+  document.getElementById('cTotal').textContent   = data.length;
+  document.getElementById('cMasuk').textContent   = data.filter(d=>d.status==='Masuk').length;
+  document.getElementById('cProses').textContent  = data.filter(d=>d.status==='Diproses').length;
+  document.getElementById('cSelesai').textContent = data.filter(d=>d.status==='Selesai').length;
+}
+
+function renderTabel(data) {
+  const tbody = document.getElementById('tbodyLaporan');
+  if (!data.length) { tbody.innerHTML='<tr class="empty-row"><td colspan="9">Tidak ada laporan.</td></tr>'; return; }
+  tbody.innerHTML = data.map((d, i) => {
+    const stCls = d.status==='Selesai'?'status-selesai': d.status==='Diproses'?'status-diproses':'status-masuk';
+    const fotoHtml = d.ada_foto
+      ? `<img class="foto-thumb" src="/api/laporan/${d.id}/foto" alt="foto" onclick="bukaLb(this.src)" title="Klik untuk besar"/>`
+      : `<div class="no-foto"><i class="fas fa-image"></i></div>`;
+    const gpsHtml = (d.lat && d.lng)
+      ? `<br/><a href="https://maps.google.com?q=${d.lat},${d.lng}" target="_blank" style="font-size:.72rem;color:#1565c0"><i class="fas fa-map-pin"></i> Peta</a>`
+      : '';
+    return `<tr>
+      <td>${i+1}</td>
+      <td>${fotoHtml}</td>
+      <td><strong>${d.nama_pelapor||'-'}</strong><br/><span style="font-size:.75rem;color:#64748b">${d.no_rumah||''} · ${d.no_hp||''}</span></td>
+      <td style="font-size:.82rem">${d.jenis||'-'}</td>
+      <td style="font-size:.82rem">${d.lokasi||'-'}${gpsHtml}</td>
+      <td>${urgensiBadge(d.urgensi)}</td>
+      <td><span class="${stCls}">${d.status}</span></td>
+      <td style="font-size:.78rem;white-space:nowrap">${fmtTgl(d.created_at)}</td>
+      <td>
+        <button class="btn-edit" onclick="bukaDetail('${d.id}')" title="Detail & Update"><i class="fas fa-pen-to-square"></i></button>
+        <button class="btn-del" onclick="konfirmasiHapus('${d.id}','${(d.nama_pelapor||'').replace(/'/g,"\\'")}')"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Buka modal detail ─────────────────────────────────────────
+async function bukaDetail(id) {
+  document.getElementById('lapId').value = id;
+  document.getElementById('modalLaporanTitle').textContent = 'Detail & Update Laporan';
+  try {
+    const r = await fetch('/api/laporan/'+id, { headers: authHeader() }).then(r=>r.json());
+    if (!r.success) throw new Error(r.message);
+    const d = r.data;
+    document.getElementById('dJenis').textContent   = d.jenis||'-';
+    document.getElementById('dNama').textContent    = d.nama_pelapor||'-';
+    document.getElementById('dNoRumah').textContent = d.no_rumah||'-';
+    document.getElementById('dKontak').textContent  = d.no_hp||'-';
+    document.getElementById('dLokasi').textContent  = d.lokasi||'-';
+    document.getElementById('dUrgensi').textContent = d.urgensi||'-';
+    document.getElementById('dTgl').textContent     = fmtTgl(d.created_at);
+    document.getElementById('dDeskripsi').textContent = d.deskripsi||'-';
+    const gpsEl = document.getElementById('dGps');
+    gpsEl.innerHTML = (d.lat && d.lng)
+      ? `<a href="https://maps.google.com?q=${d.lat},${d.lng}" target="_blank" style="color:#1565c0"><i class="fas fa-map-pin"></i> ${+d.lat.toFixed(5)}, ${+d.lng.toFixed(5)}</a>`
+      : '-';
+    const foto = document.getElementById('detailFoto');
+    if (d.ada_foto) { foto.src='/api/laporan/'+id+'/foto'; foto.style.display='block'; }
+    else foto.style.display='none';
+    document.getElementById('lapStatus').value    = d.status||'Masuk';
+    document.getElementById('lapCatatan').value   = d.catatan_admin||'';
+    document.getElementById('modalLaporan').classList.add('open');
+  } catch(e) { alert('Gagal memuat detail: '+e.message); }
+}
+
+async function simpanLaporan() {
+  const id      = document.getElementById('lapId').value;
+  const status  = document.getElementById('lapStatus').value;
+  const catatan = document.getElementById('lapCatatan').value.trim();
+  try {
+    const r = await fetch('/api/laporan/'+id, {
+      method:'PUT', headers: authHeader(),
+      body: JSON.stringify({ status, catatan_admin: catatan })
+    }).then(r=>r.json());
+    if (!r.success) throw new Error(r.message);
+    closeModal('modalLaporan');
+    loadLaporan();
+  } catch(e) { alert('Gagal menyimpan: '+e.message); }
+}
+
+// ── Hapus ─────────────────────────────────────────────────────
+function konfirmasiHapus(id, nama) {
+  deleteId = id;
+  document.getElementById('confirmLabel').textContent = nama;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function confirmNo()  { document.getElementById('confirmOverlay').classList.remove('open'); deleteId=null; }
+async function confirmYes() {
+  if (!deleteId) return;
+  try {
+    const r = await fetch('/api/laporan/'+deleteId, { method:'DELETE', headers: authHeader() }).then(r=>r.json());
+    if (!r.success) throw new Error(r.message);
+    confirmNo(); loadLaporan();
+  } catch(e) { alert('Gagal menghapus: '+e.message); confirmNo(); }
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.addEventListener('DOMContentLoaded', loadPeriode);
+</script>
+</body></html>
