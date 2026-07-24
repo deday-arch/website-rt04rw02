@@ -52,8 +52,8 @@ app.use(cors({
 }));
 
 // ── Body parser ───────────────────────────────────────────────
-app.use(express.json({ limit: '50mb' }));  // 50mb untuk foto/video base64
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '8mb' }));   // 8mb cukup untuk foto base64
+app.use(express.urlencoded({ extended: true, limit: '8mb' }));
 
 // ── Rate limiting ─────────────────────────────────────────────
 const limiter = rateLimit({

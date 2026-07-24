@@ -10,7 +10,7 @@
   // - localhost:3000  → pakai /api (relative, Express serve static)
   // - localhost:5500  → pakai http://localhost:3000/api (Live Server)
   // - GitHub Pages / domain lain → pakai URL Render (diisi saat deploy)
-  const RENDER_URL = 'https://rt04rw02-api.onrender.com'; // ganti setelah deploy Render
+  const RENDER_URL = 'https://rt04rw02-api.onrender.com';
 
   function getApiBase() {
     const { hostname, port } = window.location;
@@ -18,11 +18,13 @@
       if (port === '3000') return '/api';
       return 'http://localhost:3000/api';
     }
-    // Production: GitHub Pages atau domain lain → pakai Render
+    // Production: GitHub Pages → pakai Render backend
     return RENDER_URL + '/api';
   }
 
   const API_BASE = getApiBase();
+  // Base URL tanpa /api (untuk health check)
+  const BASE_URL  = API_BASE.replace(/\/api$/, '');
 
   // ── Token JWT dari sessionStorage ──────────────────────────
   function getToken() {
@@ -189,7 +191,12 @@
 
     // ── HEALTH CHECK ──────────────────────────────────────────
     async health() {
-      return apiFetch('/../../health');
+      try {
+        const res = await fetch(BASE_URL + '/health');
+        return await res.json();
+      } catch(e) {
+        return { ok: false, error: e.message };
+      }
     },
   };
 
